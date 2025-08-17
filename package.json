@@ -6,8 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "serve:ssr:gsap-blocker": "node dist/gsap-blocker/server/server.mjs"
+    "test": "ng test"
   },
   "prettier": {
     "overrides": [
@@ -29,8 +28,12 @@
     "@angular/platform-server": "^20.0.0",
     "@angular/router": "^20.0.0",
     "@angular/ssr": "^20.0.5",
+    "@tailwindcss/postcss": "^4.1.12",
     "express": "^5.1.0",
+    "gsap": "^3.13.0",
+    "postcss": "^8.5.6",
     "rxjs": "~7.8.0",
+    "tailwindcss": "^4.1.12",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
