@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-navbar',
+  selector: 'navbar',
   imports: [RouterLink],
   host: {
     class:
@@ -16,7 +16,7 @@ import { RouterLink } from '@angular/router';
         <div
           class="size-6 rounded-md bg-gradient-to-tr from-emerald-500 to-cyan-500"
         ></div>
-        <span class="font-semibold">Material Blocks</span>
+        <span class="font-semibold">GSAP Blocker</span>
       </a>
       <div class="flex items-center gap-3">
         <a class="text-sm hover:underline" routerLink="/docs">Docs</a>

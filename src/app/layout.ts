@@ -7,7 +7,7 @@ import { Navbar } from '@components/navbar';
   imports: [Navbar, RouterOutlet],
   host: { class: 'block' },
   template: `
-    <app-navbar />
+    <navbar />
     <main>
       <router-outlet />
     </main>

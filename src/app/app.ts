@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import Hero from '@components/hero';
+import HeroSection from '@components/hero-section';
 import { AndRevealDirective } from '@shared/directives/and-reveal.directive';
 
 type Feature = { title: string; desc: string; icon: string };
@@ -7,10 +7,10 @@ type Category = { name: string; count: number; emoji: string };
 
 @Component({
   selector: 'app',
-  imports: [AndRevealDirective, Hero],
+  imports: [AndRevealDirective, HeroSection],
   host: { class: 'block' },
   template: `
-    <app-hero />
+    <hero-section />
     <!-- Features -->
     <section class="container mx-auto px-6 md:px-8 py-20">
       <h2 class="text-2xl md:text-3xl font-bold">Why this library</h2>
