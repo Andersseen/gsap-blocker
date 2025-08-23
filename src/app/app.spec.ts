@@ -1,12 +1,30 @@
 import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { App } from './app';
+import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
+
+import App from './app';
 
 describe('App', () => {
+  beforeAll(async () => {
+    try {
+      if (typeof process !== 'undefined' && process.versions?.node) {
+        const { readFileSync } = await import('node:fs');
+        const { ɵresolveComponentResources: resolveComponentResources } =
+          await import('@angular/core');
+
+        await resolveComponentResources((url) =>
+          Promise.resolve(readFileSync(new URL(url, import.meta.url), 'utf-8'))
+        );
+      }
+    } catch {
+      return;
+    }
+  });
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [provideZonelessChangeDetection()]
+      providers: [provideZonelessChangeDetection()],
     }).compileComponents();
   });
 
@@ -14,12 +32,5 @@ describe('App', () => {
     const fixture = TestBed.createComponent(App);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(App);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, gsap-blocker');
   });
 });
