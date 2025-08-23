@@ -1,17 +1,15 @@
 import { Component, signal } from '@angular/core';
-import { AndRevealDirective } from '@shared/directives/and-reveal.directive';
 import Hero from '@components/hero';
-import { Navbar } from '@components/navbar';
+import { AndRevealDirective } from '@shared/directives/and-reveal.directive';
 
 type Feature = { title: string; desc: string; icon: string };
 type Category = { name: string; count: number; emoji: string };
 
 @Component({
-  selector: 'app-root',
-  imports: [AndRevealDirective, Navbar, Hero],
+  selector: 'app',
+  imports: [AndRevealDirective, Hero],
   host: { class: 'block' },
   template: `
-    <app-navbar />
     <app-hero />
     <!-- Features -->
     <section class="container mx-auto px-6 md:px-8 py-20">
