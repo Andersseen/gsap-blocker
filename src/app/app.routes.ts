@@ -23,7 +23,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: './pages/home',
-
+    redirectTo: './pages/home'
   }
 ];

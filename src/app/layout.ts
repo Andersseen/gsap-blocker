@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
-import  Navbar  from '@components/navbar';
-import Footer from "@components/footer";
+import Navbar from '@components/navbar';
+import Footer from '@components/footer';
 
 @Component({
   selector: 'layout',
@@ -15,9 +15,7 @@ import Footer from "@components/footer";
       <ng-content />
     </main>
 
-    <app-footer/>
+    <app-footer />
   `,
 })
-export default class Layout {
-  year = signal(new Date().getFullYear());
-}
+export default class Layout {}
