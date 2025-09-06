@@ -12,6 +12,13 @@ import { RouterLink } from '@angular/router';
     <nav
       class="container mx-auto px-6 md:px-8 h-14 flex items-center justify-between"
     >
+      <a
+        class="text-sm hover:underline"
+        href="https://github.com/Andersseen/material-blocks"
+        target="_blank"
+        rel="noreferrer"
+        >GitHub</a
+      >
       <a class="inline-flex items-center gap-2" routerLink="/">
         <div
           class="size-6 rounded-md bg-gradient-to-tr from-emerald-500 to-cyan-500"
@@ -20,13 +27,7 @@ import { RouterLink } from '@angular/router';
       </a>
       <div class="flex items-center gap-3">
         <a class="text-sm hover:underline" routerLink="/docs">Docs</a>
-        <a
-          class="text-sm hover:underline"
-          href="https://github.com/Andersseen/material-blocks"
-          target="_blank"
-          rel="noreferrer"
-          >GitHub</a
-        >
+
         <a
           class="inline-flex items-center rounded-md px-3 py-1.5 text-sm font-medium bg-zinc-900 text-white dark:bg-white dark:text-zinc-900"
           routerLink="/blocks"

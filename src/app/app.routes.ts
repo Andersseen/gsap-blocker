@@ -7,6 +7,10 @@ export const routes: Routes = [
   },
 
   {
+    path: 'blocks',
+    loadComponent: () => import('./pages/explore-blocks'),
+  },
+  {
     path: 'docs',
     loadComponent: () => import('./pages/docs'),
   },

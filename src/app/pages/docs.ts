@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-docs',
+  selector: 'page-docs',
   imports: [],
   template: `
     <div class="min-h-screen pt-8 pb-20 px-4">
@@ -156,7 +156,7 @@ import { Component } from '@angular/core';
     </div>
   `,
 })
-export default class DocsComponent {
+export default class DocsPage {
   installationCode = `# Install dependencies
 npm install @angular/core@latest @angular/common@latest
 npm install tailwindcss@latest gsap@latest
