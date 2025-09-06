@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
-  .link-active {
-        @apply rounded-md py-1.5 text-sm font-bold  text-white dark:bg-white bg-zinc-900 dark:text-zinc-900;
-      }
+.link-active {
+  @apply rounded-md py-1.5 text-sm font-bold  text-white dark:bg-white bg-zinc-900 dark:text-zinc-900;
+}
