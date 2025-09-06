@@ -1,16 +1,24 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, signal } from '@angular/core';
 import { Navbar } from '@components/navbar';
 
 @Component({
-  selector: 'app-root',
-  imports: [Navbar, RouterOutlet],
-  host: { class: 'block' },
+  selector: 'layout',
+  imports: [Navbar],
+  host: {
+    class: 'flex min-h-screen flex-col',
+  },
   template: `
     <navbar />
-    <main>
-      <router-outlet />
+
+    <main class="flex-1">
+      <ng-content />
     </main>
+
+    <footer class="py-12 text-center text-sm text-zinc-500">
+      © {{ year() }} GSAP Blocker. All rights reserved.
+    </footer>
   `,
 })
-export default class Layout {}
+export default class Layout {
+  year = signal(new Date().getFullYear());
+}
