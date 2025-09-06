@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { Navbar } from '@components/navbar';
+import  Navbar  from '@components/navbar';
 import Footer from "@components/footer";
 
 @Component({
