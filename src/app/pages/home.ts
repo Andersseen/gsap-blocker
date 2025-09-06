@@ -6,7 +6,7 @@ type Feature = { title: string; desc: string; icon: string };
 type Category = { name: string; count: number; emoji: string };
 
 @Component({
-  selector: 'home',
+  selector: 'page-home',
   imports: [AndRevealDirective, HeroSection],
   host: { class: 'block' },
   template: `
@@ -94,7 +94,7 @@ type Category = { name: string; count: number; emoji: string };
     </section>
   `,
 })
-export default class Home {
+export default class HomePage {
   features = signal<Feature[]>([
     {
       title: 'Modern Angular patterns',
