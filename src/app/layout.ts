@@ -1,9 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { Navbar } from '@components/navbar';
+import Footer from "@components/footer";
 
 @Component({
   selector: 'layout',
-  imports: [Navbar],
+  imports: [Navbar, Footer],
   host: {
     class: 'flex min-h-screen flex-col',
   },
@@ -14,9 +15,7 @@ import { Navbar } from '@components/navbar';
       <ng-content />
     </main>
 
-    <footer class="py-12 text-center text-sm text-zinc-500">
-      © {{ year() }} GSAP Blocker. All rights reserved.
-    </footer>
+    <app-footer/>
   `,
 })
 export default class Layout {
