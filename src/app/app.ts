@@ -3,13 +3,14 @@ import { Component, signal } from '@angular/core';
 import Layout from './layout';
 import { RouterOutlet } from '@angular/router';
 import { SmoothScrollService } from '@shared/services/smooth-scroll.service';
+import { SmoothScrollDirective } from '@shared/directives/smooth-scroll.directive';
 
 @Component({
   selector: 'app',
-  imports: [Layout, RouterOutlet],
+  imports: [Layout, RouterOutlet, SmoothScrollDirective],
 
   template: `
-    <layout>
+    <layout smoothScroll>
       <router-outlet />
     </layout>
   `,

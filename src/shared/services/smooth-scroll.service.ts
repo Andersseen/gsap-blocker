@@ -14,6 +14,9 @@ export class SmoothScrollService {
   private max = 0;
   private reduceMotion = false;
 
+  private touchStartY = 0;
+  private lastTs = 0;
+
   start() {
     if (this.started) return;
     this.started = true;
@@ -21,20 +24,10 @@ export class SmoothScrollService {
     this.reduceMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
     ).matches;
-
     this.current = window.scrollY || window.pageYOffset;
     this.target = this.current;
     this.computeMax();
-
-    window.addEventListener('resize', this.onResize, { passive: true });
-    window.addEventListener('wheel', this.onWheel, { passive: false });
-    window.addEventListener('touchstart', this.onTouchStart, {
-      passive: true,
-    });
-    window.addEventListener('touchmove', this.onTouchMove, {
-      passive: false,
-    });
-
+    this.lastTs = performance.now();
     this.loop();
   }
 
@@ -42,20 +35,36 @@ export class SmoothScrollService {
     if (!this.started) return;
     this.started = false;
     cancelAnimationFrame(this.rafId);
-    window.removeEventListener('resize', this.onResize);
-    window.removeEventListener('wheel', this.onWheel as EventListener);
-    window.removeEventListener(
-      'touchstart',
-      this.onTouchStart as EventListener
-    );
-    window.removeEventListener('touchmove', this.onTouchMove as EventListener);
   }
+
+  onResize = () => this.computeMax();
+
+  onWheel = (e: WheelEvent) => {
+    if (this.reduceMotion) return;
+    e.preventDefault();
+    const delta = this.normalizeWheel(e) * this.wheelMult;
+    this.target = this.clamp(this.target + delta, 0, this.max);
+  };
+
+  onTouchStart = (e: TouchEvent) => {
+    this.touchStartY = e.touches[0]?.clientY ?? 0;
+  };
+
+  onTouchMove = (e: TouchEvent) => {
+    if (this.reduceMotion) return;
+    const y = e.touches[0]?.clientY ?? 0;
+    const delta = this.touchStartY - y;
+    if (delta !== 0) {
+      e.preventDefault();
+      this.target = this.clamp(this.target + delta, 0, this.max);
+      this.touchStartY = y;
+    }
+  };
 
   scrollTo(y: number, opts: ScrollToOpts = {}) {
     const offset = opts.offset ?? 0;
     const clamped = Math.max(0, Math.min(y + offset, this.max));
     this.target = clamped;
-
     if (opts.immediate || this.reduceMotion) {
       this.current = clamped;
       window.scrollTo(0, clamped);
@@ -63,52 +72,31 @@ export class SmoothScrollService {
   }
 
   setLerp(value: number) {
-    this.lerp = Math.min(Math.max(value, 0.01), 0.5);
+    this.lerp = this.clamp(value, 0.04, 0.5);
   }
 
-  // ===== privados =====
+  setWheelMultiplier(value: number) {
+    this.wheelMult = this.clamp(value, 0.3, 2.5);
+  }
+
   private loop = () => {
     if (!this.started) return;
 
-    // si reduce motion, usar scroll nativo
-    if (this.reduceMotion) {
-      this.rafId = requestAnimationFrame(this.loop);
-      return;
+    if (!this.reduceMotion) {
+      this.computeMax();
+      const ts = performance.now();
+      const dt = Math.min(0.033, Math.max(0.001, (ts - this.lastTs) / 1000));
+      this.lastTs = ts;
+
+      const alpha = 1 - Math.exp(-(this.lerp * 60) * dt);
+      this.current += (this.target - this.current) * alpha;
+      if (Math.abs(this.target - this.current) < 0.1)
+        this.current = this.target;
+
+      window.scrollTo(0, this.current);
     }
 
-    this.computeMax();
-
-    this.current += (this.target - this.current) * this.lerp;
-
-    if (Math.abs(this.target - this.current) < 0.1) this.current = this.target;
-
-    window.scrollTo(0, this.current);
     this.rafId = requestAnimationFrame(this.loop);
-  };
-
-  private onResize = () => this.computeMax();
-
-  private onWheel = (e: WheelEvent) => {
-    if (this.reduceMotion) return; // permitir comportamiento nativo
-    e.preventDefault();
-    const delta = e.deltaY * this.wheelMult;
-    this.target = this.clamp(this.target + delta, 0, this.max);
-  };
-
-  // Soporte táctil básico (opcional)
-  private touchStartY = 0;
-  private onTouchStart = (e: TouchEvent) => {
-    this.touchStartY = e.touches[0]?.clientY ?? 0;
-  };
-  private onTouchMove = (e: TouchEvent) => {
-    if (this.reduceMotion) return;
-    const y = e.touches[0]?.clientY ?? 0;
-    const delta = this.touchStartY - y;
-    if (Math.abs(delta) > 0) {
-      e.preventDefault();
-      this.target = this.clamp(this.target + delta, 0, this.max);
-      this.touchStartY = y;
-    }
   };
 
   private computeMax() {
@@ -122,6 +110,15 @@ export class SmoothScrollService {
       doc.offsetHeight
     );
     this.max = Math.max(0, scrollHeight - window.innerHeight);
+    this.target = this.clamp(this.target, 0, this.max);
+    this.current = this.clamp(this.current, 0, this.max);
+  }
+
+  private normalizeWheel(e: WheelEvent) {
+    if (e.deltaMode === 1) return e.deltaY * 16;
+    if (e.deltaMode === 2) return e.deltaY * window.innerHeight;
+    const scale = Math.max(1, window.devicePixelRatio || 1);
+    return e.deltaY * scale;
   }
 
   private clamp(v: number, min: number, max: number) {
