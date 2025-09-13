@@ -1,5 +1,6 @@
 import { RouterModule } from '@angular/router';
 import { Component, input, Input } from '@angular/core';
+import Category from '@shared/interfaces/category.interface';
 
 @Component({
   selector: 'grid-card',
