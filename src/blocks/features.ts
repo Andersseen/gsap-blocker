@@ -14,7 +14,7 @@ import { PLATFORM_ID } from '@angular/core';
 type Slide = { src: string; alt: string; caption?: string };
 
 @Component({
-  selector: 'and-carousel',
+  selector: 'features',
   imports: [NgOptimizedImage],
   encapsulation: ViewEncapsulation.None,
   host: {
@@ -89,7 +89,7 @@ type Slide = { src: string; alt: string; caption?: string };
     </section>
   `,
 })
-export default class AndCarousel {
+export default class Features {
   private readonly platformId = inject(PLATFORM_ID);
 
   // Inputs
