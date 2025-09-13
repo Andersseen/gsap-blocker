@@ -1,5 +1,4 @@
-// smooth-scroll.service.ts
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 type ScrollToOpts = { offset?: number; immediate?: boolean };
 
