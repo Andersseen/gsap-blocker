@@ -4,3 +4,4 @@ interface Category {
   count: number;
   emoji: string;
 }
+export default Category;

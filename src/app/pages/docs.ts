@@ -7,37 +7,25 @@ import { Component } from '@angular/core';
     <div class="min-h-screen pt-8 pb-20 px-4">
       <div class="max-w-4xl mx-auto">
         <div class="mb-12">
-          <h1
-            class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4"
-          >
-            Documentation
-          </h1>
-          <p class="text-xl text-gray-600 dark:text-gray-300">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">Documentation</h1>
+          <p class="text-xl">
             Learn how to use and customize the UI blocks library
           </p>
         </div>
 
         <div class="space-y-12">
           <!-- Getting Started -->
-          <section class="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg">
-            <h2
-              class="text-2xl font-semibold text-gray-900 dark:text-white mb-4"
-            >
-              Getting Started
-            </h2>
+          <section class="rounded-2xl p-8 shadow-lg">
+            <h2 class="text-2xl font-semibold mb-4">Getting Started</h2>
             <div class="prose dark:prose-invert max-w-none">
-              <p class="text-gray-600 dark:text-gray-300 mb-4">
+              <p class="mb-4">
                 All components in this library are built with Angular 18+
                 standalone components, Tailwind CSS, and GSAP for animations.
                 They follow modern Angular best practices including signals for
                 state management.
               </p>
 
-              <h3
-                class="text-lg font-semibold text-gray-900 dark:text-white mb-2"
-              >
-                Installation
-              </h3>
+              <h3 class="text-lg font-semibold mb-2">Installation</h3>
               <!-- <app-code-block
                 [code]="installationCode"
                 language="bash"
@@ -47,14 +35,10 @@ import { Component } from '@angular/core';
           </section>
 
           <!-- Component Structure -->
-          <section class="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg">
-            <h2
-              class="text-2xl font-semibold text-gray-900 dark:text-white mb-4"
-            >
-              Component Structure
-            </h2>
+          <section class="rounded-2xl p-8 shadow-lg">
+            <h2 class="text-2xl font-semiboldmb-4">Component Structure</h2>
             <div class="prose dark:prose-invert max-w-none">
-              <p class="text-gray-600 dark:text-gray-300 mb-4">
+              <p class=" mb-4">
                 Each component follows a consistent structure with TypeScript
                 interfaces for type safety.
               </p>
@@ -68,14 +52,10 @@ import { Component } from '@angular/core';
           </section>
 
           <!-- GSAP Integration -->
-          <section class="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg">
-            <h2
-              class="text-2xl font-semibold text-gray-900 dark:text-white mb-4"
-            >
-              GSAP Integration
-            </h2>
+          <section class="rounded-2xl p-8 shadow-lg">
+            <h2 class="text-2xl font-semibold mb-4">GSAP Integration</h2>
             <div class="prose dark:prose-invert max-w-none">
-              <p class="text-gray-600 dark:text-gray-300 mb-4">
+              <p class="mb-4">
                 The GSAP service provides helper methods for common animations
                 and handles reduced motion preferences automatically.
               </p>
@@ -89,14 +69,10 @@ import { Component } from '@angular/core';
           </section>
 
           <!-- Theming -->
-          <section class="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg">
-            <h2
-              class="text-2xl font-semibold text-gray-900 dark:text-white mb-4"
-            >
-              Theming
-            </h2>
+          <section class="rounded-2xl p-8 shadow-lg">
+            <h2 class="text-2xl font-semibold mb-4">Theming</h2>
             <div class="prose dark:prose-invert max-w-none">
-              <p class="text-gray-600 dark:text-gray-300 mb-4">
+              <p class=" mb-4">
                 The library uses CSS custom properties for theming with
                 automatic dark mode support.
               </p>
@@ -110,17 +86,13 @@ import { Component } from '@angular/core';
           </section>
 
           <!-- Accessibility -->
-          <section class="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg">
-            <h2
-              class="text-2xl font-semibold text-gray-900 dark:text-white mb-4"
-            >
-              Accessibility
-            </h2>
+          <section class="rounded-2xl p-8 shadow-lg">
+            <h2 class="text-2xl font-semibold mb-4">Accessibility</h2>
             <div class="prose dark:prose-invert max-w-none">
-              <p class="text-gray-600 dark:text-gray-300 mb-4">
+              <p class=" mb-4">
                 All components are built with accessibility in mind:
               </p>
-              <ul class="text-gray-600 dark:text-gray-300 space-y-2">
+              <ul class=" space-y-2">
                 <li>• Proper ARIA labels and roles</li>
                 <li>• Keyboard navigation support</li>
                 <li>• Focus management</li>
@@ -132,17 +104,11 @@ import { Component } from '@angular/core';
           </section>
 
           <!-- Performance -->
-          <section class="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg">
-            <h2
-              class="text-2xl font-semibold text-gray-900 dark:text-white mb-4"
-            >
-              Performance
-            </h2>
+          <section class="rounded-2xl p-8 shadow-lg">
+            <h2 class="text-2xl font-semibold mb-4">Performance</h2>
             <div class="prose dark:prose-invert max-w-none">
-              <p class="text-gray-600 dark:text-gray-300 mb-4">
-                Components are optimized for performance:
-              </p>
-              <ul class="text-gray-600 dark:text-gray-300 space-y-2">
+              <p class=" mb-4">Components are optimized for performance:</p>
+              <ul class="space-y-2">
                 <li>• OnPush change detection strategy</li>
                 <li>• Lazy loading of GSAP plugins</li>
                 <li>• Minimal DOM manipulations</li>
@@ -182,14 +148,14 @@ import { GsapService } from '../services/gsap.service';
 })
 export class ExampleComponent implements OnInit {
   private gsapService = inject(GsapService);
-  
+
   // Inputs using new function syntax
   title = input.required<string>();
   description = input<string>('Default description');
-  
+
   // State using signals
   isVisible = signal(false);
-  
+
   async ngOnInit() {
     // Initialize animations
     await this.gsapService.enterStagger('.component-container', {
@@ -212,7 +178,7 @@ import { GsapService } from '../services/gsap.service';
 })
 export class AnimatedComponent implements OnInit {
   private gsapService = inject(GsapService);
-  
+
   container = viewChild.required<ElementRef>('container');
   element = viewChild.required<ElementRef>('element');
 
@@ -223,13 +189,13 @@ export class AnimatedComponent implements OnInit {
       opacity: 0,
       duration: 0.8
     });
-    
+
     // Scroll-triggered animation
     await this.gsapService.revealOnScroll(this.container().nativeElement, {
       y: 50,
       duration: 1.2
     });
-    
+
     // Parallax effect
     await this.gsapService.parallax(this.element().nativeElement, -50);
   }
