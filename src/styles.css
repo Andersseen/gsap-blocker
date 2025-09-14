@@ -3,3 +3,9 @@
 .link-active {
   @apply rounded-md py-1.5 text-sm font-bold  text-white dark:bg-white bg-zinc-900 dark:text-zinc-900;
 }
+
+@theme {
+  --color-foreground: oklch(98.5% 0 0);
+  --color-background: oklch(20.5% 0 0);
+  --color-primary: oklch(0.293 0.136 325.661);
+}
