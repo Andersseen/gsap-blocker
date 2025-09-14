@@ -1,4 +1,10 @@
-import { Component, signal } from '@angular/core';
+import {
+  Component,
+  effect,
+  ElementRef,
+  signal,
+  viewChild,
+} from '@angular/core';
 import Navbar from '@components/navbar';
 import Footer from '@components/footer';
 
@@ -6,16 +12,29 @@ import Footer from '@components/footer';
   selector: 'layout',
   imports: [Navbar, Footer],
   host: {
-    class: 'flex min-h-screen flex-col',
+    class: 'flex min-h-screen flex-col overflow-hidden',
   },
   template: `
-    <navbar />
+    <navbar [(open)]="open" />
 
-    <main class="flex-1">
+    <main class="flex-1 mt-14" #main>
       <ng-content />
     </main>
 
     <app-footer />
   `,
 })
-export default class Layout {}
+export default class Layout {
+  open = signal(false);
+
+  main = viewChild<ElementRef<HTMLElement>>('main');
+
+  constructor() {
+    effect(() => {
+      const mainEl = this.main();
+      if (mainEl) {
+        mainEl.nativeElement.style.filter = this.open() ? 'blur(5px)' : '';
+      }
+    });
+  }
+}
