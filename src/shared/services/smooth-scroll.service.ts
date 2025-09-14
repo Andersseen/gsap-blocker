@@ -11,8 +11,10 @@ export class SmoothScrollService {
   private target = 0;
   private lerp = 0.1;
   private wheelMult = 1;
+  private touchMult = 1.1;
   private max = 0;
   private reduceMotion = false;
+  private isCoarse = false;
 
   private touchStartY = 0;
   private lastTs = 0;
@@ -24,6 +26,8 @@ export class SmoothScrollService {
     this.reduceMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
     ).matches;
+    this.applyProfile();
+
     this.current = window.scrollY || window.pageYOffset;
     this.target = this.current;
     this.computeMax();
@@ -37,7 +41,10 @@ export class SmoothScrollService {
     cancelAnimationFrame(this.rafId);
   }
 
-  onResize = () => this.computeMax();
+  onResize = () => {
+    this.applyProfile();
+    this.computeMax();
+  };
 
   onWheel = (e: WheelEvent) => {
     if (this.reduceMotion) return;
@@ -53,7 +60,7 @@ export class SmoothScrollService {
   onTouchMove = (e: TouchEvent) => {
     if (this.reduceMotion) return;
     const y = e.touches[0]?.clientY ?? 0;
-    const delta = this.touchStartY - y;
+    const delta = (this.touchStartY - y) * this.touchMult;
     if (delta !== 0) {
       e.preventDefault();
       this.target = this.clamp(this.target + delta, 0, this.max);
@@ -79,6 +86,10 @@ export class SmoothScrollService {
     this.wheelMult = this.clamp(value, 0.3, 2.5);
   }
 
+  setTouchMultiplier(value: number) {
+    this.touchMult = this.clamp(value, 0.8, 3);
+  }
+
   private loop = () => {
     if (!this.started) return;
 
@@ -98,6 +109,20 @@ export class SmoothScrollService {
 
     this.rafId = requestAnimationFrame(this.loop);
   };
+
+  private applyProfile() {
+    this.isCoarse =
+      window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768;
+    if (this.isCoarse) {
+      this.lerp = 0.18;
+      this.wheelMult = 1;
+      this.touchMult = 1.7;
+    } else {
+      this.lerp = 0.12;
+      this.wheelMult = 1;
+      this.touchMult = 1.1;
+    }
+  }
 
   private computeMax() {
     const doc = document.documentElement;

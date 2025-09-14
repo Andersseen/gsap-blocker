@@ -6,7 +6,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   imports: [RouterLink, RouterLinkActive],
   template: `
     <nav
-      class="container mx-auto px-6 md:px-8 h-14 flex items-center justify-between"
+      class="container mx-auto px-2 sm:px-4 md:px-8 h-14 flex items-center justify-between"
     >
       <a class="inline-flex items-center gap-2" routerLink="/">
         <div
