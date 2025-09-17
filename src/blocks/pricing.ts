@@ -66,7 +66,7 @@ type Plan = {
         >
           @if (p.popular) {
           <div
-            class="absolute -top-3 right-4 text-xs rounded-full px-2 py-1 bg-emerald-500 text-white shadow"
+            class="absolute -top-3 right-4 text-xs rounded-full px-2 py-1 bg-emerald-500  shadow"
           >
             Most popular
           </div>
@@ -97,7 +97,7 @@ type Plan = {
           </ul>
 
           <a
-            class="mt-6 inline-flex w-full items-center justify-center rounded-xl px-4 py-2.5 text-sm font-medium bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 hover:opacity-90 transition"
+            class="mt-6 inline-flex w-full items-center justify-center rounded-xl px-4 py-2.5 text-sm font-medium bg-zinc-900   dark:text-zinc-900 hover:opacity-90 transition"
             [href]="p.ctaHref"
             >{{ p.ctaText }}</a
           >

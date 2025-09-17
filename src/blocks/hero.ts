@@ -42,7 +42,7 @@ import { PLATFORM_ID } from '@angular/core';
           <div class="mt-8 flex flex-wrap gap-3">
             <a
               class="hero-cta inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-medium ring-1 ring-transparent
-                 bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 transition hover:opacity-90"
+                 bg-zinc-900   dark:text-zinc-900 transition hover:opacity-90"
               [href]="primaryHref()"
               >{{ primaryText() }}</a
             >

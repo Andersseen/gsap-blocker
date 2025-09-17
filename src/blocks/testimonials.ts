@@ -43,7 +43,7 @@ type Slide = { src: string; alt: string; caption?: string };
             />
             @if (s.caption) {
             <figcaption
-              class="absolute bottom-3 left-3 text-xs px-2 py-1 rounded bg-black/60 text-white"
+              class="absolute bottom-3 left-3 text-xs px-2 py-1 rounded bg-black/60 "
             >
               {{ s.caption }}
             </figcaption>
@@ -78,7 +78,7 @@ type Slide = { src: string; alt: string; caption?: string };
           type="button"
           class="size-2.5 rounded-full transition"
           [class.bg-zinc-900]="index() === i"
-          [class.dark:bg-white]="index() === i"
+          [class.]="index() === i"
           [class.bg-zinc-300]="index() !== i"
           [class.dark:bg-zinc-600]="index() !== i"
           [attr.aria-label]="'Go to slide ' + (i + 1)"

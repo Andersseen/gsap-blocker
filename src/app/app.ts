@@ -8,7 +8,7 @@ import { SmoothScrollDirective } from '@shared/directives/smooth-scroll.directiv
   imports: [Layout, RouterOutlet, SmoothScrollDirective],
 
   template: `
-    <layout smoothScroll>
+    <layout smoothScroll class="bg-background text-foreground">
       <router-outlet />
     </layout>
   `,

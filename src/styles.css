@@ -1,11 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+
 .link-active {
-  @apply rounded-md py-1.5 text-sm font-bold  text-white dark:bg-white bg-zinc-900 dark:text-zinc-900;
+  @apply rounded-md py-1.5 text-sm font-bold    bg-zinc-900 dark:text-zinc-900;
 }
 
 @theme {
-  --color-foreground: oklch(98.5% 0 0);
-  --color-background: oklch(20.5% 0 0);
-  --color-primary: oklch(0.293 0.136 325.661);
+  --color-foreground: #1f2e27;
+  --color-background: #f9fafa;
+  --color-primary: #7a28bd;
+  --color-secondary: #26d988;
+}
+
+html.dark {
+  --color-foreground: #f9fafa;
+  --color-background: #1f2e27;
 }
