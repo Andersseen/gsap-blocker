@@ -33,23 +33,19 @@ import { PLATFORM_ID } from '@angular/core';
             </span>
           </h1>
 
-          <p
-            class="mt-4 text-base md:text-lg text-zinc-600 dark:text-zinc-300 max-w-prose"
-          >
+          <p class="mt-4 text-base md:text-lg max-w-prose">
             {{ subtitle() }}
           </p>
 
           <div class="mt-8 flex flex-wrap gap-3">
             <a
-              class="hero-cta inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-medium ring-1 ring-transparent
-                 bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 transition hover:opacity-90"
+              class="hero-cta inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-medium ring-1 ring-transparent transition hover:opacity-90"
               [href]="primaryHref()"
               >{{ primaryText() }}</a
             >
 
             <a
-              class="hero-cta inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-medium ring-1 ring-zinc-300 dark:ring-zinc-700
-                 bg-transparent transition hover:bg-zinc-100 dark:hover:bg-zinc-800"
+              class="hero-cta inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-medium ring-1"
               [href]="secondaryHref()"
               >{{ secondaryText() }}</a
             >
@@ -59,8 +55,7 @@ import { PLATFORM_ID } from '@angular/core';
         <!-- Visual -->
         <div class="relative">
           <div
-            class="hero-card relative rounded-3xl shadow-xl ring-1 ring-black/10 backdrop-blur-sm
-                  bg-gradient-to-br from-white/70 to-white/40 dark:from-zinc-900/50 dark:to-zinc-900/30 p-4 md:p-6"
+            class="hero-card relative rounded-3xl shadow-xl ring-1 backdrop-blur-sm p-4 md:p-6"
           >
             <img
               ngSrc="{{ imageSrc() }}"
@@ -77,20 +72,16 @@ import { PLATFORM_ID } from '@angular/core';
 
           <!-- floating shapes -->
           <div
-            class="floating floating-a absolute -top-6 -right-6 size-24 rounded-full blur-2xl opacity-60
-                  bg-gradient-to-tr from-emerald-400/60 to-cyan-400/60"
+            class="floating floating-a absolute -top-6 -right-6 size-24 rounded-full blur-2xl opacity-60"
           ></div>
           <div
-            class="floating floating-b absolute -bottom-6 -left-6 size-24 rounded-full blur-2xl opacity-60
-                  bg-gradient-to-tr from-fuchsia-400/60 to-purple-400/60"
+            class="floating floating-b absolute -bottom-6 -left-6 size-24 rounded-full blur-2xl opacity-60"
           ></div>
         </div>
       </div>
 
       <!-- background accent -->
-      <div
-        class="pointer-events-none absolute -z-10 inset-0 bg-[radial-gradient(60%_60%_at_50%_0%,theme(colors.emerald.500/10),transparent)]"
-      ></div>
+      <div class="pointer-events-none absolute -z-10 inset-0"></div>
     </section>
   `,
 })

@@ -31,28 +31,22 @@ import { PLATFORM_ID } from '@angular/core';
       <div class="container mx-auto px-6 md:px-8">
         <div class="max-w-3xl">
           <div
-            class="hero-badge inline-flex items-center gap-2 rounded-full border py-1 text-xs md:text-sm backdrop-blur"
+            class="hero-badge inline-flex items-center gap-2 rounded-full bg-foreground/20 p-4 py-1 text-xs md:text-sm backdrop-blur"
           >
-            <span
-              class="inline-block size-1.5 rounded-full bg-emerald-500"
-            ></span>
+            <span class="inline-block size-1.5 rounded-full bg-primary"></span>
             <span>{{ badge() }}</span>
           </div>
 
           <h1
             class="mt-5 text-4xl md:text-6xl font-extrabold leading-tight tracking-tight"
           >
-            <span class="text-zinc-900 dark:text-white"
-              >Build landing pages
-            </span>
+            <span>Build landing pages </span>
             <span
               class="bg-clip-text text-transparent bg-[linear-gradient(90deg,theme(colors.emerald.400),theme(colors.cyan.400),theme(colors.fuchsia.400))] [background-size:200%] animate-none"
             >
               {{ highlight() }}
             </span>
-            <span class="text-zinc-900 dark:text-white">
-              with Angular + Tailwind</span
-            >
+            <span> with Angular + Tailwind</span>
           </h1>
 
           <p class="mt-4 text-base md:text-lg max-w-prose">
