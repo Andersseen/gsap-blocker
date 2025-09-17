@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-.link-active {
-  @apply rounded-md py-1.5 text-sm font-bold    bg-zinc-900 dark:text-zinc-900;
-}
-
 @theme {
   --color-foreground: #1f2e27;
   --color-background: #f9fafa;
@@ -14,4 +10,15 @@
 html.dark {
   --color-foreground: #f9fafa;
   --color-background: #1f2e27;
+}
+
+/* NAVBAR */
+.link {
+  @apply text-sm px-1;
+}
+.link-active {
+  @apply rounded-md py-1.5 text-sm font-bold;
+}
+.link-hover {
+  @apply hover:scale-110 transition-transform duration-100 ease-in-out;
 }

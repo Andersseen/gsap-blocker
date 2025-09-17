@@ -51,21 +51,21 @@ import { filter } from 'rxjs/operators';
 
       <div class="hidden md:flex px-4 items-center gap-3">
         <a
-          class="text-sm px-1 hover:underline"
+          class="link link-hover"
           routerLink="/home"
           routerLinkActive="link-active"
           [routerLinkActiveOptions]="{ exact: true }"
           >Home</a
         >
         <a
-          class="text-sm px-1 hover:underline"
+          class="link link-hover"
           routerLink="/docs"
           routerLinkActive="link-active"
           [routerLinkActiveOptions]="{ exact: true }"
           >Docs</a
         >
         <a
-          class="text-sm px-1 hover:underline"
+          class="link link-hover"
           routerLink="/blocks"
           routerLinkActive="link-active"
           >Explore Blocks</a
@@ -73,7 +73,7 @@ import { filter } from 'rxjs/operators';
       </div>
 
       <a
-        class="hidden md:inline-flex items-center text-sm hover:underline"
+        class="hidden md:inline-flex items-center text-sm"
         href="https://github.com/Andersseen/gsap-blocker"
         target="_blank"
         rel="noreferrer"
@@ -91,7 +91,7 @@ import { filter } from 'rxjs/operators';
     @if (open()) {
     <button
       type="button"
-      class="fixed inset-0 z-40 md:hidden bg-black/30"
+      class="fixed inset-0 z-40 md:hidden"
       aria-label="Close menu"
       (click)="close()"
     ></button>
@@ -106,7 +106,7 @@ import { filter } from 'rxjs/operators';
         class="container mx-auto px-2 sm:px-4 md:px-8 py-3 flex flex-col gap-2"
       >
         <a
-          class="text-sm py-1 hover:underline"
+          class="text-sm py-1"
           routerLink="/home"
           routerLinkActive="link-active"
           [routerLinkActiveOptions]="{ exact: true }"
@@ -114,7 +114,7 @@ import { filter } from 'rxjs/operators';
           >Home</a
         >
         <a
-          class="text-sm py-1 hover:underline"
+          class="text-sm py-1"
           routerLink="/docs"
           routerLinkActive="link-active"
           [routerLinkActiveOptions]="{ exact: true }"
@@ -122,14 +122,14 @@ import { filter } from 'rxjs/operators';
           >Docs</a
         >
         <a
-          class="text-sm py-1 hover:underline"
+          class="text-sm py-1"
           routerLink="/blocks"
           routerLinkActive="link-active"
           (click)="close()"
           >Explore Blocks</a
         >
         <a
-          class="inline-flex items-center gap-2 py-2 hover:underline"
+          class="inline-flex items-center gap-2 py-2"
           href="https://github.com/Andersseen/gsap-blocker"
           target="_blank"
           rel="noreferrer"
