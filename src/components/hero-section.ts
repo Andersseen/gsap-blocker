@@ -4,6 +4,35 @@ import { PLATFORM_ID } from '@angular/core';
 
 @Component({
   selector: 'hero-section',
+  styles: [
+    `
+      .pulsing-circle {
+        width: 5px;
+        height: 5px;
+        background-color: var(--color-primary);
+        border-radius: 50%;
+        animation: pulse 1.8s infinite cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(0.8);
+          opacity: 0.7;
+          box-shadow: 0 0 3px 1px rgba(132, 115, 215, 0.56);
+        }
+        50% {
+          transform: scale(1.2);
+          opacity: 1;
+          box-shadow: 0 0 5px 2px rgba(125, 2, 196, 0.2);
+        }
+        100% {
+          transform: scale(0.8);
+          opacity: 0.7;
+          box-shadow: 0 0 3px 1px rgba(179, 0, 255, 0.92);
+        }
+      }
+    `,
+  ],
   template: `
     <section
       #root
@@ -33,7 +62,8 @@ import { PLATFORM_ID } from '@angular/core';
           <div
             class="hero-badge inline-flex items-center gap-2 rounded-full bg-foreground/20 p-4 py-1 text-xs md:text-sm backdrop-blur"
           >
-            <span class="inline-block size-1.5 rounded-full bg-primary"></span>
+            <!-- <span class="inline-block size-1.5 rounded-full bg-primary"></span> -->
+            <span class="pulsing-circle"></span>
             <span>{{ badge() }}</span>
           </div>
 
