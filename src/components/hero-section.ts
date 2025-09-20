@@ -1,6 +1,7 @@
 import { Component, ElementRef, inject, input, viewChild } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
+import { gsap } from 'gsap';
 
 @Component({
   selector: 'hero-section',
@@ -128,7 +129,6 @@ import { PLATFORM_ID } from '@angular/core';
 export default class HeroSection {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly root = viewChild<ElementRef<HTMLElement>>('root');
-  private gsap: any | null = null;
 
   // Inputs
   badge = input<string>('New');
@@ -143,14 +143,11 @@ export default class HeroSection {
 
   async ngAfterViewInit() {
     if (!isPlatformBrowser(this.platformId)) return;
-    const mod = await import('gsap');
-    this.gsap = mod.default;
-
     const el = this.root()?.nativeElement;
     if (!el) return;
 
     // Intro reveal
-    const tl = this.gsap.timeline({
+    const tl = gsap.timeline({
       defaults: { ease: 'power3.out', duration: 0.9 },
     });
     tl.from(el.querySelector('.hero-badge'), { y: 16, autoAlpha: 0 })
@@ -168,7 +165,7 @@ export default class HeroSection {
       );
 
     // Floating blobs loop
-    this.gsap.to(el.querySelector('.blob-a'), {
+    gsap.to(el.querySelector('.blob-a'), {
       y: -14,
       x: 10,
       repeat: -1,
@@ -176,7 +173,7 @@ export default class HeroSection {
       duration: 4,
       ease: 'sine.inOut',
     });
-    this.gsap.to(el.querySelector('.blob-b'), {
+    gsap.to(el.querySelector('.blob-b'), {
       y: 12,
       x: -8,
       repeat: -1,
@@ -188,16 +185,16 @@ export default class HeroSection {
     // Scanning beam sweep loop
     const beam = el.querySelector('.beam');
     if (beam) {
-      this.gsap.set(beam, { opacity: 1 });
+      gsap.set(beam, { opacity: 1 });
       const sweep = () =>
-        this.gsap
+        gsap
           .fromTo(
             beam,
             { xPercent: -120 },
             { xPercent: 120, duration: 3.5, ease: 'power1.inOut' }
           )
           .then(() =>
-            this.gsap.to(beam, {
+            gsap.to(beam, {
               opacity: 0.6,
               duration: 0.6,
               yoyo: true,
@@ -213,7 +210,7 @@ export default class HeroSection {
       'h1 span:nth-child(2)'
     ) as HTMLElement | null;
     if (gradientSpan) {
-      this.gsap.to(gradientSpan, {
+      gsap.to(gradientSpan, {
         backgroundPositionX: '200%',
         repeat: -1,
         duration: 6,
