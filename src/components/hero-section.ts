@@ -2,9 +2,11 @@ import { Component, ElementRef, inject, input, viewChild } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 import { gsap } from 'gsap';
+import { AndGsapFromDirective } from '@shared/directives/and-gsap-from';
 
 @Component({
   selector: 'hero-section',
+  imports: [AndGsapFromDirective],
   styles: [
     `
       .pulsing-circle {
@@ -61,7 +63,8 @@ import { gsap } from 'gsap';
       <div class="container mx-auto px-6 md:px-8">
         <div class="max-w-3xl">
           <div
-            class="hero-badge inline-flex items-center gap-2 rounded-full bg-foreground/20 p-4 py-1 text-xs md:text-sm backdrop-blur"
+            [andGsapFrom]="{ y: -16, autoAlpha: 0, duration: 1 }"
+            class="inline-flex items-center gap-2 rounded-full bg-foreground/20 p-4 py-1 text-xs md:text-sm backdrop-blur"
           >
             <!-- <span class="inline-block size-1.5 rounded-full bg-primary"></span> -->
             <span class="pulsing-circle"></span>
@@ -69,6 +72,7 @@ import { gsap } from 'gsap';
           </div>
 
           <h1
+            [andGsapFrom]="{ y: 10, autoAlpha: 0, duration: 1 }"
             class="mt-5 text-4xl md:text-6xl font-extrabold leading-tight tracking-tight"
           >
             <span>Build landing pages </span>
@@ -80,34 +84,41 @@ import { gsap } from 'gsap';
             <span> with Angular + Tailwind</span>
           </h1>
 
-          <p class="mt-4 text-base md:text-lg max-w-prose">
+          <p
+            [andGsapFrom]="{ y: -20, autoAlpha: 0, duration: 1 }"
+            class="mt-4 text-base md:text-lg max-w-prose"
+          >
             {{ subtitle() }}
           </p>
 
-          <div class="hero-ctas mt-8 flex flex-wrap gap-3">
-            <a
-              class="inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-medium ring-1 ring-transparent"
-              [href]="primaryHref()"
-              >{{ primaryText() }}</a
+          <div class="mt-8 flex flex-wrap gap-3">
+            <button
+              [andGsapFrom]="{ x: -30, autoAlpha: 0, duration: 1 }"
+              class="inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-medium ring-1 ring-transparent shadow-sm"
             >
+              {{ primaryText() }}
+            </button>
 
-            <a
-              class="inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-medium ring-1"
-              [href]="secondaryHref()"
-              >{{ secondaryText() }}</a
+            <button
+              [andGsapFrom]="{ x: 30, autoAlpha: 0, duration: 1 }"
+              class="inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-medium shadow-sm"
             >
+              {{ secondaryText() }}
+            </button>
           </div>
 
           <!-- quick points (text-only) -->
           <ul class="mt-8 grid sm:grid-cols-3 gap-3 max-w-2xl">
             <li
-              class="stat flex items-center gap-2 rounded-lg border px-3 py-2"
+              [andGsapFrom]="{ y: 30, autoAlpha: 0, duration: 1 }"
+              class="flex items-center gap-2 rounded-lg shadow-sm px-3 py-2"
             >
               <span class="inline-block size-1.5 rounded-full"></span>
               <span class="text-sm">SSR-safe animations</span>
             </li>
             <li
-              class="stat flex items-center gap-2 rounded-lg border px-3 py-2"
+              [andGsapFrom]="{ y: 30, autoAlpha: 0, duration: 1 }"
+              class="flex items-center gap-2 rounded-lg shadow-sm px-3 py-2"
             >
               <span
                 class="inline-block size-1.5 rounded-full bg-emerald-500"
@@ -115,7 +126,8 @@ import { gsap } from 'gsap';
               <span class="text-sm">Zero images, pure CSS glow</span>
             </li>
             <li
-              class="stat flex items-center gap-2 rounded-lg border px-3 py-2"
+              [andGsapFrom]="{ y: 30, autoAlpha: 0, duration: 1 }"
+              class="flex items-center gap-2 rounded-lg shadow-sm px-3 py-2"
             >
               <span class="inline-block size-1.5 rounded-full"></span>
               <span class="text-sm">Accessible & responsive</span>
@@ -145,24 +157,6 @@ export default class HeroSection {
     if (!isPlatformBrowser(this.platformId)) return;
     const el = this.root()?.nativeElement;
     if (!el) return;
-
-    // Intro reveal
-    const tl = gsap.timeline({
-      defaults: { ease: 'power3.out', duration: 0.9 },
-    });
-    tl.from(el.querySelector('.hero-badge'), { y: 16, autoAlpha: 0 })
-      .from(el.querySelector('h1'), { y: 24, autoAlpha: 0 }, '-=0.6')
-      .from(el.querySelector('p'), { y: 18, autoAlpha: 0 }, '-=0.6')
-      .from(
-        el.querySelectorAll('.hero-ctas a'),
-        { y: 14, autoAlpha: 0, stagger: 0.08 },
-        '-=0.6'
-      )
-      .from(
-        el.querySelectorAll('.stat'),
-        { y: 12, autoAlpha: 0, stagger: 0.06 },
-        '-=0.5'
-      );
 
     // Floating blobs loop
     gsap.to(el.querySelector('.blob-a'), {
