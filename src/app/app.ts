@@ -1,10 +1,16 @@
 import { Component } from '@angular/core';
-import { SpacePanelsComponent } from '../demo/space-panels';
+import Layout from './layout';
+import { RouterOutlet } from '@angular/router';
+import { SmoothScrollDirective } from '@shared/directives/smooth-scroll.directive';
 
 @Component({
   selector: 'app',
-  imports: [SpacePanelsComponent],
+  imports: [Layout, RouterOutlet, SmoothScrollDirective],
 
-  template: ` <space-panels /> `,
+  template: `
+    <layout smoothScroll class="bg-background text-foreground">
+      <router-outlet />
+    </layout>
+  `,
 })
 export default class App {}
