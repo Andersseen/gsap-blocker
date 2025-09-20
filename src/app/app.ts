@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { HeroWaveComponent } from '../demo/hero-wave';
+import { SpacePanelsComponent } from '../demo/space-panels';
 
 @Component({
   selector: 'app',
-  imports: [HeroWaveComponent],
+  imports: [SpacePanelsComponent],
 
-  template: ` <hero-wave /> `,
+  template: ` <space-panels /> `,
 })
 export default class App {}
