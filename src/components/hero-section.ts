@@ -35,7 +35,8 @@ import { AndGsapFromDirective } from '@shared/directives/and-gsap-from';
       <div class="container mx-auto px-6 md:px-8">
         <div class="max-w-3xl">
           <div
-            [andGsapFrom]="{ y: -16, autoAlpha: 0, duration: 1 }"
+            andGsapFrom
+            [from]="{ y: -16, autoAlpha: 0, duration: 0.5 }"
             class="inline-flex items-center gap-2 rounded-full bg-foreground/20 p-4 py-1 text-xs md:text-sm backdrop-blur"
           >
             <!-- <span class="inline-block size-1.5 rounded-full bg-primary"></span> -->
@@ -44,7 +45,8 @@ import { AndGsapFromDirective } from '@shared/directives/and-gsap-from';
           </div>
 
           <h1
-            [andGsapFrom]="{ y: 10, autoAlpha: 0, duration: 1 }"
+            andGsapFrom
+            [from]="{ y: 10, autoAlpha: 0, duration: 0.5 }"
             class="mt-5 text-4xl md:text-6xl font-extrabold leading-tight tracking-tight"
           >
             <span>Build landing pages </span>
@@ -57,7 +59,8 @@ import { AndGsapFromDirective } from '@shared/directives/and-gsap-from';
           </h1>
 
           <p
-            [andGsapFrom]="{ y: -20, autoAlpha: 0, duration: 1 }"
+            andGsapFrom
+            [from]="{ y: -20, autoAlpha: 0, duration: 0.5 }"
             class="mt-4 text-base md:text-lg max-w-prose"
           >
             {{ subtitle() }}
@@ -65,14 +68,16 @@ import { AndGsapFromDirective } from '@shared/directives/and-gsap-from';
 
           <div class="mt-8 flex flex-wrap gap-3">
             <button
-              [andGsapFrom]="{ x: -30, autoAlpha: 0, duration: 1 }"
+              andGsapFrom
+              [from]="{ x: -30, autoAlpha: 0, duration: 0.5 }"
               class="inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-medium ring-1 ring-transparent shadow-sm"
             >
               {{ primaryText() }}
             </button>
 
             <button
-              [andGsapFrom]="{ x: 30, autoAlpha: 0, duration: 1 }"
+              andGsapFrom
+              [from]="{ x: 30, autoAlpha: 0, duration: 0.5 }"
               class="inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-medium shadow-sm"
             >
               {{ secondaryText() }}
@@ -82,14 +87,16 @@ import { AndGsapFromDirective } from '@shared/directives/and-gsap-from';
           <!-- quick points (text-only) -->
           <ul class="mt-8 grid sm:grid-cols-3 gap-3 max-w-2xl">
             <li
-              [andGsapFrom]="{ y: 30, autoAlpha: 0, duration: 1 }"
+              andGsapFrom
+              [from]="{ y: 30, autoAlpha: 0, duration: 0.5 }"
               class="flex items-center gap-2 rounded-lg shadow-sm px-3 py-2"
             >
               <span class="inline-block size-1.5 rounded-full"></span>
               <span class="text-sm">SSR-safe animations</span>
             </li>
             <li
-              [andGsapFrom]="{ y: 30, autoAlpha: 0, duration: 1 }"
+              andGsapFrom
+              [from]="{ y: 30, autoAlpha: 0, duration: 0.5 }"
               class="flex items-center gap-2 rounded-lg shadow-sm px-3 py-2"
             >
               <span
@@ -98,7 +105,8 @@ import { AndGsapFromDirective } from '@shared/directives/and-gsap-from';
               <span class="text-sm">Zero images, pure CSS glow</span>
             </li>
             <li
-              [andGsapFrom]="{ y: 30, autoAlpha: 0, duration: 1 }"
+              andGsapFrom
+              [from]="{ y: 30, autoAlpha: 0, duration: 0.5 }"
               class="flex items-center gap-2 rounded-lg shadow-sm px-3 py-2"
             >
               <span class="inline-block size-1.5 rounded-full"></span>
