@@ -19,7 +19,7 @@ import { filter } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <nav
-      class="fixed w-full mx-auto px-2 sm:px-4 md:px-8 h-14 flex items-center justify-between bg-background/20"
+      class="fixed inset-x-0 top-0 z-50 h-14 flex items-center justify-between px-2 sm:px-4 md:px-8 glass"
     >
       <a class="inline-flex items-center gap-2" routerLink="/">
         <div class="size-6 rounded-md "></div>
@@ -98,7 +98,7 @@ import { filter } from 'rxjs/operators';
 
     <div
       id="mobile-menu"
-      class="fixed top-14 inset-x-0 z-50 md:hidden border-t bg-background/50 text-foreground/70"
+      class="fixed top-14 inset-x-0 z-50 md:hidden border-t bg-foreground/80 text-background"
       role="dialog"
       aria-modal="true"
     >
@@ -106,25 +106,25 @@ import { filter } from 'rxjs/operators';
         class="container mx-auto px-2 sm:px-4 md:px-8 py-3 flex flex-col gap-2"
       >
         <a
-          class="text-sm py-1"
+          class="mobile-link"
           routerLink="/home"
-          routerLinkActive="link-active"
+          routerLinkActive="mobile-link-active"
           [routerLinkActiveOptions]="{ exact: true }"
           (click)="close()"
           >Home</a
         >
         <a
-          class="text-sm py-1"
+          class="mobile-link"
           routerLink="/docs"
-          routerLinkActive="link-active"
+          routerLinkActive="mobile-link-active"
           [routerLinkActiveOptions]="{ exact: true }"
           (click)="close()"
           >Docs</a
         >
         <a
-          class="text-sm py-1"
+          class="mobile-link"
           routerLink="/blocks"
-          routerLinkActive="link-active"
+          routerLinkActive="mobile-link-active"
           (click)="close()"
           >Explore Blocks</a
         >

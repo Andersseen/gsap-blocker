@@ -6,6 +6,9 @@
   --color-primary: #7a28bd;
   --color-secondary: #26d988;
 }
+html {
+  width: 100%;
+}
 
 html.dark {
   --color-foreground: #f9fafa;
@@ -13,12 +16,31 @@ html.dark {
 }
 
 /* NAVBAR */
-.link {
+
+@utility glass {
+  @apply bg-[color:oklch(var(--fg)/0.2)]
+         backdrop-blur-md backdrop-saturate-150
+         border-b border-[color:oklch(var(--fg)/0.08)];
+}
+
+@utility glass-strong {
+  @apply backdrop-blur-lg;
+}
+
+/* LINKS */
+@utility link {
   @apply text-sm px-1;
 }
-.link-active {
+
+@utility mobile-link {
+  @apply text-lg py-4 shadow-lg shadow-background/10 text-center rounded-lg;
+}
+@utility link-active {
   @apply rounded-md py-1.5 text-sm font-bold;
 }
-.link-hover {
+@utility mobile-link-active {
+  @apply text-lg font-bold inset-shadow-sm inset-shadow-background/50;
+}
+@utility link-hover {
   @apply hover:scale-110 transition-transform duration-100 ease-in-out;
 }

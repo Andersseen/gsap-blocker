@@ -1,34 +1,16 @@
 import { Component, signal } from '@angular/core';
 import HeroSection from '@components/hero-section';
 import CATEGORIES from '@data/categories';
-import FEATURES from '@data/features';
 import { AndRevealDirective } from '@shared/directives/and-reveal.directive';
+import FeaturesSection from '@components/features';
 
 @Component({
   selector: 'page-home',
-  imports: [AndRevealDirective, HeroSection],
+  imports: [AndRevealDirective, HeroSection, FeaturesSection],
   template: `
     <hero-section />
     <!-- Features -->
-    <section class="container mx-auto px-6 md:px-8 py-20">
-      <h2 class="text-2xl md:text-3xl font-bold">Why this library</h2>
-      <p class="mt-2 max-w-prose">
-        Ship faster with opinionated building blocks that play nicely with
-        Angular Material and Tailwind.
-      </p>
-
-      <div class="mt-10 grid md:grid-cols-3 gap-6">
-        @for (f of features(); track f.title) {
-        <article andReveal class="rounded-2xl border">
-          <div class="text-2xl">{{ f.icon }}</div>
-          <h3 class="mt-3 font-semibold">{{ f.title }}</h3>
-          <p class="mt-1 text-sm">
-            {{ f.desc }}
-          </p>
-        </article>
-        }
-      </div>
-    </section>
+    <features-section />
 
     <!-- Categories -->
     <section class="container mx-auto px-6 md:px-8 py-16">
@@ -85,6 +67,5 @@ import { AndRevealDirective } from '@shared/directives/and-reveal.directive';
   `,
 })
 export default class HomePage {
-  features = signal(FEATURES);
   categories = signal(CATEGORIES);
 }
