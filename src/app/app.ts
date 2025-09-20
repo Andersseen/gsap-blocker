@@ -1,16 +1,10 @@
 import { Component } from '@angular/core';
-import Layout from './layout';
-import { RouterOutlet } from '@angular/router';
-import { SmoothScrollDirective } from '@shared/directives/smooth-scroll.directive';
+import { HeroWaveComponent } from '../demo/hero-wave';
 
 @Component({
   selector: 'app',
-  imports: [Layout, RouterOutlet, SmoothScrollDirective],
+  imports: [HeroWaveComponent],
 
-  template: `
-    <layout smoothScroll class="bg-background text-foreground">
-      <router-outlet />
-    </layout>
-  `,
+  template: ` <hero-wave /> `,
 })
 export default class App {}
