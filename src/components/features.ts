@@ -7,12 +7,16 @@ import {
 } from '@angular/core';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 import FEATURES from '@data/features';
-import { GsapHoverDirective } from '@shared/directives/gsap/gsapHover.directive';
+import {
+  GsapHoverDirective,
+  GsapTargetDirective,
+} from '@shared/directives/gsap/gsapHover.directive';
 
 @Component({
   selector: 'features-section',
-  imports: [GsapHoverDirective],
+  imports: [GsapHoverDirective, GsapTargetDirective],
   template: `
     <section #sectionRef class="container mx-auto px-6 md:px-8 py-20">
       <div #headerRef>
@@ -34,7 +38,7 @@ import { GsapHoverDirective } from '@shared/directives/gsap/gsapHover.directive'
             in: { y: -4, duration: 0.3, ease: 'power2.out' },
             out: { y: 0, duration: 0.3, ease: 'power2.out' },
             targets: {
-              '[data-icon]': {
+              icon: {
                 in: {
                   scale: 1.05,
                   rotation: 1.05,
@@ -48,15 +52,17 @@ import { GsapHoverDirective } from '@shared/directives/gsap/gsapHover.directive'
                   ease: 'power2.out'
                 }
               },
-              '[data-title]': {
+              title: {
                 in: { color: '#3b82f6', duration: 0.2 },
                 out: { color: 'inherit', duration: 0.2 }
               }
             }
           }"
         >
-          <div class="text-2xl feature-icon" data-icon>{{ f.icon }}</div>
-          <h3 class="mt-3 font-semibold feature-title" data-title>
+          <div class="text-2xl feature-icon" gsapTarget="icon">
+            {{ f.icon }}
+          </div>
+          <h3 class="mt-3 font-semibold feature-title" gsapTarget="title">
             {{ f.title }}
           </h3>
           <p class="mt-1 text-sm feature-desc">{{ f.desc }}</p>

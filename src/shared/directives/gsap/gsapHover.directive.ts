@@ -1,5 +1,13 @@
-import { Directive, inject, input, OnDestroy } from '@angular/core';
-import { ElementRef } from '@angular/core';
+import {
+  Directive,
+  inject,
+  input,
+  OnDestroy,
+  ContentChildren,
+  QueryList,
+  ElementRef,
+  AfterContentInit,
+} from '@angular/core';
 import { gsap } from 'gsap';
 
 interface GsapHoverTarget {
@@ -13,6 +21,15 @@ interface GsapHoverConfig {
   targets?: Record<string, GsapHoverTarget>;
 }
 
+// Directiva auxiliar para marcar elementos como targets
+@Directive({
+  selector: '[gsapTarget]',
+})
+export class GsapTargetDirective {
+  readonly name = input.required<string>({ alias: 'gsapTarget' });
+  readonly el = inject(ElementRef);
+}
+
 @Directive({
   selector: '[gsapHover]',
   host: {
@@ -20,12 +37,31 @@ interface GsapHoverConfig {
     '(mouseleave)': 'onMouseLeave()',
   },
 })
-export class GsapHoverDirective implements OnDestroy {
+export class GsapHoverDirective implements OnDestroy, AfterContentInit {
   private readonly el = inject(ElementRef);
 
   readonly gsapHover = input<GsapHoverConfig>({});
 
+  @ContentChildren(GsapTargetDirective, { descendants: true })
+  private targets!: QueryList<GsapTargetDirective>;
+
   private activeAnimations: gsap.core.Tween[] = [];
+  private targetMap = new Map<string, ElementRef>();
+
+  ngAfterContentInit(): void {
+    // Mapear targets por nombre
+    this.targets.forEach((target) => {
+      this.targetMap.set(target.name(), target.el);
+    });
+
+    // Re-mapear cuando cambien los targets
+    this.targets.changes.subscribe(() => {
+      this.targetMap.clear();
+      this.targets.forEach((target) => {
+        this.targetMap.set(target.name(), target.el);
+      });
+    });
+  }
 
   onMouseEnter(): void {
     this.killActiveAnimations();
@@ -33,15 +69,14 @@ export class GsapHoverDirective implements OnDestroy {
     const config = this.gsapHover();
     const { in: hoverIn, targets } = config;
 
-    // Animar targets específicos (usando template reference variables)
+    // Animar targets específicos
     if (targets) {
-      Object.entries(targets).forEach(([targetRef, targetConfig]) => {
+      Object.entries(targets).forEach(([targetName, targetConfig]) => {
         if (!targetConfig.in) return;
 
-        // Buscar el elemento por template reference o por selector
-        const targetElement = this.findTargetElement(targetRef);
+        const targetElement = this.targetMap.get(targetName);
         if (targetElement) {
-          const tween = gsap.to(targetElement, targetConfig.in);
+          const tween = gsap.to(targetElement.nativeElement, targetConfig.in);
           this.activeAnimations.push(tween);
         }
       });
@@ -62,12 +97,12 @@ export class GsapHoverDirective implements OnDestroy {
 
     // Animar targets específicos
     if (targets) {
-      Object.entries(targets).forEach(([targetRef, targetConfig]) => {
+      Object.entries(targets).forEach(([targetName, targetConfig]) => {
         if (!targetConfig.out) return;
 
-        const targetElement = this.findTargetElement(targetRef);
+        const targetElement = this.targetMap.get(targetName);
         if (targetElement) {
-          const tween = gsap.to(targetElement, targetConfig.out);
+          const tween = gsap.to(targetElement.nativeElement, targetConfig.out);
           this.activeAnimations.push(tween);
         }
       });
@@ -78,19 +113,6 @@ export class GsapHoverDirective implements OnDestroy {
       const tween = gsap.to(this.el.nativeElement, hoverOut);
       this.activeAnimations.push(tween);
     }
-  }
-
-  private findTargetElement(targetRef: string): Element | null {
-    // Si empieza con '#', buscar por template reference
-    if (targetRef.startsWith('#')) {
-      const refName = targetRef.substring(1);
-      // Esto requiere que pasemos referencias desde el componente
-      // Por ahora, usar querySelector como fallback
-      return this.el.nativeElement.querySelector(`[data-ref="${refName}"]`);
-    }
-
-    // Si no, tratar como selector CSS
-    return this.el.nativeElement.querySelector(targetRef);
   }
 
   private killActiveAnimations(): void {
