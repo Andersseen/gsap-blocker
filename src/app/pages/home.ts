@@ -2,44 +2,24 @@ import { Component, signal } from '@angular/core';
 import HeroSection from '@components/hero-section';
 import CATEGORIES from '@data/categories';
 import { AndRevealDirective } from '@shared/directives/and-reveal.directive';
-import FeaturesSection from '@components/features';
+import FeaturesSection from '@components/features-section';
+import CategoriesSection from '@components/categories-section';
 
 @Component({
   selector: 'page-home',
-  imports: [AndRevealDirective, HeroSection, FeaturesSection],
+  imports: [
+    AndRevealDirective,
+    HeroSection,
+    FeaturesSection,
+    CategoriesSection,
+  ],
   template: `
     <hero-section />
     <!-- Features -->
     <features-section />
 
     <!-- Categories -->
-    <section class="container mx-auto px-6 md:px-8 py-16">
-      <div class="flex items-end justify-between">
-        <h2 class="text-2xl md:text-3xl font-bold">Block categories</h2>
-        <a class="text-sm underline underline-offset-4" href="/blocks"
-          >View all</a
-        >
-      </div>
-
-      <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        @for (c of categories(); track c.name) {
-        <a
-          andReveal
-          class="group rounded-2xl border p-5 hover:shadow-md transition"
-        >
-          <div class="text-3xl">{{ c.emoji }}</div>
-          <div class="mt-4 flex items-center justify-between">
-            <h3 class="font-semibold">{{ c.name }}</h3>
-            <span
-              class="text-xs px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800"
-              >{{ c.count }} blocks</span
-            >
-          </div>
-          <div class="mt-4 h-24 rounded-xl transition"></div>
-        </a>
-        }
-      </div>
-    </section>
+    <categories-section />
 
     <!-- CTA -->
     <section class="container mx-auto px-6 md:px-8 py-20">
