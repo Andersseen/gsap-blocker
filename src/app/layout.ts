@@ -23,6 +23,18 @@ import Footer from '@components/footer';
 
     <app-footer />
   `,
+  styles: [
+    `
+      :host {
+        display: block;
+        position: relative;
+      }
+
+      main {
+        view-transition-name: main-router;
+      }
+    `,
+  ],
 })
 export default class Layout {
   open = signal(false);
