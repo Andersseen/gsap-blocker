@@ -3,10 +3,9 @@ import {
   inject,
   input,
   OnDestroy,
-  ContentChildren,
-  QueryList,
+  contentChildren,
   ElementRef,
-  AfterContentInit,
+  computed,
 } from '@angular/core';
 import { gsap } from 'gsap';
 
@@ -37,31 +36,24 @@ export class GsapTargetDirective {
     '(mouseleave)': 'onMouseLeave()',
   },
 })
-export class GsapHoverDirective implements OnDestroy, AfterContentInit {
+export class GsapHoverDirective implements OnDestroy {
   private readonly el = inject(ElementRef);
 
   readonly gsapHover = input<GsapHoverConfig>({});
 
-  @ContentChildren(GsapTargetDirective, { descendants: true })
-  private targets!: QueryList<GsapTargetDirective>;
+  readonly targets = contentChildren(GsapTargetDirective, {
+    descendants: true,
+  });
+
+  private readonly targetMap = computed(() => {
+    const map = new Map<string, ElementRef>();
+    this.targets().forEach((target) => {
+      map.set(target.name(), target.el);
+    });
+    return map;
+  });
 
   private activeAnimations: gsap.core.Tween[] = [];
-  private targetMap = new Map<string, ElementRef>();
-
-  ngAfterContentInit(): void {
-    // Mapear targets por nombre
-    this.targets.forEach((target) => {
-      this.targetMap.set(target.name(), target.el);
-    });
-
-    // Re-mapear cuando cambien los targets
-    this.targets.changes.subscribe(() => {
-      this.targetMap.clear();
-      this.targets.forEach((target) => {
-        this.targetMap.set(target.name(), target.el);
-      });
-    });
-  }
 
   onMouseEnter(): void {
     this.killActiveAnimations();
@@ -71,10 +63,11 @@ export class GsapHoverDirective implements OnDestroy, AfterContentInit {
 
     // Animar targets específicos
     if (targets) {
+      const map = this.targetMap();
       Object.entries(targets).forEach(([targetName, targetConfig]) => {
         if (!targetConfig.in) return;
 
-        const targetElement = this.targetMap.get(targetName);
+        const targetElement = map.get(targetName);
         if (targetElement) {
           const tween = gsap.to(targetElement.nativeElement, targetConfig.in);
           this.activeAnimations.push(tween);
@@ -97,10 +90,11 @@ export class GsapHoverDirective implements OnDestroy, AfterContentInit {
 
     // Animar targets específicos
     if (targets) {
+      const map = this.targetMap();
       Object.entries(targets).forEach(([targetName, targetConfig]) => {
         if (!targetConfig.out) return;
 
-        const targetElement = this.targetMap.get(targetName);
+        const targetElement = map.get(targetName);
         if (targetElement) {
           const tween = gsap.to(targetElement.nativeElement, targetConfig.out);
           this.activeAnimations.push(tween);

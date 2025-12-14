@@ -1,3 +1,80 @@
-@import url("styles/tailwind-base.css");
+@import "tailwindcss";
 
-@import url("styles/base.css");
+@theme {
+  /* Semantic Colors - Zinc based for neutral/premium feel */
+  --color-background: #ffffff;
+  --color-foreground: #09090b; /* Zinc 950 */
+
+  --color-primary: #18181b; /* Zinc 900 */
+  --color-primary-foreground: #fafafa; /* Zinc 50 */
+
+  --color-secondary: #f4f4f5; /* Zinc 100 */
+  --color-secondary-foreground: #18181b;
+
+  --color-muted: #f4f4f5;
+  --color-muted-foreground: #71717a; /* Zinc 500 */
+
+  --color-accent: #f4f4f5;
+  --color-accent-foreground: #18181b;
+
+  --color-border: #e4e4e7; /* Zinc 200 */
+}
+
+html.dark {
+  --color-background: #09090b; /* Zinc 950 */
+  --color-foreground: #fafafa; /* Zinc 50 */
+
+  --color-primary: #fafafa;
+  --color-primary-foreground: #18181b;
+
+  --color-secondary: #27272a; /* Zinc 800 */
+  --color-secondary-foreground: #fafafa;
+
+  --color-muted: #27272a;
+  --color-muted-foreground: #a1a1aa; /* Zinc 400 */
+
+  --color-accent: #27272a;
+  --color-accent-foreground: #fafafa;
+
+  --color-border: #27272a;
+}
+
+html,
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+/* NAVBAR */
+
+@utility glass {
+  @apply bg-[color:oklch(var(--fg)/0.2)]
+         backdrop-blur-md backdrop-saturate-150
+         border-b border-[color:oklch(var(--fg)/0.08)];
+}
+
+@utility glass-strong {
+  @apply backdrop-blur-lg;
+}
+
+/* LINKS */
+@utility link {
+  @apply text-sm px-1;
+}
+
+@utility mobile-link {
+  @apply text-lg py-4 shadow-lg shadow-background/10 text-center rounded-lg;
+}
+@utility link-active {
+  @apply rounded-md py-1.5 text-sm font-bold;
+}
+@utility mobile-link-active {
+  @apply text-lg font-bold inset-shadow-sm inset-shadow-background/50;
+}
+@utility link-hover {
+  @apply hover:scale-110 transition-transform duration-100 ease-in-out;
+}
+
+@utility card {
+  @apply relative overflow-hidden rounded-3xl border border-border bg-secondary/50 p-8 hover:border-border/80 transition-all duration-300 hover:-translate-y-1 block;
+}

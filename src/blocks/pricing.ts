@@ -31,17 +31,14 @@ type Plan = {
       <div class="flex items-end justify-between">
         <div>
           <h2 class="text-2xl md:text-3xl font-bold">Pricing</h2>
-          <p class="mt-2 text-zinc-600 dark:text-zinc-300">
-            Simple, transparent plans.
-          </p>
+          <p class="mt-2 text-muted-foreground">Simple, transparent plans.</p>
         </div>
 
         <!-- Billing cycle toggle -->
-        <div class="inline-flex rounded-lg bg-zinc-100 dark:bg-zinc-800 p-1">
+        <div class="inline-flex rounded-lg bg-muted p-1">
           <button
             class="px-3 py-1.5 text-sm rounded-md transition"
-            [class.bg-white]="cycle() === 'month'"
-            [class.dark:bg-zinc-900]="cycle() === 'month'"
+            [class.bg-card]="cycle() === 'month'"
             [attr.aria-pressed]="cycle() === 'month'"
             (click)="setCycle('month')"
           >
@@ -49,8 +46,7 @@ type Plan = {
           </button>
           <button
             class="px-3 py-1.5 text-sm rounded-md transition"
-            [class.bg-white]="cycle() === 'year'"
-            [class.dark:bg-zinc-900]="cycle() === 'year'"
+            [class.bg-card]="cycle() === 'year'"
             [attr.aria-pressed]="cycle() === 'year'"
             (click)="setCycle('year')"
           >
@@ -62,7 +58,7 @@ type Plan = {
       <div class="mt-10 grid md:grid-cols-3 gap-6">
         @for (p of plans(); track p.name) {
         <article
-          class="price-card relative rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/60 p-6 hover:shadow-xl transition"
+          class="price-card relative rounded-2xl border border-border bg-card/70 p-6 hover:shadow-xl transition"
         >
           @if (p.popular) {
           <div
@@ -72,7 +68,7 @@ type Plan = {
           </div>
           }
           <h3 class="text-lg font-semibold">{{ p.name }}</h3>
-          <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+          <p class="mt-1 text-sm text-muted-foreground">
             {{ p.description }}
           </p>
 
@@ -80,7 +76,7 @@ type Plan = {
             <span class="text-3xl md:text-4xl font-extrabold tracking-tight">{{
               priceOf(p)
             }}</span>
-            <span class="text-sm text-zinc-500"
+            <span class="text-sm text-muted-foreground"
               >/{{ cycle() === 'month' ? 'mo' : 'yr' }}</span
             >
           </div>
@@ -97,7 +93,7 @@ type Plan = {
           </ul>
 
           <a
-            class="mt-6 inline-flex w-full items-center justify-center rounded-xl px-4 py-2.5 text-sm font-medium bg-zinc-900   dark:text-zinc-900 hover:opacity-90 transition"
+            class="mt-6 inline-flex w-full items-center justify-center rounded-xl px-4 py-2.5 text-sm font-medium bg-primary text-primary-foreground hover:opacity-90 transition"
             [href]="p.ctaHref"
             >{{ p.ctaText }}</a
           >

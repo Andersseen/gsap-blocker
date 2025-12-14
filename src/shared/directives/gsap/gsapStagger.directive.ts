@@ -1,28 +1,34 @@
-import { Directive, ElementRef, Input, AfterViewInit } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  inject,
+  input,
+  AfterViewInit,
+} from '@angular/core';
 import { gsap } from 'gsap';
 
 @Directive({
   selector: '[gsapStagger]',
-  standalone: true,
 })
 export class GsapStaggerDirective implements AfterViewInit {
-  @Input() gsapStagger: any = {};
-  @Input() gsapStaggerSelector: string = '';
+  readonly gsapStagger = input<any>({});
+  readonly gsapStaggerSelector = input<string>('');
 
-  constructor(private el: ElementRef) {}
+  private readonly el = inject(ElementRef);
 
   ngAfterViewInit(): void {
-    const targets = this.gsapStaggerSelector
-      ? this.el.nativeElement.querySelectorAll(this.gsapStaggerSelector)
+    const targets = this.gsapStaggerSelector()
+      ? this.el.nativeElement.querySelectorAll(this.gsapStaggerSelector())
       : this.el.nativeElement.children;
 
     // Determinar método
-    if (this.gsapStagger.from && this.gsapStagger.to) {
-      gsap.fromTo(targets, this.gsapStagger.from, this.gsapStagger.to);
-    } else if (this.gsapStagger.from) {
-      gsap.from(targets, this.gsapStagger);
+    const staggerConfig = this.gsapStagger();
+    if (staggerConfig.from && staggerConfig.to) {
+      gsap.fromTo(targets, staggerConfig.from, staggerConfig.to);
+    } else if (staggerConfig.from) {
+      gsap.from(targets, staggerConfig);
     } else {
-      gsap.to(targets, this.gsapStagger);
+      gsap.to(targets, staggerConfig);
     }
   }
 }

@@ -6,14 +6,24 @@ const routes: Routes = [
     loadComponent: () => import('./'),
     children: [
       { path: '', loadComponent: () => import('./page') },
-      { path: 'heroes', loadComponent: () => import('@blocks/hero') },
-      { path: 'features', loadComponent: () => import('@blocks/features') },
-      { path: 'pricing', loadComponent: () => import('@blocks/pricing') },
-      { path: 'cta', loadComponent: () => import('@blocks/cta-2') },
-      { path: 'footers', loadComponent: () => import('@blocks/footer') },
+      { path: 'heroes', loadComponent: () => import('./heroes-page') },
+      { path: 'features', loadComponent: () => import('./features-page') },
+      { path: 'pricing', loadComponent: () => import('./pricing-page') },
+      { path: 'cta', loadComponent: () => import('./cta-page') },
+      { path: 'footers', loadComponent: () => import('./footers-page') },
       {
         path: 'testimonials',
-        loadComponent: () => import('@blocks/testimonials'),
+        loadComponent: () => import('./testimonials-page'),
+      },
+      // Individual blocks can remain accessible via direct URL if needed,
+      // but the main navigation now points to the aggregate pages.
+      {
+        path: 'infinite-marquee',
+        loadComponent: () => import('@blocks/infinite-marquee'),
+      },
+      {
+        path: 'parallax-scroll',
+        loadComponent: () => import('@blocks/parallax-scroll'),
       },
     ],
   },

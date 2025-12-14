@@ -1,344 +1,169 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  inject,
-  PLATFORM_ID,
-  signal,
-  viewChildren,
-} from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { gsap } from 'gsap';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'page-docs',
+  standalone: true,
+  imports: [RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: [
-    `
-      .panel {
-        background: linear-gradient(
-          180deg,
-          color-mix(in srgb, var(--color-background) 95%, white) 0%,
-          color-mix(in srgb, var(--color-background) 88%, white) 100%
-        );
-        border: 1px solid
-          color-mix(in srgb, var(--color-foreground) 10%, transparent);
-      }
-      .panel::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border-radius: 1rem;
-        background: radial-gradient(
-            60% 50% at 20% 0%,
-            color-mix(in srgb, var(--color-primary) 10%, transparent),
-            transparent 60%
-          ),
-          radial-gradient(
-            50% 50% at 90% 120%,
-            color-mix(in srgb, var(--color-secondary) 10%, transparent),
-            transparent 60%
-          );
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-      }
-      .panel:hover::after {
-        opacity: 0.9;
-      }
-      .title-accent {
-        position: relative;
-        display: inline-block;
-      }
-      .title-accent::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: -6px;
-        height: 8px;
-        border-radius: 999px;
-        background: linear-gradient(
-          90deg,
-          var(--color-primary),
-          var(--color-secondary)
-        );
-        transform: scaleX(0);
-        transform-origin: left;
-      }
-      .gpu {
-        backface-visibility: hidden;
-        transform: translateZ(0);
-        will-change: transform, opacity;
-      }
-    `,
-  ],
   template: `
-    <div class="min-h-screen pt-12 pb-24 px-4">
-      <div class="max-w-4xl mx-auto">
-        <div class="mb-14">
-          <h1
-            #heroTitle
-            class="gpu text-4xl md:text-5xl font-extrabold tracking-tight mb-4 title-accent"
+    <div class="min-h-screen flex flex-col md:flex-row bg-background">
+      <!-- Docs Sidebar -->
+      <aside
+        class="w-full md:w-64 shrink-0 border-r border-border bg-secondary/30 md:h-screen sticky top-0 overflow-y-auto"
+      >
+        <div class="p-6">
+          <h2
+            class="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-4"
           >
             Documentation
-          </h1>
-          <p #heroSub class="gpu text-xl opacity-90">
-            Learn how to use and customize the UI blocks library
-          </p>
+          </h2>
+          <nav class="space-y-1">
+            <a
+              routerLink="."
+              fragment="introduction"
+              class="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
+              >Introduction</a
+            >
+            <a
+              routerLink="."
+              fragment="installation"
+              class="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
+              >Installation</a
+            >
+            <a
+              routerLink="."
+              fragment="theming"
+              class="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
+              >Theming</a
+            >
+          </nav>
+
+          <h2
+            class="text-xs font-bold text-muted-foreground uppercase tracking-widest mt-8 mb-4"
+          >
+            Blocks
+          </h2>
+          <nav class="space-y-1">
+            <a
+              routerLink="/blocks/heroes"
+              class="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
+              >Heroes</a
+            >
+            <a
+              routerLink="/blocks/features"
+              class="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
+              >Features</a
+            >
+            <a
+              routerLink="/blocks/bento-grid"
+              class="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
+              >Bento Grid</a
+            >
+            <a
+              routerLink="/blocks/cta"
+              class="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
+              >CTA</a
+            >
+            <a
+              routerLink="/blocks/footers"
+              class="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
+              >Footers</a
+            >
+          </nav>
         </div>
+      </aside>
 
-        <div class="space-y-10">
-          <section
-            #panel
-            class="relative rounded-2xl p-8 shadow-lg panel gpu overflow-hidden"
-          >
-            <h2 class="text-2xl font-semibold mb-4">Getting Started</h2>
-            <div class="prose dark:prose-invert max-w-none">
-              <p class="mb-4">
-                All components in this library are built with Angular 18+
-                standalone components, Tailwind CSS, and GSAP for animations.
-                They follow modern Angular best practices including signals for
-                state management.
+      <!-- Main Content -->
+      <main class="flex-1 min-w-0">
+        <div class="max-w-4xl mx-auto px-6 py-12 md:py-20">
+          <!-- Header -->
+          <div class="mb-16 border-b border-border pb-10">
+            <h1
+              class="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground mb-6"
+            >
+              Documentation
+            </h1>
+            <p class="text-xl text-muted-foreground max-w-2xl leading-relaxed">
+              Everything you need to build stunning, animated interfaces with
+              Angular and GSAP. Copy-paste ready blocks optimized for
+              performance and accessibility.
+            </p>
+          </div>
+
+          <!-- Content Sections -->
+          <div class="prose prose-zinc dark:prose-invert max-w-none">
+            <section id="introduction" class="scroll-mt-24 mb-16">
+              <h2>Introduction</h2>
+              <p>
+                GSAP Blocker is a curated collection of high-quality, animated
+                UI blocks built with Angular 20 and Tailwind CSS v4. We enable
+                you to ship premium experiences faster by providing
+                production-ready components.
               </p>
-              <h3 class="text-lg font-semibold mb-2">Installation</h3>
-            </div>
-          </section>
+              <div class="not-prose grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
+                <div class="p-4 rounded-xl border border-border bg-card">
+                  <h3 class="font-bold text-foreground mb-2">
+                    ⚡️ Angular Signals
+                  </h3>
+                  <p class="text-sm text-muted-foreground">
+                    Built with the latest reactivity primitives for optimal
+                    performance.
+                  </p>
+                </div>
+                <div class="p-4 rounded-xl border border-border bg-card">
+                  <h3 class="font-bold text-foreground mb-2">
+                    🎭 GSAP Animations
+                  </h3>
+                  <p class="text-sm text-muted-foreground">
+                    Smooth, complex animations powered by the industry standard
+                    library.
+                  </p>
+                </div>
+              </div>
+            </section>
 
-          <section
-            #panel
-            class="relative rounded-2xl p-8 shadow-lg panel gpu overflow-hidden"
-          >
-            <h2 class="text-2xl font-semibold mb-4">Component Structure</h2>
-            <div class="prose dark:prose-invert max-w-none">
-              <p class="mb-4">
-                Each component follows a consistent structure with TypeScript
-                interfaces for type safety.
+            <section id="installation" class="scroll-mt-24 mb-16">
+              <h2>Installation</h2>
+              <p>
+                To get started, ensuring you have the necessary dependencies
+                installed in your Angular project:
               </p>
-            </div>
-          </section>
-
-          <section
-            #panel
-            class="relative rounded-2xl p-8 shadow-lg panel gpu overflow-hidden"
-          >
-            <h2 class="text-2xl font-semibold mb-4">GSAP Integration</h2>
-            <div class="prose dark:prose-invert max-w-none">
-              <p class="mb-4">
-                The GSAP service provides helper methods for common animations
-                and handles reduced motion preferences automatically.
+              <pre
+                class="bg-primary text-primary-foreground p-4 rounded-lg overflow-x-auto"
+              ><code>npm install gsap tailwindcss postcss autoprefixer</code></pre>
+              <p>
+                Ensure gsap is correctly configured for SSR if you are using
+                Angular Universal / SSR.
               </p>
-            </div>
-          </section>
+            </section>
 
-          <section
-            #panel
-            class="relative rounded-2xl p-8 shadow-lg panel gpu overflow-hidden"
-          >
-            <h2 class="text-2xl font-semibold mb-4">Theming</h2>
-            <div class="prose dark:prose-invert max-w-none">
-              <p class="mb-4">
-                The library uses CSS custom properties for theming with
-                automatic dark mode support.
+            <section id="theming" class="scroll-mt-24 mb-16">
+              <h2>Theming</h2>
+              <p>
+                We use usage semantic CSS variables compatible with Tailwind CSS
+                v4.
               </p>
-            </div>
-          </section>
-
-          <section
-            #panel
-            class="relative rounded-2xl p-8 shadow-lg panel gpu overflow-hidden"
-          >
-            <h2 class="text-2xl font-semibold mb-4">Accessibility</h2>
-            <div class="prose dark:prose-invert max-w-none">
-              <p class="mb-4">
-                All components are built with accessibility in mind:
-              </p>
-              <ul class="space-y-2">
-                <li>• Proper ARIA labels and roles</li>
-                <li>• Keyboard navigation support</li>
-                <li>• Focus management</li>
-                <li>• Reduced motion preferences</li>
-                <li>• High contrast support</li>
-                <li>• Screen reader compatibility</li>
-              </ul>
-            </div>
-          </section>
-
-          <section
-            #panel
-            class="relative rounded-2xl p-8 shadow-lg panel gpu overflow-hidden"
-          >
-            <h2 class="text-2xl font-semibold mb-4">Performance</h2>
-            <div class="prose dark:prose-invert max-w-none">
-              <p class="mb-4">Components are optimized for performance:</p>
-              <ul class="space-y-2">
-                <li>• OnPush change detection strategy</li>
-                <li>• Lazy loading of GSAP plugins</li>
-                <li>• Minimal DOM manipulations</li>
-                <li>• Tree-shakable imports</li>
-                <li>• Efficient CSS with Tailwind</li>
-              </ul>
-            </div>
-          </section>
+              <div
+                class="not-prose p-6 rounded-xl bg-muted border border-border"
+              >
+                <div class="flex gap-4 mb-4">
+                  <div
+                    class="size-10 rounded bg-background border border-border"
+                  ></div>
+                  <div class="size-10 rounded bg-foreground"></div>
+                  <div class="size-10 rounded bg-primary"></div>
+                  <div class="size-10 rounded bg-muted"></div>
+                </div>
+                <p class="text-sm text-muted-foreground">
+                  The theme adapts automatically to light and dark modes.
+                </p>
+              </div>
+            </section>
+          </div>
         </div>
-      </div>
+      </main>
     </div>
   `,
 })
-export default class DocsPage {
-  private readonly platformId = inject(PLATFORM_ID);
-  private readonly host = inject(ElementRef<HTMLElement>);
-  private readonly panels = viewChildren<ElementRef<HTMLElement>>('panel');
-  private readonly heroTitle = signal<ElementRef<HTMLElement> | null>(null);
-  private readonly heroSub = signal<ElementRef<HTMLElement> | null>(null);
-  private io: IntersectionObserver | null = null;
-  private ctx: gsap.Context | null = null;
-
-  ngAfterViewInit() {
-    if (!isPlatformBrowser(this.platformId)) return;
-    const root = this.host.nativeElement;
-    const titleEl = root.querySelector('h1') as HTMLElement | null;
-    const subEl = root.querySelector('p.text-xl') as HTMLElement | null;
-    this.heroTitle.set({ nativeElement: titleEl! } as ElementRef<HTMLElement>);
-    this.heroSub.set({ nativeElement: subEl! } as ElementRef<HTMLElement>);
-    this.ctx = gsap.context(() => {
-      gsap.set(titleEl, { y: 22, autoAlpha: 0 });
-      gsap.set(subEl, { y: 14, autoAlpha: 0 });
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-      tl.to(titleEl, { y: 0, autoAlpha: 1, duration: 0.7 })
-        .to(subEl, { y: 0, autoAlpha: 1, duration: 0.6 }, '-=0.35')
-        .to('.title-accent::after', {}, 0);
-      const accent = root.querySelector('.title-accent') as HTMLElement | null;
-      if (accent) {
-        const underline = accent;
-        gsap.fromTo(underline, {}, {});
-        gsap.to(accent, { duration: 0 });
-        gsap.to(accent, { duration: 0 });
-
-        const draw = gsap.timeline({ delay: 0.15 });
-        draw.to(accent, { duration: 0 });
-        (accent.style as any).setProperty('--_accent', '1');
-        gsap.to(accent, { duration: 0 });
-        gsap.to(accent, { duration: 0 });
-        gsap.to(accent, { duration: 0 });
-
-        const el = accent;
-        const key = () => {
-          el.style.setProperty('--dummy', '1');
-        };
-        key();
-        gsap.to(el, { duration: 0 });
-        gsap.to(el, { duration: 0 });
-        gsap.to(el, { duration: 0 });
-        const after = el;
-        gsap.to(after, { duration: 0 });
-
-        const act = () => {
-          el.style.setProperty('--run', '1');
-        };
-        act();
-        const underlineTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-        underlineTl.to(el, { duration: 0 });
-        const hack = accent;
-        const f = () => {
-          const s = hack.style as CSSStyleDeclaration;
-          s.setProperty('--x', '1');
-        };
-        f();
-        gsap.to(accent, { duration: 0 });
-        gsap.to(accent, { duration: 0 });
-        const bar = accent.querySelector(':scope');
-        gsap.to(accent, { duration: 0 });
-        const run2 = () => {
-          const pseudo = accent;
-          pseudo.style.setProperty('--p', '1');
-        };
-        run2();
-        gsap.to(accent, { duration: 0 });
-        gsap.to(accent, { duration: 0 });
-        gsap.to(accent, { duration: 0 });
-        gsap.to(accent, { duration: 0 });
-        gsap.to(accent, { duration: 0 });
-
-        const end = () => accent.style.setProperty('--done', '1');
-        end();
-        const line = accent;
-        gsap.to(line, { duration: 0 });
-        gsap.to(line, { duration: 0 });
-        gsap.to(line, { duration: 0 });
-        gsap.to(line, { duration: 0 });
-        gsap.to(line, { duration: 0 });
-        gsap.to(line, { duration: 0 });
-        gsap.to(line, { duration: 0 });
-        gsap.to(line, { duration: 0 });
-        gsap.to(line, { duration: 0 });
-
-        const u = accent;
-        gsap.to(u, { duration: 0 });
-        gsap.to(u, { duration: 0 });
-        gsap.to(u, { duration: 0 });
-        gsap.to(u, { duration: 0 });
-        gsap.to(u, { duration: 0 });
-        gsap.to(u, { duration: 0 });
-        gsap.to(u, { duration: 0 });
-        gsap.to(u, { duration: 0 });
-
-        const keyframe = () => {
-          const s = window.getComputedStyle(accent, '::after');
-          s.getPropertyValue('transform');
-        };
-        keyframe();
-        gsap.to(accent, { duration: 0 });
-        gsap.to(accent, { duration: 0 });
-
-        accent.style.setProperty('--init', '1');
-        gsap.to(accent, {
-          duration: 0.001,
-          onComplete: () => accent.style.setProperty('--init', '0'),
-        });
-        gsap.to(accent, { duration: 0 });
-        gsap.to(accent, { duration: 0 });
-        gsap.to(accent, { duration: 0 });
-        gsap.to(accent, { duration: 0 });
-        gsap.to(accent, { duration: 0 });
-        accent.style.setProperty('--accent-run', '1');
-        gsap.to(accent, {
-          duration: 0.4,
-          onUpdate: function () {
-            const r = (this as any).ratio;
-            (accent.style as any).setProperty('--_scale', String(r));
-          },
-        });
-        accent.animate([{ transform: 'none' }], { duration: 1 });
-      }
-      const items = this.panels().map((r) => r.nativeElement);
-      this.io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((e) => {
-            if (e.isIntersecting) {
-              gsap.fromTo(
-                e.target,
-                { y: 28, autoAlpha: 0, filter: 'blur(6px)' },
-                {
-                  y: 0,
-                  autoAlpha: 1,
-                  filter: 'blur(0px)',
-                  duration: 0.7,
-                  ease: 'power3.out',
-                }
-              );
-              this.io?.unobserve(e.target);
-            }
-          });
-        },
-        { threshold: 0.18, rootMargin: '0px 0px -10% 0px' }
-      );
-      items.forEach((el) => this.io?.observe(el));
-    }, root);
-  }
-
-  ngOnDestroy() {
-    this.io?.disconnect();
-    this.ctx?.revert();
-  }
-}
+export default class DocsPage {}
