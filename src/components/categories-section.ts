@@ -77,14 +77,12 @@ import Category from '@shared/interfaces/category.interface';
           <div class="mt-4 flex items-center justify-between">
             <h3 class="font-semibold" gsapTarget="name">{{ c.name }}</h3>
             <span
-              class="text-xs px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800"
+              class="text-xs px-2 py-1 rounded-full bg-secondary text-secondary-foreground"
             >
               {{ c.count }} blocks
             </span>
           </div>
-          <div
-            class="mt-4 h-24 rounded-xl bg-zinc-50 dark:bg-zinc-800/50"
-          ></div>
+          <div class="mt-4 h-24 rounded-xl bg-card border border-border"></div>
         </a>
         }
       </div>

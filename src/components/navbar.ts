@@ -13,6 +13,7 @@ import {
 } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { NgClass } from '@angular/common';
+import { ThemeService } from '@shared/services/theme.service';
 
 @Component({
   selector: 'navbar',
@@ -23,7 +24,7 @@ import { NgClass } from '@angular/common';
       class="fixed inset-x-0 top-0 z-50 h-16 flex items-center justify-between px-6 md:px-12 backdrop-blur-md bg-background/70 border-b border-border transition-all duration-300"
     >
       <!-- Logo -->
-      <a class="inline-flex items-center gap-2 group" routerLink="/">
+      <a class="inline-flex items-center gap-2 group z-[60]" routerLink="/">
         <div
           class="size-8 rounded-lg bg-foreground text-background flex items-center justify-center font-bold text-lg group-hover:scale-110 transition-transform"
         >
@@ -33,7 +34,7 @@ import { NgClass } from '@angular/common';
       </a>
 
       <!-- Desktop Menu -->
-      <div class="hidden md:flex items-center gap-8">
+      <div class="hidden md:flex items-center gap-6">
         <a
           class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           routerLink="/home"
@@ -54,8 +55,50 @@ import { NgClass } from '@angular/common';
           routerLinkActive="text-foreground font-semibold"
           >Explore Blocks</a
         >
+
+        <!-- Theme Toggle Description -->
+        <button
+          class="relative inline-flex items-center justify-center size-9 rounded-md hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
+          (click)="theme.toggle()"
+          aria-label="Toggle theme"
+        >
+          @if (theme.darkMode()) {
+          <!-- Sun Icon -->
+          <svg
+            class="size-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+            />
+          </svg>
+          } @else {
+          <!-- Moon Icon -->
+          <svg
+            class="size-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+            />
+          </svg>
+          }
+        </button>
+
+        <div class="h-4 w-px bg-border"></div>
+
         <a
-          class="inline-flex items-center gap-2 text-sm font-medium text-foreground border border-border rounded-full px-4 py-2 hover:bg-secondary transition-colors"
+          class="inline-flex items-center gap-2 text-sm font-medium text-foreground border border-border rounded-full px-4 py-1.5 hover:bg-secondary transition-colors"
           href="https://github.com/Andersseen/gsap-blocker"
           target="_blank"
           rel="noreferrer"
@@ -100,7 +143,7 @@ import { NgClass } from '@angular/common';
       role="dialog"
       aria-modal="true"
     >
-      <nav class="flex flex-col gap-6">
+      <nav class="flex flex-col gap-6 items-start">
         <a
           class="text-4xl sm:text-5xl font-bold tracking-tight text-foreground hover:text-primary transition-colors animate-in slide-in-from-bottom-8 fade-in duration-500 delay-100"
           routerLink="/home"
@@ -122,9 +165,49 @@ import { NgClass } from '@angular/common';
       </nav>
 
       <div
-        class="mt-12 pt-8 border-t border-border animate-in slide-in-from-bottom-8 fade-in duration-500 delay-500"
+        class="mt-12 w-full flex flex-col gap-8 animate-in slide-in-from-bottom-8 fade-in duration-500 delay-500"
       >
-        <div class="flex items-center justify-between text-muted-foreground">
+        <!-- Mobile Theme Toggle -->
+        <button
+          class="flex items-center gap-3 text-xl font-medium text-foreground"
+          (click)="theme.toggle()"
+        >
+          @if (theme.darkMode()) {
+          <svg
+            class="size-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+            />
+          </svg>
+          <span>Light Mode</span>
+          } @else {
+          <svg
+            class="size-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+            />
+          </svg>
+          <span>Dark Mode</span>
+          }
+        </button>
+
+        <div
+          class="pt-8 border-t border-border flex items-center justify-between text-muted-foreground w-full"
+        >
           <span class="text-sm">© {{ year }} Blocker.</span>
           <div class="flex gap-4">
             <a href="#" class="hover:text-foreground transition-colors"
@@ -141,6 +224,7 @@ import { NgClass } from '@angular/common';
   `,
 })
 export default class Navbar {
+  theme = inject(ThemeService);
   private router = inject(Router);
 
   year = new Date().getFullYear();

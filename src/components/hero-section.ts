@@ -21,10 +21,10 @@ import { AndGsapFromDirective } from '@shared/directives/and-gsap-from';
         <div class="absolute inset-0"></div>
         <!-- floating blobs (no images) -->
         <div
-          class="blob-a absolute -top-16 -left-10 h-56 w-56 rounded-full blur-3xl opacity-50 "
+          class="blob-a absolute -top-16 -left-10 h-56 w-56 rounded-full blur-3xl opacity-50 bg-blue-500/30 dark:bg-blue-600/20"
         ></div>
         <div
-          class="blob-b absolute -bottom-20 -right-10 h-64 w-64 rounded-full blur-3xl opacity-40"
+          class="blob-b absolute -bottom-20 -right-10 h-64 w-64 rounded-full blur-3xl opacity-40 bg-purple-500/30 dark:bg-purple-600/20"
         ></div>
         <!-- scanning beam -->
         <div
