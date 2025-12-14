@@ -13,7 +13,7 @@ import { PLATFORM_ID } from '@angular/core';
   selector: 'app-parallax-scroll',
   imports: [NgOptimizedImage],
   host: {
-    class: 'block w-full overflow-hidden bg-white dark:bg-zinc-950 py-32',
+    class: 'block w-full overflow-hidden bg-background py-32',
   },
   template: `
     <section #root class="max-w-7xl mx-auto px-6">
@@ -21,17 +21,17 @@ import { PLATFORM_ID } from '@angular/core';
         class="flex flex-col md:flex-row items-start justify-between mb-24 gap-12"
       >
         <h2
-          class="text-4xl md:text-7xl font-bold tracking-tighter text-zinc-900 dark:text-white max-w-2xl"
+          class="text-4xl md:text-7xl font-bold tracking-tighter text-foreground max-w-2xl"
         >
           Visual storytelling made simple.
         </h2>
         <div class="max-w-sm">
-          <p class="text-zinc-600 dark:text-zinc-400 text-lg mb-8">
+          <p class="text-muted-foreground text-lg mb-8">
             Scroll to explore our gallery. The images move at different speeds
             to create a sense of depth and immersion.
           </p>
           <button
-            class="px-6 py-3 rounded-full border border-zinc-900 dark:border-white text-zinc-900 dark:text-white hover:bg-zinc-900 hover:text-white dark:hover:bg-white dark:hover:text-zinc-900 transition-colors"
+            class="px-6 py-3 rounded-full border border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
           >
             Explore Details
           </button>
@@ -42,7 +42,7 @@ import { PLATFORM_ID } from '@angular/core';
         <!-- Col 1 -->
         <div class="md:col-span-5 flex flex-col gap-12 pt-12 md:pt-0">
           <div
-            class="parallax-item bg-zinc-100 dark:bg-zinc-900 rounded-2xl overflow-hidden aspect-[4/5] relative"
+            class="parallax-item bg-muted rounded-2xl overflow-hidden aspect-[4/5] relative"
           >
             <img
               ngSrc="https://images.unsplash.com/photo-1549411989-bd7885b59a60?q=80&w=800"
@@ -52,7 +52,7 @@ import { PLATFORM_ID } from '@angular/core';
             />
           </div>
           <div
-            class="parallax-item bg-zinc-100 dark:bg-zinc-900 rounded-2xl overflow-hidden aspect-square relative"
+            class="parallax-item bg-muted rounded-2xl overflow-hidden aspect-square relative"
             data-speed="1.2"
           >
             <img
@@ -70,7 +70,7 @@ import { PLATFORM_ID } from '@angular/core';
         <!-- Col 3 -->
         <div class="md:col-span-6 flex flex-col gap-12 pt-0 md:pt-32">
           <div
-            class="parallax-item bg-zinc-100 dark:bg-zinc-900 rounded-2xl overflow-hidden aspect-[3/2] relative"
+            class="parallax-item bg-muted rounded-2xl overflow-hidden aspect-[3/2] relative"
             data-speed="0.8"
           >
             <img
@@ -81,7 +81,7 @@ import { PLATFORM_ID } from '@angular/core';
             />
           </div>
           <div
-            class="parallax-item bg-zinc-100 dark:bg-zinc-900 rounded-2xl overflow-hidden aspect-[4/5] relative"
+            class="parallax-item bg-muted rounded-2xl overflow-hidden aspect-[4/5] relative"
           >
             <img
               ngSrc="https://images.unsplash.com/photo-1574169208507-84376144848b?q=80&w=800"

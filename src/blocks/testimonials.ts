@@ -7,6 +7,7 @@ import {
   input,
   signal,
   viewChild,
+  NgZone,
 } from '@angular/core';
 import { NgOptimizedImage, isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
@@ -56,7 +57,7 @@ type Slide = { src: string; alt: string; caption?: string };
       <!-- Controls -->
       <button
         type="button"
-        class="absolute left-2 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-full size-9 bg-white/80 dark:bg-zinc-900/70 border border-zinc-200 dark:border-zinc-700 shadow"
+        class="absolute left-2 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-full size-9 bg-background/80 border border-border shadow text-foreground hover:bg-secondary transition-colors"
         aria-label="Previous slide"
         (click)="prev()"
       >
@@ -64,7 +65,7 @@ type Slide = { src: string; alt: string; caption?: string };
       </button>
       <button
         type="button"
-        class="absolute right-2 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-full size-9 bg-white/80 dark:bg-zinc-900/70 border border-zinc-200 dark:border-zinc-700 shadow"
+        class="absolute right-2 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-full size-9 bg-background/80 border border-border shadow text-foreground hover:bg-secondary transition-colors"
         aria-label="Next slide"
         (click)="next()"
       >
@@ -77,10 +78,8 @@ type Slide = { src: string; alt: string; caption?: string };
         <button
           type="button"
           class="size-2.5 rounded-full transition"
-          [class.bg-zinc-900]="index() === i"
-          [class.]="index() === i"
-          [class.bg-zinc-300]="index() !== i"
-          [class.dark:bg-zinc-600]="index() !== i"
+          [class.bg-foreground]="index() === i"
+          [class.bg-muted-foreground/30]="index() !== i"
           [attr.aria-label]="'Go to slide ' + (i + 1)"
           (click)="goTo(i)"
         ></button>
@@ -91,6 +90,7 @@ type Slide = { src: string; alt: string; caption?: string };
 })
 export default class Testimonials {
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly ngZone = inject(NgZone);
 
   // Inputs
   slides = input<Slide[]>([
@@ -118,7 +118,6 @@ export default class Testimonials {
   // State
   private viewport = viewChild<ElementRef<HTMLElement>>('viewport');
   private track = viewChild<ElementRef<HTMLElement>>('track');
-  private root = viewChild<ElementRef<HTMLElement>>('root');
   index = signal(0);
   length = computed(() => this.slides().length);
   dotIndexes = computed(() =>
@@ -140,8 +139,10 @@ export default class Testimonials {
 
     // Track width via ResizeObserver
     this.ro = new ResizeObserver(() => {
-      this.width = vp.clientWidth;
-      this.snapTo(this.index(), 0); // keep alignment on resize
+      this.ngZone.runOutsideAngular(() => {
+        this.width = vp.clientWidth;
+        this.snapTo(this.index(), 0); // keep alignment on resize
+      });
     });
     this.ro.observe(vp);
 
@@ -154,7 +155,11 @@ export default class Testimonials {
 
   private startTimer() {
     this.stopTimer();
-    this.timer = setInterval(() => this.next(), this.interval());
+    this.ngZone.runOutsideAngular(() => {
+      this.timer = setInterval(() => {
+        this.ngZone.run(() => this.next());
+      }, this.interval());
+    });
   }
   private stopTimer() {
     if (this.timer) clearInterval(this.timer);
@@ -193,11 +198,14 @@ export default class Testimonials {
     if (!this.gsap) return;
     const track = this.track()?.nativeElement;
     if (!track) return;
-    const x = -i * this.width;
-    this.gsap.to(track, {
-      x,
-      duration,
-      ease: 'power3.out',
+
+    this.ngZone.runOutsideAngular(() => {
+      const x = -i * this.width;
+      this.gsap.to(track, {
+        x,
+        duration,
+        ease: 'power3.out',
+      });
     });
   }
 

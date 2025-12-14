@@ -56,7 +56,7 @@ type Slide = { src: string; alt: string; caption?: string };
       <!-- Controls -->
       <button
         type="button"
-        class="absolute left-2 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-full size-9 bg-white/80 dark:bg-zinc-900/70 border border-zinc-200 dark:border-zinc-700 shadow"
+        class="absolute left-2 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-full size-9 bg-background/80 border border-border shadow text-foreground hover:bg-secondary transition-colors"
         aria-label="Previous slide"
         (click)="prev()"
       >
@@ -64,7 +64,7 @@ type Slide = { src: string; alt: string; caption?: string };
       </button>
       <button
         type="button"
-        class="absolute right-2 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-full size-9 bg-white/80 dark:bg-zinc-900/70 border border-zinc-200 dark:border-zinc-700 shadow"
+        class="absolute right-2 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-full size-9 bg-background/80 border border-border shadow text-foreground hover:bg-secondary transition-colors"
         aria-label="Next slide"
         (click)="next()"
       >

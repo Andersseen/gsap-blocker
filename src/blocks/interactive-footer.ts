@@ -73,7 +73,7 @@ import { PLATFORM_ID } from '@angular/core';
 
       <!-- Floating Background Circle -->
       <div
-        class="cursor-follower pointer-events-none fixed top-0 left-0 size-64 bg-white rounded-full mix-blend-difference z-20 opacity-0 md:block hidden"
+        class="cursor-follower pointer-events-none fixed top-0 left-0 size-64 bg-foreground rounded-full mix-blend-difference z-20 opacity-0 md:block hidden"
       ></div>
     </footer>
   `,

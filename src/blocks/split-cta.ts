@@ -37,7 +37,7 @@ import { PLATFORM_ID } from '@angular/core';
             class="mt-8 opacity-0 translate-y-4 transition-all duration-300 group-hover/left:opacity-100 group-hover/left:translate-y-0"
           >
             <span
-              class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-zinc-900 dark:bg-white text-white dark:text-zinc-900"
+              class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-foreground text-background"
               >Get Started -></span
             >
           </div>
@@ -84,7 +84,7 @@ import { PLATFORM_ID } from '@angular/core';
 
       <!-- Center Divider/Icon -->
       <div
-        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-16 bg-white dark:bg-black rounded-full shadow-xl flex items-center justify-center z-20 pointer-events-none"
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-16 bg-card rounded-full shadow-xl flex items-center justify-center z-20 pointer-events-none"
       >
         <span class="font-bold text-xl">&</span>
       </div>

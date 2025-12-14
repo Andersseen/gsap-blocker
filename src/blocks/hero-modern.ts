@@ -13,7 +13,7 @@ import { PLATFORM_ID } from '@angular/core';
   selector: 'app-hero-modern',
   imports: [NgOptimizedImage],
   host: {
-    class: 'block w-full overflow-hidden bg-white dark:bg-zinc-950',
+    class: 'block w-full overflow-hidden bg-background',
   },
   template: `
     <section
@@ -63,7 +63,7 @@ import { PLATFORM_ID } from '@angular/core';
           <div class="flex flex-wrap gap-4 opacity-0 reveal-fade">
             <a
               href="#"
-              class="px-8 py-4 rounded-full bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium hover:scale-105 transition-transform duration-300"
+              class="px-8 py-4 rounded-full bg-foreground text-background font-medium hover:scale-105 transition-transform duration-300"
             >
               {{ primaryCta() }}
             </a>
@@ -90,7 +90,7 @@ import { PLATFORM_ID } from '@angular/core';
           />
           <!-- Overlay Text -->
           <div
-            class="absolute bottom-8 left-8 right-8 p-6 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl text-white"
+            class="absolute bottom-8 left-8 right-8 p-6 bg-card/10 backdrop-blur-md border border-border/20 rounded-xl text-white"
           >
             <p class="font-medium text-sm">"{{ quote() }}"</p>
           </div>
