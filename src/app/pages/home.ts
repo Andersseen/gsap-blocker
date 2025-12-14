@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
+import FeaturesSection from '@components/features';
 import HeroSection from '@components/hero-section';
 import CATEGORIES from '@data/categories';
 import { AndRevealDirective } from '@shared/directives/and-reveal.directive';
-import FeaturesSection from '@components/features';
 
 @Component({
   selector: 'page-home',
@@ -14,53 +14,29 @@ import FeaturesSection from '@components/features';
     <features-section />
 
     <!-- Categories -->
-    <section
-      class="container mx-auto px-6 md:px-8 py-24 border-t border-border"
-    >
-      <div class="flex items-end justify-between mb-12">
-        <div>
-          <h2
-            class="text-3xl md:text-5xl font-extrabold tracking-tight text-foreground mb-4"
-          >
-            Block categories
-          </h2>
-          <p class="text-muted-foreground text-lg">
-            Browse our collection of animated components.
-          </p>
-        </div>
-        <a
-          class="text-sm font-medium text-foreground hover:underline underline-offset-4"
-          href="/blocks"
-          >View all categories -></a
+    <section class="container mx-auto px-6 md:px-8 py-16">
+      <div class="flex items-end justify-between">
+        <h2 class="text-2xl md:text-3xl font-bold">Block categories</h2>
+        <a class="text-sm underline underline-offset-4" href="/blocks"
+          >View all</a
         >
       </div>
 
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         @for (c of categories(); track c.name) {
-        <a andReveal class="card group block">
-          <div class="flex items-start justify-between mb-8">
+        <a
+          andReveal
+          class="group rounded-2xl border p-5 hover:shadow-md transition"
+        >
+          <div class="text-3xl">{{ c.emoji }}</div>
+          <div class="mt-4 flex items-center justify-between">
+            <h3 class="font-semibold">{{ c.name }}</h3>
             <span
-              class="inline-flex items-center justify-center size-12 rounded-2xl bg-background border border-border text-2xl shadow-sm text-foreground"
-              >{{ c.emoji }}</span
-            >
-            <span
-              class="text-xs font-semibold px-3 py-1 rounded-full bg-muted text-muted-foreground"
-              >{{ c.count }} items</span
+              class="text-xs px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800"
+              >{{ c.count }} blocks</span
             >
           </div>
-
-          <h3
-            class="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors"
-          >
-            {{ c.name }}
-          </h3>
-          <p class="text-muted-foreground text-sm">
-            Explore {{ c.name.toLowerCase() }} components
-          </p>
-
-          <div
-            class="absolute -bottom-6 -right-6 size-32 bg-gradient-to-br from-border/50 to-transparent rounded-full opacity-20 blur-2xl group-hover:scale-150 transition-transform duration-700"
-          ></div>
+          <div class="mt-4 h-24 rounded-xl transition"></div>
         </a>
         }
       </div>
