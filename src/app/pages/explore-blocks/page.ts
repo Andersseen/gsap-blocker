@@ -6,13 +6,23 @@ import CATEGORIES from '@data/categories';
   selector: 'explore-blocks',
   imports: [CardCategory],
   template: `
-    <div class="flex items-end justify-between">
-      <h2 class="text-2xl md:text-3xl font-bold">Block categories</h2>
-      <a class="text-sm underline underline-offset-4" href="/blocks"
-        >View all</a
-      >
+    <div class="min-h-screen bg-background pt-32 pb-24 px-6 md:px-12">
+      <div class="max-w-7xl mx-auto">
+        <div class="mb-16">
+          <h1
+            class="text-5xl md:text-7xl font-black tracking-tighter text-foreground mb-6"
+          >
+            Block Library
+          </h1>
+          <p class="text-xl md:text-2xl text-muted-foreground max-w-3xl">
+            A comprehensive collection of animated components. Copy, paste, and
+            ship faster.
+          </p>
+        </div>
+
+        <grid-card [categories]="categories()" />
+      </div>
     </div>
-    <grid-card [categories]="categories()" />
   `,
 })
 export default class ExploreBlocks {

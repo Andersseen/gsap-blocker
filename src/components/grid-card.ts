@@ -7,24 +7,33 @@ import Category from '@shared/interfaces/category.interface';
   inputs: ['category'],
   imports: [RouterModule],
   template: `
-    <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
       @for (category of categories(); track category.name) {
       <a
         andReveal
-        class="group rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 bg-gradient-to-br from-white to-white/70 dark:from-zinc-900 dark:to-zinc-900/60 hover:shadow-md transition"
+        class="card group block"
         [routerLink]="category.name.toLowerCase()"
       >
-        <span>{{ category.id }}</span>
-        <div class="text-3xl">{{ category.emoji }}</div>
-        <div class="mt-4 flex items-center justify-between">
-          <h3 class="font-semibold">{{ category.name }}</h3>
+        <div class="flex items-start justify-between mb-8">
           <span
-            class="text-xs px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800"
-            >{{ category.count }} blocks</span
+            class="inline-flex items-center justify-center size-12 rounded-2xl bg-background border border-border text-2xl shadow-sm text-foreground"
+            >{{ category.emoji }}</span
+          >
+          <span
+            class="text-xs font-semibold px-3 py-1 rounded-full bg-muted text-muted-foreground"
+            >{{ category.count }} items</span
           >
         </div>
+
+        <h3
+          class="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors"
+        >
+          {{ category.name }}
+        </h3>
+        <p class="text-muted-foreground text-sm">Explore specific components</p>
+
         <div
-          class="mt-4 h-24 rounded-xl bg-[radial-gradient(60%_60%_at_50%_0%,theme(colors.emerald.500/15),transparent)] group-hover:scale-[1.02] transition"
+          class="absolute -bottom-6 -right-6 size-32 bg-gradient-to-br from-border/50 to-transparent rounded-full opacity-20 blur-2xl group-hover:scale-150 transition-transform duration-700"
         ></div>
       </a>
       }

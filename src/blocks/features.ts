@@ -78,7 +78,6 @@ type Slide = { src: string; alt: string; caption?: string };
           type="button"
           class="size-2.5 rounded-full transition"
           [class.bg-zinc-900]="index() === i"
-          [class.]="index() === i"
           [class.bg-zinc-300]="index() !== i"
           [class.dark:bg-zinc-600]="index() !== i"
           [attr.aria-label]="'Go to slide ' + (i + 1)"

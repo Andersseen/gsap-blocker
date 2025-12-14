@@ -1,226 +1,169 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'page-docs',
-  imports: [],
+  standalone: true,
+  imports: [RouterLink],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="min-h-screen pt-8 pb-20 px-4">
-      <div class="max-w-4xl mx-auto">
-        <div class="mb-12">
-          <h1 class="text-4xl md:text-5xl font-bold mb-4">Documentation</h1>
-          <p class="text-xl">
-            Learn how to use and customize the UI blocks library
-          </p>
+    <div class="min-h-screen flex flex-col md:flex-row bg-background">
+      <!-- Docs Sidebar -->
+      <aside
+        class="w-full md:w-64 shrink-0 border-r border-border bg-secondary/30 md:h-screen sticky top-0 overflow-y-auto"
+      >
+        <div class="p-6">
+          <h2
+            class="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-4"
+          >
+            Documentation
+          </h2>
+          <nav class="space-y-1">
+            <a
+              routerLink="."
+              fragment="introduction"
+              class="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
+              >Introduction</a
+            >
+            <a
+              routerLink="."
+              fragment="installation"
+              class="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
+              >Installation</a
+            >
+            <a
+              routerLink="."
+              fragment="theming"
+              class="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
+              >Theming</a
+            >
+          </nav>
+
+          <h2
+            class="text-xs font-bold text-muted-foreground uppercase tracking-widest mt-8 mb-4"
+          >
+            Blocks
+          </h2>
+          <nav class="space-y-1">
+            <a
+              routerLink="/blocks/heroes"
+              class="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
+              >Heroes</a
+            >
+            <a
+              routerLink="/blocks/features"
+              class="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
+              >Features</a
+            >
+            <a
+              routerLink="/blocks/bento-grid"
+              class="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
+              >Bento Grid</a
+            >
+            <a
+              routerLink="/blocks/cta"
+              class="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
+              >CTA</a
+            >
+            <a
+              routerLink="/blocks/footers"
+              class="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
+              >Footers</a
+            >
+          </nav>
         </div>
+      </aside>
 
-        <div class="space-y-12">
-          <!-- Getting Started -->
-          <section class="rounded-2xl p-8 shadow-lg">
-            <h2 class="text-2xl font-semibold mb-4">Getting Started</h2>
-            <div class="prose dark:prose-invert max-w-none">
-              <p class="mb-4">
-                All components in this library are built with Angular 18+
-                standalone components, Tailwind CSS, and GSAP for animations.
-                They follow modern Angular best practices including signals for
-                state management.
+      <!-- Main Content -->
+      <main class="flex-1 min-w-0">
+        <div class="max-w-4xl mx-auto px-6 py-12 md:py-20">
+          <!-- Header -->
+          <div class="mb-16 border-b border-border pb-10">
+            <h1
+              class="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground mb-6"
+            >
+              Documentation
+            </h1>
+            <p class="text-xl text-muted-foreground max-w-2xl leading-relaxed">
+              Everything you need to build stunning, animated interfaces with
+              Angular and GSAP. Copy-paste ready blocks optimized for
+              performance and accessibility.
+            </p>
+          </div>
+
+          <!-- Content Sections -->
+          <div class="prose prose-zinc dark:prose-invert max-w-none">
+            <section id="introduction" class="scroll-mt-24 mb-16">
+              <h2>Introduction</h2>
+              <p>
+                GSAP Blocker is a curated collection of high-quality, animated
+                UI blocks built with Angular 20 and Tailwind CSS v4. We enable
+                you to ship premium experiences faster by providing
+                production-ready components.
               </p>
+              <div class="not-prose grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
+                <div class="p-4 rounded-xl border border-border bg-card">
+                  <h3 class="font-bold text-foreground mb-2">
+                    ⚡️ Angular Signals
+                  </h3>
+                  <p class="text-sm text-muted-foreground">
+                    Built with the latest reactivity primitives for optimal
+                    performance.
+                  </p>
+                </div>
+                <div class="p-4 rounded-xl border border-border bg-card">
+                  <h3 class="font-bold text-foreground mb-2">
+                    🎭 GSAP Animations
+                  </h3>
+                  <p class="text-sm text-muted-foreground">
+                    Smooth, complex animations powered by the industry standard
+                    library.
+                  </p>
+                </div>
+              </div>
+            </section>
 
-              <h3 class="text-lg font-semibold mb-2">Installation</h3>
-              <!-- <app-code-block
-                [code]="installationCode"
-                language="bash"
-                fileName="terminal"
-              /> -->
-            </div>
-          </section>
-
-          <!-- Component Structure -->
-          <section class="rounded-2xl p-8 shadow-lg">
-            <h2 class="text-2xl font-semiboldmb-4">Component Structure</h2>
-            <div class="prose dark:prose-invert max-w-none">
-              <p class=" mb-4">
-                Each component follows a consistent structure with TypeScript
-                interfaces for type safety.
+            <section id="installation" class="scroll-mt-24 mb-16">
+              <h2>Installation</h2>
+              <p>
+                To get started, ensuring you have the necessary dependencies
+                installed in your Angular project:
               </p>
-
-              <!-- <app-code-block
-                [code]="componentStructureCode"
-                language="typescript"
-                fileName="example.component.ts"
-              /> -->
-            </div>
-          </section>
-
-          <!-- GSAP Integration -->
-          <section class="rounded-2xl p-8 shadow-lg">
-            <h2 class="text-2xl font-semibold mb-4">GSAP Integration</h2>
-            <div class="prose dark:prose-invert max-w-none">
-              <p class="mb-4">
-                The GSAP service provides helper methods for common animations
-                and handles reduced motion preferences automatically.
+              <pre
+                class="bg-primary text-primary-foreground p-4 rounded-lg overflow-x-auto"
+              ><code>npm install gsap tailwindcss postcss autoprefixer</code></pre>
+              <p>
+                Ensure gsap is correctly configured for SSR if you are using
+                Angular Universal / SSR.
               </p>
+            </section>
 
-              <!-- <app-code-block
-                [code]="gsapIntegrationCode"
-                language="typescript"
-                fileName="component.ts"
-              /> -->
-            </div>
-          </section>
-
-          <!-- Theming -->
-          <section class="rounded-2xl p-8 shadow-lg">
-            <h2 class="text-2xl font-semibold mb-4">Theming</h2>
-            <div class="prose dark:prose-invert max-w-none">
-              <p class=" mb-4">
-                The library uses CSS custom properties for theming with
-                automatic dark mode support.
+            <section id="theming" class="scroll-mt-24 mb-16">
+              <h2>Theming</h2>
+              <p>
+                We use usage semantic CSS variables compatible with Tailwind CSS
+                v4.
               </p>
-
-              <!-- <app-code-block
-                [code]="themingCode"
-                language="css"
-                fileName="global_styles.css"
-              /> -->
-            </div>
-          </section>
-
-          <!-- Accessibility -->
-          <section class="rounded-2xl p-8 shadow-lg">
-            <h2 class="text-2xl font-semibold mb-4">Accessibility</h2>
-            <div class="prose dark:prose-invert max-w-none">
-              <p class=" mb-4">
-                All components are built with accessibility in mind:
-              </p>
-              <ul class=" space-y-2">
-                <li>• Proper ARIA labels and roles</li>
-                <li>• Keyboard navigation support</li>
-                <li>• Focus management</li>
-                <li>• Reduced motion preferences</li>
-                <li>• High contrast support</li>
-                <li>• Screen reader compatibility</li>
-              </ul>
-            </div>
-          </section>
-
-          <!-- Performance -->
-          <section class="rounded-2xl p-8 shadow-lg">
-            <h2 class="text-2xl font-semibold mb-4">Performance</h2>
-            <div class="prose dark:prose-invert max-w-none">
-              <p class=" mb-4">Components are optimized for performance:</p>
-              <ul class="space-y-2">
-                <li>• OnPush change detection strategy</li>
-                <li>• Lazy loading of GSAP plugins</li>
-                <li>• Minimal DOM manipulations</li>
-                <li>• Tree-shakable imports</li>
-                <li>• Efficient CSS with Tailwind</li>
-              </ul>
-            </div>
-          </section>
+              <div
+                class="not-prose p-6 rounded-xl bg-muted border border-border"
+              >
+                <div class="flex gap-4 mb-4">
+                  <div
+                    class="size-10 rounded bg-background border border-border"
+                  ></div>
+                  <div class="size-10 rounded bg-foreground"></div>
+                  <div class="size-10 rounded bg-primary"></div>
+                  <div class="size-10 rounded bg-muted"></div>
+                </div>
+                <p class="text-sm text-muted-foreground">
+                  The theme adapts automatically to light and dark modes.
+                </p>
+              </div>
+            </section>
+          </div>
         </div>
-      </div>
+      </main>
     </div>
   `,
 })
-export default class DocsPage {
-  installationCode = `# Install dependencies
-npm install @angular/core@latest @angular/common@latest
-npm install tailwindcss@latest gsap@latest
-npm install @angular/cdk@latest
-
-# Install dev dependencies
-npm install -D @tailwindcss/typography prettier eslint`;
-
-  componentStructureCode = `import { Component, input, signal, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { GsapService } from '../services/gsap.service';
-
-@Component({
-  selector: 'app-example',
-  imports: [CommonModule],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: \`
-    <div class="component-container">
-      <h1>{{ title() }}</h1>
-      <p>{{ description() }}</p>
-    </div>
-  \`
-})
-export class ExampleComponent implements OnInit {
-  private gsapService = inject(GsapService);
-
-  // Inputs using new function syntax
-  title = input.required<string>();
-  description = input<string>('Default description');
-
-  // State using signals
-  isVisible = signal(false);
-
-  async ngOnInit() {
-    // Initialize animations
-    await this.gsapService.enterStagger('.component-container', {
-      duration: 0.6,
-      stagger: 0.1
-    });
-  }
-}`;
-
-  gsapIntegrationCode = `import { Component, inject, OnInit, ElementRef, viewChild } from '@angular/core';
-import { GsapService } from '../services/gsap.service';
-
-@Component({
-  selector: 'app-animated',
-  template: \`
-    <div #container class="container">
-      <div #element class="animated-element">Content</div>
-    </div>
-  \`
-})
-export class AnimatedComponent implements OnInit {
-  private gsapService = inject(GsapService);
-
-  container = viewChild.required<ElementRef>('container');
-  element = viewChild.required<ElementRef>('element');
-
-  async ngOnInit() {
-    // Entrance animation
-    await this.gsapService.enterStagger(this.element().nativeElement, {
-      y: 30,
-      opacity: 0,
-      duration: 0.8
-    });
-
-    // Scroll-triggered animation
-    await this.gsapService.revealOnScroll(this.container().nativeElement, {
-      y: 50,
-      duration: 1.2
-    });
-
-    // Parallax effect
-    await this.gsapService.parallax(this.element().nativeElement, -50);
-  }
-}`;
-
-  themingCode = `:root {
-  --bg-primary: theme('colors.white');
-  --bg-secondary: theme('colors.gray.50');
-  --text-primary: theme('colors.gray.900');
-  --text-secondary: theme('colors.gray.600');
-  --border-color: theme('colors.gray.200');
-}
-
-.dark {
-  --bg-primary: theme('colors.gray.900');
-  --bg-secondary: theme('colors.gray.800');
-  --text-primary: theme('colors.white');
-  --text-secondary: theme('colors.gray.300');
-  --border-color: theme('colors.gray.700');
-}
-
-/* Usage in components */
-.custom-element {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  border-color: var(--border-color);
-}`;
-}
+export default class DocsPage {}

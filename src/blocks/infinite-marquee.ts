@@ -1,16 +1,15 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
   ElementRef,
+  PLATFORM_ID,
   inject,
   viewChild,
-  AfterViewInit,
 } from '@angular/core';
-import { NgOptimizedImage, isPlatformBrowser } from '@angular/common';
-import { PLATFORM_ID } from '@angular/core';
 
 @Component({
   selector: 'app-infinite-marquee',
-  imports: [NgOptimizedImage],
   host: {
     class: 'block w-full overflow-hidden bg-zinc-900 text-white py-24',
   },
@@ -80,20 +79,6 @@ export default class InfiniteMarquee implements AfterViewInit {
     const track = el.querySelector('.marquee-track');
 
     if (!track) return;
-
-    // Calculate total width of one set of items to scroll by that amount
-    // Simplest infinite scroll: Move x from 0 to -50% (if doubled) or generic seamless loop
-
-    // For this simple implementation with 3x content:
-    // We animate xPercent from 0 to -33.333% (one set) then reset?
-    // Actually best way is to let GSAP handle it or just use CSS keyframes if simple.
-    // But let's use GSAP for control.
-
-    // We will animate the track to the left indefinitely.
-    // To make it seamless, we need to ensure the width is correct.
-
-    // Alternative: horizontalLoop helper function from GSAP docs is best, but complex to paste here.
-    // Use simple tween:
 
     const oneSetCount = this.logos.length;
     // We just scroll endlessly.
