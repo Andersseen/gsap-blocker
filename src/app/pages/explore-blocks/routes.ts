@@ -6,31 +6,17 @@ const routes: Routes = [
     loadComponent: () => import('./'),
     children: [
       { path: '', loadComponent: () => import('./page') },
-      { path: 'heroes', loadComponent: () => import('@blocks/hero') },
-      {
-        path: 'hero-modern',
-        loadComponent: () => import('@blocks/hero-modern'),
-      },
-      { path: 'features', loadComponent: () => import('@blocks/features') },
-      {
-        path: 'bento-grid',
-        loadComponent: () => import('@blocks/bento-grid'),
-      },
-      { path: 'pricing', loadComponent: () => import('@blocks/pricing') },
-      { path: 'cta', loadComponent: () => import('@blocks/cta-2') },
-      {
-        path: 'cta-split',
-        loadComponent: () => import('@blocks/split-cta'),
-      },
-      { path: 'footers', loadComponent: () => import('@blocks/footer') },
-      {
-        path: 'footer-interactive',
-        loadComponent: () => import('@blocks/interactive-footer'),
-      },
+      { path: 'heroes', loadComponent: () => import('./heroes-page') },
+      { path: 'features', loadComponent: () => import('./features-page') },
+      { path: 'pricing', loadComponent: () => import('./pricing-page') },
+      { path: 'cta', loadComponent: () => import('./cta-page') },
+      { path: 'footers', loadComponent: () => import('./footers-page') },
       {
         path: 'testimonials',
-        loadComponent: () => import('@blocks/testimonials'),
+        loadComponent: () => import('./testimonials-page'),
       },
+      // Individual blocks can remain accessible via direct URL if needed,
+      // but the main navigation now points to the aggregate pages.
       {
         path: 'infinite-marquee',
         loadComponent: () => import('@blocks/infinite-marquee'),
