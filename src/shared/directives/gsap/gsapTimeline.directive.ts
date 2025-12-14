@@ -1,20 +1,25 @@
-import { Directive, ElementRef, Input, AfterViewInit } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  inject,
+  input,
+  AfterViewInit,
+} from '@angular/core';
 import { gsap } from 'gsap';
 
 @Directive({
   selector: '[gsapTimeline]',
-  standalone: true,
 })
 export class GsapTimelineDirective implements AfterViewInit {
-  @Input() gsapTimeline: any[] = [];
-  @Input() gsapTimelineVars: any = {};
+  readonly gsapTimeline = input.required<any[]>();
+  readonly gsapTimelineVars = input<gsap.TimelineVars>({});
 
-  constructor(private el: ElementRef) {}
+  private readonly el = inject(ElementRef);
 
   ngAfterViewInit(): void {
-    const tl = gsap.timeline(this.gsapTimelineVars);
+    const tl = gsap.timeline(this.gsapTimelineVars());
 
-    this.gsapTimeline.forEach((animation: any) => {
+    this.gsapTimeline().forEach((animation: any) => {
       const { method, target, vars, position } = animation;
       const targetElement = target || this.el.nativeElement;
 

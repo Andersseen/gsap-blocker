@@ -1,16 +1,20 @@
-import { Directive, ElementRef, Input, AfterViewInit } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  inject,
+  input,
+  AfterViewInit,
+} from '@angular/core';
 import { gsap } from 'gsap';
 
 @Directive({
   selector: '[gsapTo]',
-  standalone: true,
 })
 export class GsapToDirective implements AfterViewInit {
-  @Input() gsapTo: any = {};
-
-  constructor(private el: ElementRef) {}
+  readonly gsapTo = input.required<gsap.TweenVars>();
+  private readonly el = inject(ElementRef);
 
   ngAfterViewInit(): void {
-    gsap.to(this.el.nativeElement, this.gsapTo);
+    gsap.to(this.el.nativeElement, this.gsapTo());
   }
 }

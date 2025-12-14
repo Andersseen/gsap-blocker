@@ -1,4 +1,10 @@
-import { Directive, ElementRef, Input, AfterViewInit } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  inject,
+  input,
+  AfterViewInit,
+} from '@angular/core';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -6,22 +12,21 @@ gsap.registerPlugin(ScrollTrigger);
 
 @Directive({
   selector: '[gsapScrollTrigger]',
-  standalone: true,
 })
 export class GsapScrollTriggerDirective implements AfterViewInit {
-  @Input() gsapScrollTrigger: any = {};
-  @Input() gsapScrollTriggerVars: any = {};
+  readonly gsapScrollTrigger = input<any>({});
+  readonly gsapScrollTriggerVars = input<ScrollTrigger.Vars>({});
 
-  constructor(private el: ElementRef) {}
+  private readonly el = inject(ElementRef);
 
   ngAfterViewInit(): void {
     const scrollTriggerConfig = {
       trigger: this.el.nativeElement,
-      ...this.gsapScrollTriggerVars,
+      ...this.gsapScrollTriggerVars(),
     };
 
     const animationVars = {
-      ...this.gsapScrollTrigger,
+      ...this.gsapScrollTrigger(),
       scrollTrigger: scrollTriggerConfig,
     };
 
