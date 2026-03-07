@@ -1,10 +1,11 @@
-import { Component, ElementRef, inject, input, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, viewChild, ChangeDetectionStrategy } from '@angular/core';;
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 import { gsap } from 'gsap';
 import { AndGsapFromDirective } from '@shared/directives/and-gsap-from';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'hero-section',
   imports: [AndGsapFromDirective],
 

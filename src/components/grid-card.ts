@@ -39,8 +39,8 @@ type Category = {
         background: linear-gradient(
           120deg,
           transparent 0%,
-          rgba(255, 255, 255, 0.35) 12%,
-          transparent 24%
+          rgba(255, 255, 255, 0.4) 10%,
+          transparent 20%
         );
         background-size: 200% 200%;
         mix-blend-mode: overlay;
@@ -51,83 +51,121 @@ type Category = {
     `,
   ],
   template: `
-    <div #root class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div #root class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
       @for (category of categories(); track category.name; let i = $index) {
-      <a
-        #card
-        class="group relative rounded-2xl border p-5 card-tilt gpu overflow-hidden
-               border-[color:color-mix(in_srgb,var(--color-foreground) 10%,transparent)]
-               bg-[color:color-mix(in_srgb,var(--color-background) 96%,white)]
-               shadow-[0_1px_0_0_rgba(0,0,0,0.02)]
-               transition-[box-shadow,transform] duration-300 ease-out"
-        [routerLink]="category.name.toLowerCase()"
-        (mouseenter)="onEnter(card)"
-        (mouseleave)="onLeave(card)"
-        (mousemove)="onMove(card, $event)"
-        (pointerdown)="onPress(card)"
-        (pointerup)="onRelease(card)"
-        (keydown.enter)="onPress(card)"
-        (keyup.enter)="onRelease(card)"
-        tabindex="0"
-        [attr.aria-label]="category.name + ' (' + category.count + ' blocks)'"
-      >
-        <div
-          class="pointer-events-none absolute -inset-12 opacity-0 gpu"
-          style="filter: blur(28px)"
-          data-blob
-        ></div>
+        <a
+          #card
+          class="group relative rounded-3xl p-[1px] flex flex-col card-tilt gpu overflow-hidden shadow-2xl hover:shadow-[0_0_40px_-10px_rgba(var(--color-primary),0.3)] transition-shadow duration-500 ease-out"
+          [routerLink]="['/blocks', category.name.toLowerCase()]"
+          (mouseenter)="onEnter(card)"
+          (mouseleave)="onLeave(card)"
+          (mousemove)="onMove(card, $event)"
+          (pointerdown)="onPress(card)"
+          (pointerup)="onRelease(card)"
+          (keydown.enter)="onPress(card)"
+          (keyup.enter)="onRelease(card)"
+          tabindex="0"
+          [attr.aria-label]="category.name + ' (' + category.count + ' blocks)'"
+        >
+          <!-- Animated gradient border backing -->
+          <div
+            class="absolute inset-0 z-0 bg-gradient-to-br from-border/50 via-border/10 to-transparent group-hover:from-primary/50 group-hover:via-primary/20 group-hover:to-transparent transition-colors duration-500"
+          ></div>
 
-        <div class="shine absolute inset-0 rounded-2xl"></div>
-
-        <div class="flex items-center justify-between">
-          <span
-            class="text-xs px-2 py-1 rounded-full
-                       bg-[color:color-mix(in_srgb,var(--color-secondary) 12%,transparent)]
-                       text-[color:var(--color-foreground)]/80"
+          <!-- Main Card Body (Glass) -->
+          <div
+            class="relative z-10 flex flex-col h-full bg-background/90 dark:bg-[#0a0a0a]/90 backdrop-blur-3xl rounded-[calc(1.5rem-1px)] p-6 overflow-hidden"
           >
-            #{{ category.id }}
-          </span>
+            <!-- Radial glow from mouse -->
+            <div
+              class="pointer-events-none absolute inset-0 opacity-0 gpu transition-opacity duration-500 ease-out z-0 mix-blend-screen"
+              data-blob
+            ></div>
 
-          <span
-            class="text-xs px-2 py-1 rounded-full
-                       bg-[color:color-mix(in_srgb,var(--color-foreground) 8%,transparent)]"
-          >
-            {{ category.count }} blocks
-          </span>
-        </div>
+            <!-- Foreground Content -->
+            <div class="relative z-10 flex flex-col h-full">
+              <div class="flex items-start justify-between">
+                <!-- Emoji Container (Floating effect) -->
+                <div
+                  class="relative flex items-center justify-center size-16 rounded-2xl bg-gradient-to-br from-white/10 to-white/0 border border-white/10 shadow-[0_8px_16px_-6px_rgba(0,0,0,0.5)] text-[2rem] leading-none gpu overflow-hidden group-hover:border-primary/30 transition-colors duration-500"
+                >
+                  <div
+                    class="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent opacity-50"
+                  ></div>
+                  <span data-emoji class="relative z-10 drop-shadow-md">{{
+                    category.emoji
+                  }}</span>
+                </div>
 
-        <div class="mt-3 text-[2rem] leading-none select-none gpu" data-emoji>
-          {{ category.emoji }}
-        </div>
+                <!-- Badge (Neon style) -->
+                <span
+                  class="inline-flex items-center gap-1.5 text-[0.7rem] font-bold px-3 py-1.5 font-mono uppercase tracking-widest rounded-full bg-black/40 text-muted-foreground border border-white/5 group-hover:text-primary group-hover:border-primary/30 group-hover:bg-primary/10 transition-all duration-300 shadow-inner"
+                >
+                  <span class="text-foreground group-hover:text-primary">{{
+                    category.count
+                  }}</span>
+                  <span class="opacity-60">blocks</span>
+                </span>
+              </div>
 
-        <div class="mt-4 flex items-center justify-between">
-          <h3 class="font-semibold text-[color:var(--color-foreground)]">
-            {{ category.name }}
-          </h3>
-          <svg
-            class="size-5 opacity-60 group-hover:opacity-100 transition"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M7 17L17 7M7 7h10v10" />
-          </svg>
-        </div>
+              <div class="mt-8 flex items-end justify-between">
+                <div>
+                  <h3
+                    class="font-extrabold text-2xl text-foreground tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-primary/70 transition-all duration-500"
+                  >
+                    {{ category.name }}
+                  </h3>
+                  <p
+                    class="text-sm text-muted-foreground mt-2 font-medium flex items-center gap-1 opacity-80 group-hover:opacity-100 transition-opacity"
+                  >
+                    <span>Explore collection</span>
+                    <span
+                      class="tracking-tighter opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300"
+                      >-></span
+                    >
+                  </p>
+                </div>
 
-        <div class="mt-4 h-24 rounded-xl relative overflow-hidden gpu" data-bg>
-          <div class="absolute inset-0 opacity-70" data-gradient></div>
-          <div class="absolute inset-0" data-grid></div>
-        </div>
+                <!-- Arrow Icon (Refined) -->
+                <div
+                  class="flex items-center justify-center size-10 rounded-full bg-white/5 border border-white/10 group-hover:bg-primary group-hover:border-primary group-hover:text-primary-foreground text-foreground transition-all duration-500 transform group-hover:scale-110 group-hover:shadow-[0_0_20px_-5px_var(--color-primary)]"
+                >
+                  <svg
+                    class="size-4 -rotate-45 group-hover:rotate-0 transition-transform duration-500"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </div>
 
-        <span
-          class="absolute inset-0 rounded-2xl ring-0 ring-[color:var(--color-primary)]/50
-                     group-focus-visible:ring-4 transition pointer-events-none"
-        ></span>
-      </a>
+              <!-- Thumbnail Grid Pattern (Deep space look) -->
+              <div
+                class="mt-8 h-32 rounded-[1.25rem] relative overflow-hidden gpu border border-white/5 bg-black/40 group-hover:border-primary/20 transition-colors duration-500 shadow-inner"
+                data-bg
+              >
+                <div
+                  class="absolute inset-0 opacity-40 mix-blend-screen"
+                  data-gradient
+                ></div>
+                <div
+                  class="absolute inset-0 opacity-[0.2]"
+                  data-grid
+                  style="background-image: radial-gradient(circle at 1.5px 1.5px, rgba(255,255,255,0.15) 1px, transparent 0); background-size: 16px 16px;"
+                ></div>
+                <div
+                  class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </a>
       }
     </div>
   `,
@@ -153,7 +191,7 @@ export default class GridCard {
       if (!rootEl) return;
 
       const cards = Array.from(
-        rootEl.querySelectorAll<HTMLElement>('a[routerLink]')
+        rootEl.querySelectorAll<HTMLElement>('a[routerLink]'),
       );
 
       gsap.from(cards, {
@@ -181,7 +219,7 @@ export default class GridCard {
     const blob = card.querySelector<HTMLElement>('[data-blob]');
     const emoji = card.querySelector<HTMLElement>('[data-emoji]');
     const shine = card.querySelector<HTMLElement>(
-      '.shine'
+      '.shine',
     ) as HTMLElement | null;
 
     gsap.to(card, { z: 0.001, translateZ: 0.001, duration: 0 });
@@ -207,13 +245,11 @@ export default class GridCard {
         '--tw': 1,
         duration: 0.35,
         onUpdate: function () {
-          const el = shine;
-
-          const ratio = (this as any).ratio ?? 1;
-          el.style.setProperty('opacity', String(ratio * 0.55));
-          el.style.setProperty(
+          const ratio = (this as { ratio?: number }).ratio ?? 1;
+          shine.style.setProperty('opacity', String(ratio * 0.55));
+          shine.style.setProperty(
             'background-position',
-            `${-50 + ratio * 100}% 0%`
+            `${-50 + ratio * 100}% 0%`,
           );
         },
       });
@@ -239,7 +275,7 @@ export default class GridCard {
 
     const blob = card.querySelector<HTMLElement>('[data-blob]');
     const shine = card.querySelector<HTMLElement>(
-      '.shine'
+      '.shine',
     ) as HTMLElement | null;
 
     // Vuelve a reposo
@@ -297,9 +333,13 @@ export default class GridCard {
 
     const grad = card.querySelector<HTMLElement>('[data-gradient]');
     if (grad) {
-      const px = gsap.utils.clamp(-30, 30, (dx / rect.width) * 40);
-      const py = gsap.utils.clamp(-30, 30, (dy / rect.height) * 40);
-      grad.style.backgroundPosition = `${50 - px}% ${50 - py}%`;
+      const px = gsap.utils.clamp(-40, 40, (dx / rect.width) * 50);
+      const py = gsap.utils.clamp(-40, 40, (dy / rect.height) * 50);
+      gsap.to(grad, {
+        backgroundPosition: `${50 - px}% ${50 - py}%`,
+        duration: 0.4,
+        ease: 'power2.out',
+      });
     }
   }
 
@@ -312,28 +352,17 @@ export default class GridCard {
 
   private initBackground(card: HTMLElement) {
     const grad = card.querySelector<HTMLElement>('[data-gradient]');
-    const grid = card.querySelector<HTMLElement>('[data-grid]');
-    if (!grad || !grid) return;
+    if (!grad) return;
 
-    // Gradiente radial mixto con tu paleta
-    grad.style.background = `radial-gradient(120% 150% at 30% 0%,
-        color-mix(in srgb, var(--color-primary) 16%, transparent) 0%,
-        transparent 60%),
-       radial-gradient(120% 150% at 80% 120%,
-        color-mix(in srgb, var(--color-secondary) 16%, transparent) 0%,
-        transparent 60%),
-       linear-gradient(180deg,
-        color-mix(in srgb, var(--color-background) 96%, white) 0%,
-        color-mix(in srgb, var(--color-background) 92%, white) 100%)`;
-    grad.style.backgroundSize = '120% 120%, 120% 120%, 100% 100%';
-    grad.style.backgroundPosition = '50% 50%, 50% 50%, 50% 50%';
-
-    // Grid de puntos suave
-    grid.style.background = `radial-gradient(circle at 1px 1px,
-        color-mix(in srgb, var(--color-foreground) 10%, transparent) 1px,
-        transparent 1.5px)`;
-    grid.style.backgroundSize = '12px 12px';
-    grid.style.opacity = '0.35';
+    // A softer, more premium glow that doesn't muddy the block
+    grad.style.background = `radial-gradient(100% 100% at 50% 0%,
+        color-mix(in srgb, var(--color-primary) 8%, transparent) 0%,
+        transparent 70%),
+       radial-gradient(120% 120% at 80% 100%,
+        color-mix(in srgb, var(--color-foreground) 4%, transparent) 0%,
+        transparent 60%)`;
+    grad.style.backgroundSize = '120% 120%, 150% 150%';
+    grad.style.backgroundPosition = '50% 50%, 50% 50%';
   }
 
   private animateBackground(card: HTMLElement, active: boolean) {

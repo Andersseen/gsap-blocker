@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';;
 import Cta2 from '@blocks/cta-2';
 import SplitCta from '@blocks/split-cta';
 import CtaInput from '@blocks/cta-input';
 import CtaImage from '@blocks/cta-image';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cta-page',
   imports: [Cta2, SplitCta, CtaInput, CtaImage],
   template: `

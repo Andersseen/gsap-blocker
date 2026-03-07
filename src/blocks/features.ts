@@ -1,19 +1,11 @@
-import {
-  Component,
-  ElementRef,
-  ViewEncapsulation,
-  computed,
-  inject,
-  input,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { Component, ElementRef, ViewEncapsulation, computed, inject, input, signal, viewChild, ChangeDetectionStrategy } from '@angular/core';;
 import { NgOptimizedImage, isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 
 type Slide = { src: string; alt: string; caption?: string };
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'features',
   imports: [NgOptimizedImage],
   encapsulation: ViewEncapsulation.None,
@@ -32,23 +24,23 @@ type Slide = { src: string; alt: string; caption?: string };
       >
         <div #track class="flex will-change-transform">
           @for (s of slides(); track s.src) {
-          <figure class="w-full shrink-0 relative">
-            <img
-              ngSrc="{{ s.src }}"
-              width="1600"
-              height="900"
-              class="block w-full h-auto object-cover"
-              alt="{{ s.alt }}"
-              priority
-            />
-            @if (s.caption) {
-            <figcaption
-              class="absolute bottom-3 left-3 text-xs px-2 py-1 rounded bg-black/60 "
-            >
-              {{ s.caption }}
-            </figcaption>
-            }
-          </figure>
+            <figure class="w-full shrink-0 relative">
+              <img
+                ngSrc="{{ s.src }}"
+                width="1600"
+                height="900"
+                class="block w-full h-auto object-cover"
+                alt="{{ s.alt }}"
+                priority
+              />
+              @if (s.caption) {
+                <figcaption
+                  class="absolute bottom-3 left-3 text-xs px-2 py-1 rounded bg-black/60 "
+                >
+                  {{ s.caption }}
+                </figcaption>
+              }
+            </figure>
           }
         </div>
       </div>
@@ -74,15 +66,15 @@ type Slide = { src: string; alt: string; caption?: string };
       <!-- Dots -->
       <div class="mt-3 flex items-center justify-center gap-2">
         @for (i of dotIndexes(); track i) {
-        <button
-          type="button"
-          class="size-2.5 rounded-full transition"
-          [class.bg-zinc-900]="index() === i"
-          [class.bg-zinc-300]="index() !== i"
-          [class.dark:bg-zinc-600]="index() !== i"
-          [attr.aria-label]="'Go to slide ' + (i + 1)"
-          (click)="goTo(i)"
-        ></button>
+          <button
+            type="button"
+            class="size-2.5 rounded-full transition"
+            [class.bg-zinc-900]="index() === i"
+            [class.bg-zinc-300]="index() !== i"
+            [class.dark:bg-zinc-600]="index() !== i"
+            [attr.aria-label]="'Go to slide ' + (i + 1)"
+            (click)="goTo(i)"
+          ></button>
         }
       </div>
     </section>
@@ -121,13 +113,13 @@ export default class Features {
   index = signal(0);
   length = computed(() => this.slides().length);
   dotIndexes = computed(() =>
-    Array.from({ length: this.length() }, (_, i) => i)
+    Array.from({ length: this.length() }, (_, i) => i),
   );
 
   private width = 0;
   private ro?: ResizeObserver;
-  private timer?: any;
-  private gsap: any | null = null;
+  private timer?: ReturnType<typeof setInterval>;
+  private gsap: typeof import('gsap').default | null = null;
 
   async ngAfterViewInit() {
     if (!isPlatformBrowser(this.platformId)) return;

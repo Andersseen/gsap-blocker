@@ -12,12 +12,12 @@ import {
   RouterLinkActive,
 } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { NgClass } from '@angular/common';
 import { ThemeService } from '@shared/services/theme.service';
+import { CURRENT_YEAR } from '@shared/tokens/date.token';
 
 @Component({
   selector: 'navbar',
-  imports: [RouterLink, RouterLinkActive, NgClass],
+  imports: [RouterLink, RouterLinkActive],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <nav
@@ -63,35 +63,35 @@ import { ThemeService } from '@shared/services/theme.service';
           aria-label="Toggle theme"
         >
           @if (theme.darkMode()) {
-          <!-- Sun Icon -->
-          <svg
-            class="size-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-            />
-          </svg>
+            <!-- Sun Icon -->
+            <svg
+              class="size-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+              />
+            </svg>
           } @else {
-          <!-- Moon Icon -->
-          <svg
-            class="size-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-            />
-          </svg>
+            <!-- Moon Icon -->
+            <svg
+              class="size-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+              />
+            </svg>
           }
         </button>
 
@@ -123,103 +123,105 @@ import { ThemeService } from '@shared/services/theme.service';
       >
         <span
           class="w-6 h-0.5 bg-foreground transition-all duration-300 origin-center"
-          [ngClass]="{ 'rotate-45 translate-y-2': open() }"
+          [class.rotate-45]="open()"
+          [class.translate-y-2]="open()"
         ></span>
         <span
           class="w-6 h-0.5 bg-foreground transition-all duration-300"
-          [ngClass]="{ 'opacity-0': open() }"
+          [class.opacity-0]="open()"
         ></span>
         <span
           class="w-6 h-0.5 bg-foreground transition-all duration-300 origin-center"
-          [ngClass]="{ '-rotate-45 -translate-y-2': open() }"
+          [class.-rotate-45]="open()"
+          [class.-translate-y-2]="open()"
         ></span>
       </button>
     </nav>
 
     <!-- Mobile Overlay -->
     @if (open()) {
-    <div
-      class="fixed inset-0 z-50 bg-background/95 backdrop-blur-3xl flex flex-col justify-center px-8 animate-in fade-in duration-300"
-      role="dialog"
-      aria-modal="true"
-    >
-      <nav class="flex flex-col gap-6 items-start">
-        <a
-          class="text-4xl sm:text-5xl font-bold tracking-tight text-foreground hover:text-primary transition-colors animate-in slide-in-from-bottom-8 fade-in duration-500 delay-100"
-          routerLink="/home"
-          (click)="close()"
-          >Home</a
-        >
-        <a
-          class="text-4xl sm:text-5xl font-bold tracking-tight text-foreground hover:text-primary transition-colors animate-in slide-in-from-bottom-8 fade-in duration-500 delay-200"
-          routerLink="/docs"
-          (click)="close()"
-          >Docs</a
-        >
-        <a
-          class="text-4xl sm:text-5xl font-bold tracking-tight text-foreground hover:text-primary transition-colors animate-in slide-in-from-bottom-8 fade-in duration-500 delay-300"
-          routerLink="/blocks"
-          (click)="close()"
-          >Explore Blocks</a
-        >
-      </nav>
-
       <div
-        class="mt-12 w-full flex flex-col gap-8 animate-in slide-in-from-bottom-8 fade-in duration-500 delay-500"
+        class="fixed inset-0 z-50 bg-background/95 backdrop-blur-3xl flex flex-col justify-center px-8 animate-in fade-in duration-300"
+        role="dialog"
+        aria-modal="true"
       >
-        <!-- Mobile Theme Toggle -->
-        <button
-          class="flex items-center gap-3 text-xl font-medium text-foreground"
-          (click)="theme.toggle()"
-        >
-          @if (theme.darkMode()) {
-          <svg
-            class="size-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
+        <nav class="flex flex-col gap-6 items-start">
+          <a
+            class="text-4xl sm:text-5xl font-bold tracking-tight text-foreground hover:text-primary transition-colors animate-in slide-in-from-bottom-8 fade-in duration-500 delay-100"
+            routerLink="/home"
+            (click)="close()"
+            >Home</a
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-            />
-          </svg>
-          <span>Light Mode</span>
-          } @else {
-          <svg
-            class="size-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
+          <a
+            class="text-4xl sm:text-5xl font-bold tracking-tight text-foreground hover:text-primary transition-colors animate-in slide-in-from-bottom-8 fade-in duration-500 delay-200"
+            routerLink="/docs"
+            (click)="close()"
+            >Docs</a
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-            />
-          </svg>
-          <span>Dark Mode</span>
-          }
-        </button>
+          <a
+            class="text-4xl sm:text-5xl font-bold tracking-tight text-foreground hover:text-primary transition-colors animate-in slide-in-from-bottom-8 fade-in duration-500 delay-300"
+            routerLink="/blocks"
+            (click)="close()"
+            >Explore Blocks</a
+          >
+        </nav>
 
         <div
-          class="pt-8 border-t border-border flex items-center justify-between text-muted-foreground w-full"
+          class="mt-12 w-full flex flex-col gap-8 animate-in slide-in-from-bottom-8 fade-in duration-500 delay-500"
         >
-          <span class="text-sm">© {{ year }} Blocker.</span>
-          <div class="flex gap-4">
-            <a href="#" class="hover:text-foreground transition-colors"
-              >Twitter</a
-            >
-            <a href="#" class="hover:text-foreground transition-colors"
-              >GitHub</a
-            >
+          <!-- Mobile Theme Toggle -->
+          <button
+            class="flex items-center gap-3 text-xl font-medium text-foreground"
+            (click)="theme.toggle()"
+          >
+            @if (theme.darkMode()) {
+              <svg
+                class="size-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                />
+              </svg>
+              <span>Light Mode</span>
+            } @else {
+              <svg
+                class="size-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                />
+              </svg>
+              <span>Dark Mode</span>
+            }
+          </button>
+
+          <div
+            class="pt-8 border-t border-border flex items-center justify-between text-muted-foreground w-full"
+          >
+            <span class="text-sm">© {{ year }} Blocker.</span>
+            <div class="flex gap-4">
+              <a href="#" class="hover:text-foreground transition-colors"
+                >Twitter</a
+              >
+              <a href="#" class="hover:text-foreground transition-colors"
+                >GitHub</a
+              >
+            </div>
           </div>
         </div>
       </div>
-    </div>
     }
   `,
 })
@@ -227,7 +229,7 @@ export default class Navbar {
   theme = inject(ThemeService);
   private router = inject(Router);
 
-  year = new Date().getFullYear();
+  year = inject(CURRENT_YEAR);
   open = model(false);
 
   constructor() {

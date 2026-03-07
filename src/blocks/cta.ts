@@ -1,8 +1,9 @@
-import { Component, ElementRef, inject, input, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, viewChild, ChangeDetectionStrategy } from '@angular/core';;
 import { isPlatformBrowser, NgOptimizedImage } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cta',
   imports: [NgOptimizedImage],
   host: {
@@ -92,7 +93,7 @@ export default class CTA {
   // Inputs (signals)
   title = input<string>('Build faster with Angular + Tailwind');
   subtitle = input<string>(
-    'A modern hero block animated with GSAP. Clean, accessible, and easy to customize.'
+    'A modern hero block animated with GSAP. Clean, accessible, and easy to customize.',
   );
   badge = input<string>('New');
   primaryText = input<string>('Get started');
@@ -100,12 +101,12 @@ export default class CTA {
   secondaryText = input<string>('Learn more');
   secondaryHref = input<string>('#');
   imageSrc = input<string>(
-    'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1600&auto=format&fit=crop'
+    'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1600&auto=format&fit=crop',
   );
   imageAlt = input<string>('Dashboard preview');
 
   // Lazy gsap reference
-  private gsap: any | null = null;
+  private gsap: typeof import('gsap').default | null = null;
 
   async ngAfterViewInit() {
     if (!isPlatformBrowser(this.platformId)) return;
@@ -131,17 +132,17 @@ export default class CTA {
       .from(
         el.querySelectorAll('.hero-cta'),
         { y: 14, autoAlpha: 0, stagger: 0.08 },
-        '-=0.6'
+        '-=0.6',
       )
       .from(
         el.querySelector('.hero-card'),
         { y: 30, rotateX: 6, autoAlpha: 0 },
-        '-=0.6'
+        '-=0.6',
       )
       .from(
         el.querySelectorAll('.floating'),
         { scale: 0.6, autoAlpha: 0, stagger: 0.1 },
-        '-=0.7'
+        '-=0.7',
       );
   }
 

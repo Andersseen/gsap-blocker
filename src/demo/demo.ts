@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';;
 import { AndGsapScrollDirective } from '@shared/directives/and-gsap-scroll.directive';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-root',
   imports: [AndGsapScrollDirective],
   styleUrl: './demo.css',

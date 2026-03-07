@@ -11,15 +11,19 @@ import { gsap } from 'gsap';
   selector: '[gsapFromTo]',
 })
 export class GsapFromToDirective implements AfterViewInit {
-  readonly gsapFromTo = input<any>({});
+  readonly gsapFromTo = input<unknown>({});
   readonly gsapFromToFrom = input<gsap.TweenVars>({});
   readonly gsapFromToTo = input<gsap.TweenVars>({});
 
   private readonly el = inject(ElementRef);
 
   ngAfterViewInit(): void {
-    const fromProps = { ...this.gsapFromToFrom(), ...this.gsapFromTo().from };
-    const toProps = { ...this.gsapFromToTo(), ...this.gsapFromTo().to };
+    const inputObj = this.gsapFromTo() as {
+      from?: gsap.TweenVars;
+      to?: gsap.TweenVars;
+    };
+    const fromProps = { ...this.gsapFromToFrom(), ...inputObj.from };
+    const toProps = { ...this.gsapFromToTo(), ...inputObj.to };
 
     gsap.fromTo(this.el.nativeElement, fromProps, toProps);
   }

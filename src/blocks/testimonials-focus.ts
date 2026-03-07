@@ -1,6 +1,7 @@
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';;
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-testimonials-focus',
   template: `
     <div class="py-32 bg-secondary/20 border-y border-border">

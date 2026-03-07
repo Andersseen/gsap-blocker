@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';;
 import Footer from '@blocks/footer';
 import InteractiveFooter from '@blocks/interactive-footer';
 import FooterMega from '@blocks/footer-mega';
 import FooterMinimal from '@blocks/footer-minimal';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'footers-page',
   imports: [Footer, InteractiveFooter, FooterMega, FooterMinimal],
   template: `

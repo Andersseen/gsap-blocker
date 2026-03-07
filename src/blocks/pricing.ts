@@ -1,13 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  ViewEncapsulation,
-  inject,
-  input,
-  signal,
-  computed,
-  viewChild,
-} from '@angular/core';
+import { Component, ElementRef, ViewEncapsulation, inject, input, signal, computed, viewChild, ChangeDetectionStrategy } from '@angular/core';;
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 
@@ -23,6 +14,7 @@ type Plan = {
 };
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'and-pricing-section',
   encapsulation: ViewEncapsulation.None,
   host: { class: 'block' },
@@ -57,47 +49,48 @@ type Plan = {
 
       <div class="mt-10 grid md:grid-cols-3 gap-6">
         @for (p of plans(); track p.name) {
-        <article
-          class="price-card relative rounded-2xl border border-border bg-card/70 p-6 hover:shadow-xl transition"
-        >
-          @if (p.popular) {
-          <div
-            class="absolute -top-3 right-4 text-xs rounded-full px-2 py-1 bg-emerald-500  shadow"
+          <article
+            class="price-card relative rounded-2xl border border-border bg-card/70 p-6 hover:shadow-xl transition"
           >
-            Most popular
-          </div>
-          }
-          <h3 class="text-lg font-semibold">{{ p.name }}</h3>
-          <p class="mt-1 text-sm text-muted-foreground">
-            {{ p.description }}
-          </p>
-
-          <div class="mt-5 flex items-baseline gap-1">
-            <span class="text-3xl md:text-4xl font-extrabold tracking-tight">{{
-              priceOf(p)
-            }}</span>
-            <span class="text-sm text-muted-foreground"
-              >/{{ cycle() === 'month' ? 'mo' : 'yr' }}</span
-            >
-          </div>
-
-          <ul class="mt-5 space-y-2 text-sm">
-            @for (f of p.features; track f) {
-            <li class="flex items-start gap-2">
-              <span
-                class="mt-1 inline-block size-1.5 rounded-full bg-emerald-500"
-              ></span>
-              <span>{{ f }}</span>
-            </li>
+            @if (p.popular) {
+              <div
+                class="absolute -top-3 right-4 text-xs rounded-full px-2 py-1 bg-emerald-500  shadow"
+              >
+                Most popular
+              </div>
             }
-          </ul>
+            <h3 class="text-lg font-semibold">{{ p.name }}</h3>
+            <p class="mt-1 text-sm text-muted-foreground">
+              {{ p.description }}
+            </p>
 
-          <a
-            class="mt-6 inline-flex w-full items-center justify-center rounded-xl px-4 py-2.5 text-sm font-medium bg-primary text-primary-foreground hover:opacity-90 transition"
-            [href]="p.ctaHref"
-            >{{ p.ctaText }}</a
-          >
-        </article>
+            <div class="mt-5 flex items-baseline gap-1">
+              <span
+                class="text-3xl md:text-4xl font-extrabold tracking-tight"
+                >{{ priceOf(p) }}</span
+              >
+              <span class="text-sm text-muted-foreground"
+                >/{{ cycle() === 'month' ? 'mo' : 'yr' }}</span
+              >
+            </div>
+
+            <ul class="mt-5 space-y-2 text-sm">
+              @for (f of p.features; track f) {
+                <li class="flex items-start gap-2">
+                  <span
+                    class="mt-1 inline-block size-1.5 rounded-full bg-emerald-500"
+                  ></span>
+                  <span>{{ f }}</span>
+                </li>
+              }
+            </ul>
+
+            <a
+              class="mt-6 inline-flex w-full items-center justify-center rounded-xl px-4 py-2.5 text-sm font-medium bg-primary text-primary-foreground hover:opacity-90 transition"
+              [href]="p.ctaHref"
+              >{{ p.ctaText }}</a
+            >
+          </article>
         }
       </div>
     </section>
@@ -144,7 +137,7 @@ export default class AndPricingSection {
   priceOf = (p: Plan) =>
     this.cycle() === 'month' ? `$${p.monthly}` : `$${p.yearly}`;
 
-  private gsap: any | null = null;
+  private gsap: typeof import('gsap').default | null = null;
 
   async ngAfterViewInit() {
     if (!isPlatformBrowser(this.platformId)) return;

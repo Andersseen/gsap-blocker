@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';;
 import {
   GSAPFromDirective,
   GSAPFromOptions,
@@ -8,6 +8,7 @@ import { gsap } from 'gsap';
 import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'hero-wave',
   imports: [GSAPToDirective, GSAPFromDirective],
   host: {

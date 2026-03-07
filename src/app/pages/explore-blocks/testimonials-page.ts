@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';;
 import Testimonials from '@blocks/testimonials'; // "Marquee"
 import TestimonialsGrid from '@blocks/testimonials-grid';
 import TestimonialsFocus from '@blocks/testimonials-focus';
 import TestimonialsAvatars from '@blocks/testimonials-avatars';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'testimonials-page',
   imports: [
     Testimonials,

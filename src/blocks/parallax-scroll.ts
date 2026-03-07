@@ -1,15 +1,9 @@
-import {
-  Component,
-  ElementRef,
-  inject,
-  input,
-  viewChild,
-  AfterViewInit,
-} from '@angular/core';
+import { Component, ElementRef, inject, input, viewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';;
 import { NgOptimizedImage, isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-parallax-scroll',
   imports: [NgOptimizedImage],
   host: {
@@ -108,7 +102,7 @@ export default class ParallaxScroll implements AfterViewInit {
     const el = this.root().nativeElement;
     const items = el.querySelectorAll('.parallax-item');
 
-    items.forEach((item: any) => {
+    items.forEach((item: Element) => {
       const speed = parseFloat(item.getAttribute('data-speed') || '1');
 
       gsap.to(item, {

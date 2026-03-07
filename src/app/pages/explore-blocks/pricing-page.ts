@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';;
 import PricingSection from '@blocks/pricing'; // "Pricing Table"
 import PricingSimple from '@blocks/pricing-simple';
 import PricingCompare from '@blocks/pricing-compare';
 import PricingEnterprise from '@blocks/pricing-enterprise';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'pricing-page',
   imports: [PricingSection, PricingSimple, PricingCompare, PricingEnterprise],
   template: `

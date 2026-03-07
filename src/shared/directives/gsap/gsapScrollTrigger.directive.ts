@@ -14,7 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
   selector: '[gsapScrollTrigger]',
 })
 export class GsapScrollTriggerDirective implements AfterViewInit {
-  readonly gsapScrollTrigger = input<any>({});
+  readonly gsapScrollTrigger = input<unknown>({});
   readonly gsapScrollTriggerVars = input<ScrollTrigger.Vars>({});
 
   private readonly el = inject(ElementRef);
@@ -25,8 +25,13 @@ export class GsapScrollTriggerDirective implements AfterViewInit {
       ...this.gsapScrollTriggerVars(),
     };
 
+    const inputVars = this.gsapScrollTrigger() as {
+      from?: gsap.TweenVars;
+      to?: gsap.TweenVars;
+    } & gsap.TweenVars;
+
     const animationVars = {
-      ...this.gsapScrollTrigger(),
+      ...inputVars,
       scrollTrigger: scrollTriggerConfig,
     };
 

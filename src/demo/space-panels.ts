@@ -1,17 +1,11 @@
-import {
-  Component,
-  signal,
-  inject,
-  afterNextRender,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
-import { DOCUMENT, isPlatformBrowser, NgClass } from '@angular/common';
+import { Component, signal, inject, afterNextRender, ElementRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';;
+import { DOCUMENT, isPlatformBrowser, NgOptimizedImage } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'space-panels',
-  imports: [NgClass],
+  imports: [NgOptimizedImage],
   host: {
     class: 'block w-full h-full',
   },
@@ -22,11 +16,9 @@ import { PLATFORM_ID } from '@angular/core';
       <!-- Left Menu -->
       <div
         class="fixed left-0 top-0 h-screen bg-gray-900 z-[100] flex flex-col justify-between border-r border-white/5 transition-all duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden"
-        [ngClass]="
-          menuExpanded()
-            ? 'w-64 shadow-[0_0_25px_rgba(0,0,0,0.25)]'
-            : 'w-[60px]'
-        "
+        [class.w-64]="menuExpanded()"
+        [class.shadow-[0_0_25px_rgba(0,0,0,0.25)]]="menuExpanded()"
+        [class.w-[60px]]="!menuExpanded()"
       >
         <!-- Menu Button -->
         <div class="absolute top-6 left-0 w-full flex justify-center z-[101]">
@@ -37,19 +29,19 @@ import { PLATFORM_ID } from '@angular/core';
           >
             <span
               class="block w-full h-0.5 bg-gray-100 transition-all duration-300"
-              [ngClass]="
-                menuExpanded() ? 'transform translate-y-[9px] rotate-45' : ''
-              "
+              [class.transform]="menuExpanded()"
+              [class.translate-y-[9px]]="menuExpanded()"
+              [class.rotate-45]="menuExpanded()"
             ></span>
             <span
               class="block w-full h-0.5 bg-gray-100 transition-all duration-300"
-              [ngClass]="menuExpanded() ? 'opacity-0' : ''"
+              [class.opacity-0]="menuExpanded()"
             ></span>
             <span
               class="block w-full h-0.5 bg-gray-100 transition-all duration-300"
-              [ngClass]="
-                menuExpanded() ? 'transform -translate-y-[9px] -rotate-45' : ''
-              "
+              [class.transform]="menuExpanded()"
+              [class.-translate-y-[9px]]="menuExpanded()"
+              [class.-rotate-45]="menuExpanded()"
             ></span>
           </button>
         </div>
@@ -60,7 +52,8 @@ import { PLATFORM_ID } from '@angular/core';
         >
           <div
             class="font-bold tracking-[2px] text-lg text-gray-100 whitespace-nowrap transform -rotate-90 transition-all duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
-            [ngClass]="menuExpanded() ? 'opacity-0 translate-y-5' : ''"
+            [class.opacity-0]="menuExpanded()"
+            [class.translate-y-5]="menuExpanded()"
           >
             SPACE
           </div>
@@ -69,24 +62,26 @@ import { PLATFORM_ID } from '@angular/core';
         <!-- Navigation -->
         <div
           class="absolute left-0 top-0 w-full h-full flex flex-col items-start justify-center pl-[60px] pr-8 bg-gray-900 transition-all duration-300"
-          [ngClass]="
-            menuExpanded() ? 'opacity-100 visible' : 'opacity-0 invisible'
-          "
+          [class.opacity-100]="menuExpanded()"
+          [class.visible]="menuExpanded()"
+          [class.opacity-0]="!menuExpanded()"
+          [class.invisible]="!menuExpanded()"
         >
           @for (nav of navigationItems(); track nav.index; let i = $index) {
-          <a
-            class="font-semibold text-gray-100 no-underline my-3 text-sm cursor-pointer flex items-center w-full transform -translate-x-5 opacity-0 transition-all duration-[400ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:opacity-100 hover:text-red-600"
-            [ngClass]="getNavItemClasses(nav.index, i)"
-            (click)="navigateToPanel(nav.index)"
-            [attr.data-index]="nav.index"
-          >
-            <span
-              class="font-bold text-xs opacity-60 mr-3 min-w-[20px] transform -translate-x-2.5 transition-all duration-300"
+            <a
+              class="font-semibold text-gray-100 no-underline my-3 text-sm cursor-pointer flex items-center w-full transform -translate-x-5 opacity-0 transition-all duration-[400ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:opacity-100 hover:text-red-600 {{
+                getNavItemClasses(nav.index, i)
+              }}"
+              (click)="navigateToPanel(nav.index)"
+              [attr.data-index]="nav.index"
             >
-              {{ nav.number }}
-            </span>
-            <span>{{ nav.title }}</span>
-          </a>
+              <span
+                class="font-bold text-xs opacity-60 mr-3 min-w-[20px] transform -translate-x-2.5 transition-all duration-300"
+              >
+                {{ nav.number }}
+              </span>
+              <span>{{ nav.title }}</span>
+            </a>
           }
         </div>
       </div>
@@ -94,7 +89,8 @@ import { PLATFORM_ID } from '@angular/core';
       <!-- Page Container -->
       <div
         class="fixed top-0 right-0 bottom-0 transition-all duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
-        [ngClass]="menuExpanded() ? 'left-64' : 'left-[60px]'"
+        [class.left-64]="menuExpanded()"
+        [class.left-[60px]]="!menuExpanded()"
         #pageContainer
       >
         <div class="absolute top-0 left-0 w-full h-full" #horizontalContainer>
@@ -135,8 +131,7 @@ import { PLATFORM_ID } from '@angular/core';
               </div>
               <div class="h-full relative overflow-hidden">
                 <div class="absolute inset-0 overflow-hidden">
-                  <img
-                    src="https://cdn.cosmos.so/996569d5-2f19-40e9-9504-af3009286f9f.jpeg"
+                  <img width="1200" height="800" ngSrc="https://cdn.cosmos.so/996569d5-2f19-40e9-9504-af3009286f9f.jpeg"
                     alt="Space perspective"
                     class="w-[110%] h-[110%] object-cover brightness-75 will-change-transform opacity-0 transition-opacity duration-300 parallax loaded"
                     data-speed="0.3"
@@ -150,8 +145,7 @@ import { PLATFORM_ID } from '@angular/core';
               class="relative h-screen overflow-hidden w-screen flex items-center justify-center"
             >
               <div class="absolute inset-0 overflow-hidden">
-                <img
-                  src="https://cdn.cosmos.so/6828e15d-6b7e-4116-ba62-99493fa821cf.jpeg"
+                <img width="1200" height="800" ngSrc="https://cdn.cosmos.so/6828e15d-6b7e-4116-ba62-99493fa821cf.jpeg"
                   alt="Cave opening"
                   class="absolute w-[110%] h-[110%] object-cover z-[1] will-change-transform brightness-[0.7] opacity-0 transition-opacity duration-300 parallax loaded"
                   data-speed="0.2"
@@ -186,8 +180,7 @@ import { PLATFORM_ID } from '@angular/core';
             <!-- Panel 3: Fixed panel -->
             <section class="relative h-screen overflow-hidden w-screen">
               <div class="absolute inset-0 overflow-hidden">
-                <img
-                  src="https://cdn.cosmos.so/47895928-9611-45a3-b94d-0d8ef8ac02dc.jpeg"
+                <img width="1200" height="800" ngSrc="https://cdn.cosmos.so/47895928-9611-45a3-b94d-0d8ef8ac02dc.jpeg"
                   alt="Galaxy view"
                   class="w-[110%] h-[110%] object-cover brightness-[0.7] will-change-transform opacity-0 transition-opacity duration-300 parallax loaded"
                   data-speed="0.25"
@@ -210,8 +203,7 @@ import { PLATFORM_ID } from '@angular/core';
             >
               <div class="h-full relative overflow-hidden">
                 <div class="absolute inset-0 overflow-hidden">
-                  <img
-                    src="https://cdn.cosmos.so/a28a9abc-6d7a-4160-a44b-2d9968c689c6.jpeg"
+                  <img width="1200" height="800" ngSrc="https://cdn.cosmos.so/a28a9abc-6d7a-4160-a44b-2d9968c689c6.jpeg"
                     alt="Space explorer"
                     class="w-[110%] h-[110%] object-cover brightness-75 will-change-transform opacity-0 transition-opacity duration-300 parallax loaded"
                     data-speed="0.3"
@@ -252,8 +244,7 @@ import { PLATFORM_ID } from '@angular/core';
               class="relative h-screen overflow-hidden w-screen flex items-center justify-center"
             >
               <div class="absolute inset-0 overflow-hidden">
-                <img
-                  src="https://cdn.cosmos.so/e3817e25-3312-43ea-b666-75aa0bc4b5ae.jpeg"
+                <img width="1200" height="800" ngSrc="https://cdn.cosmos.so/e3817e25-3312-43ea-b666-75aa0bc4b5ae.jpeg"
                   alt="Deep space"
                   class="absolute w-[110%] h-[110%] object-cover z-[1] will-change-transform brightness-[0.7] opacity-0 transition-opacity duration-300 parallax loaded"
                   data-speed="0.2"
@@ -313,8 +304,7 @@ import { PLATFORM_ID } from '@angular/core';
                     class="w-full max-w-[450px] h-[300px] mb-6 relative overflow-hidden transform-gpu shadow-[0_10px_30px_rgba(0,0,0,0.5)] rounded"
                   >
                     <div class="relative w-full h-full overflow-hidden">
-                      <img
-                        src="https://cdn.cosmos.so/f22462ad-b33d-448d-aa08-cfbbbe79ef42.jpeg"
+                      <img width="1200" height="800" ngSrc="https://cdn.cosmos.so/f22462ad-b33d-448d-aa08-cfbbbe79ef42.jpeg"
                         alt="Space journey"
                         class="w-[110%] h-[110%] object-cover will-change-transform opacity-0 transition-opacity duration-300 parallax loaded"
                         data-speed="0.15"
@@ -382,8 +372,7 @@ import { PLATFORM_ID } from '@angular/core';
               class="relative h-screen overflow-hidden w-screen flex items-center justify-center"
             >
               <div class="absolute inset-0 overflow-hidden">
-                <img
-                  src="https://cdn.cosmos.so/ee8be9fb-15f6-4f3b-a13f-309cbf5453c2.jpeg"
+                <img width="1200" height="800" ngSrc="https://cdn.cosmos.so/ee8be9fb-15f6-4f3b-a13f-309cbf5453c2.jpeg"
                   alt="Space infinite"
                   class="absolute w-[110%] h-[110%] object-cover z-[1] will-change-transform brightness-[0.7] opacity-0 transition-opacity duration-300 parallax loaded"
                   data-speed="0.3"
@@ -451,11 +440,10 @@ import { PLATFORM_ID } from '@angular/core';
 
                     <span
                       class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-3 py-1 rounded text-xs transition-all duration-300"
-                      [ngClass]="
-                        showCopyTooltip()
-                          ? 'opacity-100 visible'
-                          : 'opacity-0 invisible'
-                      "
+                      [class.opacity-100]="showCopyTooltip()"
+                      [class.visible]="showCopyTooltip()"
+                      [class.opacity-0]="!showCopyTooltip()"
+                      [class.invisible]="!showCopyTooltip()"
                     >
                       Copied!
                     </span>
@@ -586,19 +574,19 @@ export default class SpacePanelsComponent {
         this.targetX = this.clamp(
           this.targetX + e.deltaY * this.WHEEL_SENSITIVITY,
           0,
-          this.maxScroll
+          this.maxScroll,
         );
         this.startAnimation();
       },
-      { passive: false }
+      { passive: false },
     );
 
     // Mouse events
     horizontalContainer.addEventListener('mousedown', (e: MouseEvent) =>
-      this.handleMouseDown(e)
+      this.handleMouseDown(e),
     );
     window.addEventListener('mousemove', (e: MouseEvent) =>
-      this.handleMouseMove(e)
+      this.handleMouseMove(e),
     );
     window.addEventListener('mouseup', () => this.handleMouseUp());
 
@@ -606,17 +594,17 @@ export default class SpacePanelsComponent {
     horizontalContainer.addEventListener(
       'touchstart',
       (e: TouchEvent) => this.handleTouchStart(e),
-      { passive: true }
+      { passive: true },
     );
     horizontalContainer.addEventListener(
       'touchmove',
       (e: TouchEvent) => this.handleTouchMove(e),
-      { passive: false }
+      { passive: false },
     );
     horizontalContainer.addEventListener(
       'touchend',
       () => this.handleTouchEnd(),
-      { passive: true }
+      { passive: true },
     );
 
     // Resize event
@@ -682,7 +670,7 @@ export default class SpacePanelsComponent {
     this.currentProgress = this.lerp(
       this.currentProgress,
       this.targetProgress,
-      this.SMOOTH_FACTOR * 1.5
+      this.SMOOTH_FACTOR * 1.5,
     );
 
     if (this.progressFill) {
@@ -727,7 +715,7 @@ export default class SpacePanelsComponent {
     const parallaxElements = this.document.querySelectorAll('.parallax');
     parallaxElements.forEach((element: Element) => {
       const speed = Number.parseFloat(
-        (element as HTMLElement).dataset['speed'] || '0.2'
+        (element as HTMLElement).dataset['speed'] || '0.2',
       );
       const moveX = -this.currentX * speed * this.PARALLAX_INTENSITY;
       (element as HTMLElement).style.transform = `translateX(${moveX}px)`;
@@ -741,7 +729,7 @@ export default class SpacePanelsComponent {
       text.innerHTML = words
         .map(
           (word) =>
-            `<span class="inline-block opacity-0 transform translate-y-4 transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)]">${word}</span>`
+            `<span class="inline-block opacity-0 transform translate-y-4 transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)]">${word}</span>`,
         )
         .join(' ');
 
@@ -816,7 +804,7 @@ export default class SpacePanelsComponent {
       this.targetX = this.clamp(
         this.targetX + this.velocityX * 8,
         0,
-        this.maxScroll
+        this.maxScroll,
       );
     }
 
@@ -868,7 +856,7 @@ export default class SpacePanelsComponent {
       this.targetX = this.clamp(
         this.targetX + this.velocityX * 6,
         0,
-        this.maxScroll
+        this.maxScroll,
       );
     }
 

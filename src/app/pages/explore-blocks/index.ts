@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';;
 import {
   NavigationEnd,
   Router,
@@ -7,6 +7,7 @@ import {
 } from '@angular/router';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'page-explore-blocks',
   imports: [RouterOutlet, RouterLink],
   template: ` <section class="container mx-auto px-6 md:px-8 py-16">
