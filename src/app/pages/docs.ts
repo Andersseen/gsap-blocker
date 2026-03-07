@@ -9,7 +9,7 @@ import { RouterLink } from '@angular/router';
     <div class="min-h-screen flex flex-col md:flex-row bg-background">
       <!-- Docs Sidebar -->
       <aside
-        class="w-full md:w-64 shrink-0 border-r border-border bg-secondary/30 md:h-screen sticky top-0 overflow-y-auto"
+        class="w-full md:w-64 shrink-0 border-r border-border bg-secondary/30 md:h-[calc(100vh-4rem)] sticky top-16 overflow-y-auto"
       >
         <div class="p-6">
           <h2
@@ -140,24 +140,78 @@ import { RouterLink } from '@angular/router';
             <section id="theming" class="scroll-mt-24 mb-16">
               <h2>Theming</h2>
               <p>
-                We use usage semantic CSS variables compatible with Tailwind CSS
-                v4.
+                We use semantic CSS variables compatible with Tailwind CSS v4.
               </p>
               <div
-                class="not-prose p-6 rounded-xl bg-muted border border-border"
+                class="not-prose grid gap-4 grid-cols-2 md:grid-cols-4 mt-6 mb-4"
               >
-                <div class="flex gap-4 mb-4">
+                <div
+                  class="p-4 rounded-xl border border-border bg-card flex flex-col gap-3"
+                >
                   <div
-                    class="size-10 rounded bg-background border border-border"
+                    class="h-16 w-full rounded-lg bg-background border border-border shadow-sm"
                   ></div>
-                  <div class="size-10 rounded bg-foreground"></div>
-                  <div class="size-10 rounded bg-primary"></div>
-                  <div class="size-10 rounded bg-muted"></div>
+                  <div>
+                    <div class="text-sm font-semibold text-foreground">
+                      Background
+                    </div>
+                    <div class="text-xs text-muted-foreground font-mono">
+                      bg-background
+                    </div>
+                  </div>
                 </div>
-                <p class="text-sm text-muted-foreground">
-                  The theme adapts automatically to light and dark modes.
-                </p>
+
+                <div
+                  class="p-4 rounded-xl border border-border bg-card flex flex-col gap-3"
+                >
+                  <div
+                    class="h-16 w-full rounded-lg bg-foreground border border-border shadow-sm"
+                  ></div>
+                  <div>
+                    <div class="text-sm font-semibold text-foreground">
+                      Foreground
+                    </div>
+                    <div class="text-xs text-muted-foreground font-mono">
+                      bg-foreground
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="p-4 rounded-xl border border-border bg-card flex flex-col gap-3"
+                >
+                  <div
+                    class="h-16 w-full rounded-lg bg-primary border border-border shadow-sm"
+                  ></div>
+                  <div>
+                    <div class="text-sm font-semibold text-foreground">
+                      Primary
+                    </div>
+                    <div class="text-xs text-muted-foreground font-mono">
+                      bg-primary
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="p-4 rounded-xl border border-border bg-card flex flex-col gap-3"
+                >
+                  <div
+                    class="h-16 w-full rounded-lg bg-muted border border-border shadow-sm ring-1 ring-black/5 dark:ring-white/5"
+                  ></div>
+                  <div>
+                    <div class="text-sm font-semibold text-foreground">
+                      Muted
+                    </div>
+                    <div class="text-xs text-muted-foreground font-mono">
+                      bg-muted
+                    </div>
+                  </div>
+                </div>
               </div>
+              <p class="text-sm text-muted-foreground">
+                The theme adapts automatically to light and dark modes.
+              </p>
             </section>
           </div>
         </div>

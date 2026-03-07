@@ -1,4 +1,11 @@
-import { Component, ElementRef, inject, input, viewChild, ChangeDetectionStrategy } from '@angular/core';;
+import {
+  Component,
+  ElementRef,
+  inject,
+  input,
+  viewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { isPlatformBrowser, NgOptimizedImage } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 
@@ -110,7 +117,7 @@ export default class Hero {
   secondaryText = input<string>('Learn more');
   secondaryHref = input<string>('#');
   imageSrc = input<string>(
-    'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1600&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=800&auto=format&fit=crop',
   );
   imageAlt = input<string>('Dashboard preview');
 

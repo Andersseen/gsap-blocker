@@ -1,4 +1,11 @@
-import { Component, effect, ElementRef, signal, viewChild, ChangeDetectionStrategy } from '@angular/core';;
+import {
+  Component,
+  effect,
+  ElementRef,
+  signal,
+  viewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import Navbar from '@components/navbar';
 import Footer from '@components/footer';
 
@@ -7,12 +14,12 @@ import Footer from '@components/footer';
   selector: 'layout',
   imports: [Navbar, Footer],
   host: {
-    class: 'flex min-h-screen flex-col overflow-hidden',
+    class: 'flex min-h-screen flex-col overflow-x-clip',
   },
   template: `
     <navbar [(open)]="open" />
 
-    <main class="flex-1 mt-14" #main>
+    <main class="flex-1 mt-16" #main>
       <ng-content />
     </main>
 
