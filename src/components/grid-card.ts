@@ -39,8 +39,8 @@ type Category = {
         background: linear-gradient(
           120deg,
           transparent 0%,
-          rgba(255, 255, 255, 0.35) 12%,
-          transparent 24%
+          rgba(255, 255, 255, 0.4) 10%,
+          transparent 20%
         );
         background-size: 200% 200%;
         mix-blend-mode: overlay;
@@ -51,16 +51,12 @@ type Category = {
     `,
   ],
   template: `
-    <div #root class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div #root class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
       @for (category of categories(); track category.name; let i = $index) {
         <a
           #card
-          class="group relative rounded-2xl border p-5 card-tilt gpu overflow-hidden
-               border-[color:color-mix(in_srgb,var(--color-foreground) 10%,transparent)]
-               bg-[color:color-mix(in_srgb,var(--color-background) 96%,white)]
-               shadow-[0_1px_0_0_rgba(0,0,0,0.02)]
-               transition-[box-shadow,transform] duration-300 ease-out"
-          [routerLink]="category.name.toLowerCase()"
+          class="group relative rounded-3xl p-[1px] flex flex-col card-tilt gpu overflow-hidden shadow-2xl hover:shadow-[0_0_40px_-10px_rgba(var(--color-primary),0.3)] transition-shadow duration-500 ease-out"
+          [routerLink]="['/blocks', category.name.toLowerCase()]"
           (mouseenter)="onEnter(card)"
           (mouseleave)="onLeave(card)"
           (mousemove)="onMove(card, $event)"
@@ -71,79 +67,104 @@ type Category = {
           tabindex="0"
           [attr.aria-label]="category.name + ' (' + category.count + ' blocks)'"
         >
+          <!-- Animated gradient border backing -->
           <div
-            class="pointer-events-none absolute -inset-1 opacity-0 gpu transition-opacity duration-500 ease-out"
-            style="background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--color-primary) 15%, transparent) 0%, transparent 70%); mix-blend-mode: screen;"
-            data-blob
+            class="absolute inset-0 z-0 bg-gradient-to-br from-border/50 via-border/10 to-transparent group-hover:from-primary/50 group-hover:via-primary/20 group-hover:to-transparent transition-colors duration-500"
           ></div>
 
+          <!-- Main Card Body (Glass) -->
           <div
-            class="shine absolute inset-0 rounded-2xl pointer-events-none overflow-hidden"
+            class="relative z-10 flex flex-col h-full bg-background/90 dark:bg-[#0a0a0a]/90 backdrop-blur-3xl rounded-[calc(1.5rem-1px)] p-6 overflow-hidden"
           >
+            <!-- Radial glow from mouse -->
             <div
-              class="absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none group-hover:opacity-100 mix-blend-overlay"
-              style="background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.4) 25%, transparent 30%);"
+              class="pointer-events-none absolute inset-0 opacity-0 gpu transition-opacity duration-500 ease-out z-0 mix-blend-screen"
+              data-blob
             ></div>
+
+            <!-- Foreground Content -->
+            <div class="relative z-10 flex flex-col h-full">
+              <div class="flex items-start justify-between">
+                <!-- Emoji Container (Floating effect) -->
+                <div
+                  class="relative flex items-center justify-center size-16 rounded-2xl bg-gradient-to-br from-white/10 to-white/0 border border-white/10 shadow-[0_8px_16px_-6px_rgba(0,0,0,0.5)] text-[2rem] leading-none gpu overflow-hidden group-hover:border-primary/30 transition-colors duration-500"
+                >
+                  <div
+                    class="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent opacity-50"
+                  ></div>
+                  <span data-emoji class="relative z-10 drop-shadow-md">{{
+                    category.emoji
+                  }}</span>
+                </div>
+
+                <!-- Badge (Neon style) -->
+                <span
+                  class="inline-flex items-center gap-1.5 text-[0.7rem] font-bold px-3 py-1.5 font-mono uppercase tracking-widest rounded-full bg-black/40 text-muted-foreground border border-white/5 group-hover:text-primary group-hover:border-primary/30 group-hover:bg-primary/10 transition-all duration-300 shadow-inner"
+                >
+                  <span class="text-foreground group-hover:text-primary">{{
+                    category.count
+                  }}</span>
+                  <span class="opacity-60">blocks</span>
+                </span>
+              </div>
+
+              <div class="mt-8 flex items-end justify-between">
+                <div>
+                  <h3
+                    class="font-extrabold text-2xl text-foreground tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-primary/70 transition-all duration-500"
+                  >
+                    {{ category.name }}
+                  </h3>
+                  <p
+                    class="text-sm text-muted-foreground mt-2 font-medium flex items-center gap-1 opacity-80 group-hover:opacity-100 transition-opacity"
+                  >
+                    <span>Explore collection</span>
+                    <span
+                      class="tracking-tighter opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300"
+                      >-></span
+                    >
+                  </p>
+                </div>
+
+                <!-- Arrow Icon (Refined) -->
+                <div
+                  class="flex items-center justify-center size-10 rounded-full bg-white/5 border border-white/10 group-hover:bg-primary group-hover:border-primary group-hover:text-primary-foreground text-foreground transition-all duration-500 transform group-hover:scale-110 group-hover:shadow-[0_0_20px_-5px_var(--color-primary)]"
+                >
+                  <svg
+                    class="size-4 -rotate-45 group-hover:rotate-0 transition-transform duration-500"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Thumbnail Grid Pattern (Deep space look) -->
+              <div
+                class="mt-8 h-32 rounded-[1.25rem] relative overflow-hidden gpu border border-white/5 bg-black/40 group-hover:border-primary/20 transition-colors duration-500 shadow-inner"
+                data-bg
+              >
+                <div
+                  class="absolute inset-0 opacity-40 mix-blend-screen"
+                  data-gradient
+                ></div>
+                <div
+                  class="absolute inset-0 opacity-[0.2]"
+                  data-grid
+                  style="background-image: radial-gradient(circle at 1.5px 1.5px, rgba(255,255,255,0.15) 1px, transparent 0); background-size: 16px 16px;"
+                ></div>
+                <div
+                  class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"
+                ></div>
+              </div>
+            </div>
           </div>
-
-          <div class="flex items-center justify-between">
-            <span
-              class="text-xs px-2 py-1 rounded-full
-                       bg-[color:color-mix(in_srgb,var(--color-secondary) 12%,transparent)]
-                       text-[color:var(--color-foreground)]/80"
-            >
-              #{{ category.id }}
-            </span>
-
-            <span
-              class="text-xs px-2 py-1 rounded-full
-                       bg-[color:color-mix(in_srgb,var(--color-foreground) 8%,transparent)]"
-            >
-              {{ category.count }} blocks
-            </span>
-          </div>
-
-          <div class="mt-3 text-[2rem] leading-none select-none gpu" data-emoji>
-            {{ category.emoji }}
-          </div>
-
-          <div class="mt-4 flex items-center justify-between">
-            <h3 class="font-semibold text-[color:var(--color-foreground)]">
-              {{ category.name }}
-            </h3>
-            <svg
-              class="size-5 opacity-60 group-hover:opacity-100 transition"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M7 17L17 7M7 7h10v10" />
-            </svg>
-          </div>
-
-          <div
-            class="mt-4 h-24 rounded-xl relative overflow-hidden gpu border border-border/40 shadow-inner"
-            data-bg
-          >
-            <div
-              class="absolute inset-0 opacity-40 mix-blend-plus-lighter"
-              data-gradient
-            ></div>
-            <div
-              class="absolute inset-0 opacity-20"
-              data-grid
-              style="background-image: radial-gradient(circle at 1.5px 1.5px, currentColor 1px, transparent 0); background-size: 14px 14px;"
-            ></div>
-          </div>
-
-          <span
-            class="absolute inset-0 rounded-2xl ring-0 ring-[color:var(--color-primary)]/50
-                     group-focus-visible:ring-4 transition pointer-events-none"
-          ></span>
         </a>
       }
     </div>
