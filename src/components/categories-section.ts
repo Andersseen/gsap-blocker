@@ -33,57 +33,67 @@ import Category from '@shared/interfaces/category.interface';
       </div>
 
       <div #gridRef class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        @for (c of categories(); track c.name;let i = $index) {
-        <a
-          class="category-card rounded-2xl shadow-sm hover:shadow-lg p-6 transition-shadow duration-300 ease-in-out opacity-0 translate-y-12 scale-95"
-          href="#"
-          [attr.data-index]="i"
-          [gsapHover]="{
-            in: {
-              y: -6,
+        @for (c of categories(); track c.name; let i = $index) {
+          <a
+            class="category-card rounded-2xl shadow-sm hover:shadow-lg p-6 transition-shadow duration-300 ease-in-out opacity-0 translate-y-12 scale-95"
+            href="#"
+            [attr.data-index]="i"
+            [gsapHover]="{
+              in: {
+                y: -6,
 
-              duration: 0.3,
-              ease: 'power2.out'
-            },
-            out: {
-              y: 0,
-
-              duration: 0.3,
-              ease: 'power2.out'
-            },
-            targets: {
-              emoji: {
-                in: {
-                  scale: 1.1,
-                  rotation: 5,
-                  duration: 0.4,
-                  ease: 'back.out(2)'
-                },
-                out: {
-                  scale: 1,
-                  rotation: 0,
-                  duration: 0.3,
-                  ease: 'power2.out'
-                }
+                duration: 0.3,
+                ease: 'power2.out',
               },
-              name: {
-                in: { color: '#3b82f6', duration: 0.2 },
-                out: { color: 'inherit', duration: 0.2 }
-              }
-            }
-          }"
-        >
-          <div class="text-3xl" gsapTarget="emoji">{{ c.emoji }}</div>
-          <div class="mt-4 flex items-center justify-between">
-            <h3 class="font-semibold" gsapTarget="name">{{ c.name }}</h3>
-            <span
-              class="text-xs px-2 py-1 rounded-full bg-secondary text-secondary-foreground"
+              out: {
+                y: 0,
+
+                duration: 0.3,
+                ease: 'power2.out',
+              },
+              targets: {
+                emoji: {
+                  in: {
+                    scale: 1.1,
+                    rotation: 5,
+                    duration: 0.4,
+                    ease: 'back.out(2)',
+                  },
+                  out: {
+                    scale: 1,
+                    rotation: 0,
+                    duration: 0.3,
+                    ease: 'power2.out',
+                  },
+                },
+                name: {
+                  in: { color: '#3b82f6', duration: 0.2 },
+                  out: { color: 'inherit', duration: 0.2 },
+                },
+              },
+            }"
+          >
+            <div class="text-3xl" gsapTarget="emoji">{{ c.emoji }}</div>
+            <div class="mt-4 flex items-center justify-between">
+              <h3 class="font-semibold" gsapTarget="name">{{ c.name }}</h3>
+              <span
+                class="text-xs px-2 py-1 rounded-full bg-secondary text-secondary-foreground"
+              >
+                {{ c.count }} blocks
+              </span>
+            </div>
+            <div
+              class="mt-4 h-24 rounded-xl relative overflow-hidden border border-border/50 flex items-center justify-center bg-background/50"
             >
-              {{ c.count }} blocks
-            </span>
-          </div>
-          <div class="mt-4 h-24 rounded-xl bg-card border border-border"></div>
-        </a>
+              <div
+                class="absolute inset-0 opacity-[0.4]"
+                style="background-image: radial-gradient(circle at 1.5px 1.5px, currentColor 1px, transparent 0); background-size: 14px 14px;"
+              ></div>
+              <div
+                class="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500"
+              ></div>
+            </div>
+          </a>
         }
       </div>
     </section>
@@ -135,7 +145,7 @@ export default class CategoriesSection implements AfterViewInit {
         duration: 0.6,
         ease: 'power3.out',
       },
-      '-=0.6'
+      '-=0.6',
     );
   }
 

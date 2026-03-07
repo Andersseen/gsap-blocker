@@ -1,7 +1,8 @@
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';;
 import { NgOptimizedImage } from '@angular/common';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-features-list',
   imports: [NgOptimizedImage],
   template: `

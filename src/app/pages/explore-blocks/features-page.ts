@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';;
 import Features from '@blocks/features';
 import BentoGrid from '@blocks/bento-grid';
 import FeaturesList from '@blocks/features-list';
 import FeaturesCards from '@blocks/features-cards';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'features-page',
   imports: [Features, BentoGrid, FeaturesList, FeaturesCards],
   template: `

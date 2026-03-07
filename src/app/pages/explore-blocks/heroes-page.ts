@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';;
 import Hero from '@blocks/hero';
 import HeroModern from '@blocks/hero-modern';
 import HeroSection from '@components/hero-section'; // "Hero Glow"
 import HeroVideo from '@blocks/hero-video';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'heroes-page',
   imports: [Hero, HeroModern, HeroSection, HeroVideo],
   template: `

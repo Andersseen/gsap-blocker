@@ -1,10 +1,4 @@
-import {
-  Component,
-  signal,
-  AfterViewInit,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
+import { Component, signal, AfterViewInit, ElementRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';;
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -15,6 +9,7 @@ import {
 } from '@shared/directives/gsap/gsapHover.directive';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'features-section',
   imports: [GsapHoverDirective, GsapTargetDirective],
   template: `

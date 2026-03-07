@@ -1,14 +1,9 @@
-import {
-  Component,
-  effect,
-  ElementRef,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { Component, effect, ElementRef, signal, viewChild, ChangeDetectionStrategy } from '@angular/core';;
 import Navbar from '@components/navbar';
 import Footer from '@components/footer';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'layout',
   imports: [Navbar, Footer],
   host: {

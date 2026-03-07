@@ -1,8 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';;
 import CardCategory from '@components/grid-card';
 import CATEGORIES from '@data/categories';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'explore-blocks',
   imports: [CardCategory],
   template: `

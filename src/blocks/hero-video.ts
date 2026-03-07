@@ -1,8 +1,9 @@
-import { Component, ElementRef, inject, viewChild, input } from '@angular/core';
+import { Component, ElementRef, inject, viewChild, input, ChangeDetectionStrategy } from '@angular/core';;
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-hero-video',
   template: `
     <section

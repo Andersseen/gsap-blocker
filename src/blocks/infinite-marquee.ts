@@ -1,14 +1,9 @@
 import { isPlatformBrowser } from '@angular/common';
 import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  PLATFORM_ID,
-  inject,
-  viewChild,
-} from '@angular/core';
+  AfterViewInit, Component, ElementRef, PLATFORM_ID, inject, viewChild, ChangeDetectionStrategy } from '@angular/core';;
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-infinite-marquee',
   host: {
     class: 'block w-full overflow-hidden bg-zinc-900 text-white py-24',

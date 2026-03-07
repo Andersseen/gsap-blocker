@@ -11,7 +11,7 @@ import { gsap } from 'gsap';
   selector: '[gsapStagger]',
 })
 export class GsapStaggerDirective implements AfterViewInit {
-  readonly gsapStagger = input<any>({});
+  readonly gsapStagger = input<unknown>({});
   readonly gsapStaggerSelector = input<string>('');
 
   private readonly el = inject(ElementRef);
@@ -22,7 +22,10 @@ export class GsapStaggerDirective implements AfterViewInit {
       : this.el.nativeElement.children;
 
     // Determinar método
-    const staggerConfig = this.gsapStagger();
+    const staggerConfig = this.gsapStagger() as {
+      from?: gsap.TweenVars;
+      to?: gsap.TweenVars;
+    } & gsap.TweenVars;
     if (staggerConfig.from && staggerConfig.to) {
       gsap.fromTo(targets, staggerConfig.from, staggerConfig.to);
     } else if (staggerConfig.from) {
