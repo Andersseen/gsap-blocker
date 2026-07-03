@@ -1,16 +1,17 @@
 import { Directive, ElementRef, inject, input } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { PLATFORM_ID } from '@angular/core';
+import { PLATFORM_ID, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import type { gsap } from 'gsap';
 
 @Directive({
   selector: '[andReveal]',
 })
-export class AndRevealDirective {
+export class AndRevealDirective implements OnInit, AfterViewInit, OnDestroy {
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly platformId = inject(PLATFORM_ID);
   private io?: IntersectionObserver;
-  private gsap: any | null = null;
-  private ctx: any | null = null;
+  private gsap: typeof import('gsap').default | null = null;
+  private ctx: gsap.Context | null = null;
 
   // Motion props
   y = input<number>(24);
@@ -32,9 +33,10 @@ export class AndRevealDirective {
     this.gsap = mod.default;
 
     // preset to avoid flash of un-animated content
-    if (this.gsap) {
-      this.ctx = this.gsap.context(() => {
-        this.gsap.set(this.el.nativeElement, {
+    const gsap = this.gsap;
+    if (gsap) {
+      this.ctx = gsap.context(() => {
+        gsap.set(this.el.nativeElement, {
           y: this.y(),
           opacity: this.opacity(),
         });
@@ -62,7 +64,7 @@ export class AndRevealDirective {
       {
         threshold: this.threshold(),
         rootMargin, // e.g. "0px 0px -20% 0px" => requiere 20% dentro del viewport
-      }
+      },
     );
 
     this.io.observe(this.el.nativeElement);
@@ -86,7 +88,7 @@ export class AndRevealDirective {
         delay: this.delay(),
         ease: this.ease(),
         clearProps: 'transform,opacity',
-      }
+      },
     );
   }
 

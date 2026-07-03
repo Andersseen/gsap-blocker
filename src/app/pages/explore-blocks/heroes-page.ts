@@ -1,13 +1,14 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';;
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import Hero from '@blocks/hero';
 import HeroModern from '@blocks/hero-modern';
 import HeroSection from '@components/hero-section'; // "Hero Glow"
 import HeroVideo from '@blocks/hero-video';
+import BlockShowcase from '@components/block-showcase';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'heroes-page',
-  imports: [Hero, HeroModern, HeroSection, HeroVideo],
+  selector: 'page-heroes',
+  imports: [Hero, HeroModern, HeroSection, HeroVideo, BlockShowcase],
   template: `
     <div class="pt-24 pb-12 px-6 md:px-12 bg-background min-h-screen">
       <div class="max-w-7xl mx-auto space-y-24">
@@ -23,55 +24,49 @@ import HeroVideo from '@blocks/hero-video';
           </p>
         </div>
 
-        <!-- Block 1: Glow -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            01. Glow Effect
-          </h2>
-          <div class="rounded-3xl border border-border overflow-hidden">
-            <hero-section />
-          </div>
-        </section>
+        <app-block-showcase
+          number="01"
+          title="Glow Effect"
+          snippet="import HeroSection from '@components/hero-section';
 
-        <!-- Block 2: Simple/Split -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            02. Split Layout
-          </h2>
-          <div
-            class="rounded-3xl border border-border overflow-hidden bg-background"
-          >
-            <app-hero />
-          </div>
-        </section>
+<!-- HTML -->
+<app-hero-section />"
+        >
+          <app-hero-section />
+        </app-block-showcase>
 
-        <!-- Block 3: Modern -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            03. Modern Stagger
-          </h2>
-          <div class="rounded-3xl border border-border overflow-hidden">
-            <app-hero-modern />
-          </div>
-        </section>
+        <app-block-showcase
+          number="02"
+          title="Split Layout"
+          snippet="import Hero from '@blocks/hero';
 
-        <!-- Block 4: Video -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            04. Video Background
-          </h2>
-          <div class="rounded-3xl border border-border overflow-hidden">
-            <app-hero-video />
-          </div>
-        </section>
+<!-- HTML -->
+<app-hero />"
+        >
+          <app-hero />
+        </app-block-showcase>
+
+        <app-block-showcase
+          number="03"
+          title="Modern Stagger"
+          snippet="import HeroModern from '@blocks/hero-modern';
+
+<!-- HTML -->
+<app-hero-modern />"
+        >
+          <app-hero-modern />
+        </app-block-showcase>
+
+        <app-block-showcase
+          number="04"
+          title="Video Background"
+          snippet="import HeroVideo from '@blocks/hero-video';
+
+<!-- HTML -->
+<app-hero-video />"
+        >
+          <app-hero-video />
+        </app-block-showcase>
       </div>
     </div>
   `,

@@ -1,13 +1,20 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';;
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import PricingSection from '@blocks/pricing'; // "Pricing Table"
 import PricingSimple from '@blocks/pricing-simple';
 import PricingCompare from '@blocks/pricing-compare';
 import PricingEnterprise from '@blocks/pricing-enterprise';
+import BlockShowcase from '@components/block-showcase';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'pricing-page',
-  imports: [PricingSection, PricingSimple, PricingCompare, PricingEnterprise],
+  selector: 'page-pricing',
+  imports: [
+    PricingSection,
+    PricingSimple,
+    PricingCompare,
+    PricingEnterprise,
+    BlockShowcase,
+  ],
   template: `
     <div class="pt-24 pb-12 px-6 md:px-12 bg-background min-h-screen">
       <div class="max-w-7xl mx-auto space-y-24">
@@ -22,59 +29,50 @@ import PricingEnterprise from '@blocks/pricing-enterprise';
           </p>
         </div>
 
-        <!-- Block 1: Table -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            01. Standard Table
-          </h2>
-          <div
-            class="rounded-3xl border border-border overflow-hidden bg-background py-10"
-          >
-            <and-pricing-section />
-          </div>
-        </section>
+        <app-block-showcase
+          number="01"
+          title="Standard Table"
+          [padY]="true"
+          snippet="import PricingSection from '@blocks/pricing';
 
-        <!-- Block 2: Simple -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            02. Simple Cards
-          </h2>
-          <div
-            class="rounded-3xl border border-border overflow-hidden bg-background"
-          >
-            <app-pricing-simple />
-          </div>
-        </section>
+<!-- HTML -->
+<app-pricing-section />"
+        >
+          <app-pricing-section />
+        </app-block-showcase>
 
-        <!-- Block 3: Comparison -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            03. Feature Comparison
-          </h2>
-          <div
-            class="rounded-3xl border border-border overflow-hidden bg-background"
-          >
-            <app-pricing-compare />
-          </div>
-        </section>
+        <app-block-showcase
+          number="02"
+          title="Simple Cards"
+          snippet="import PricingSimple from '@blocks/pricing-simple';
 
-        <!-- Block 4: Enterprise -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            04. Enterprise Focus
-          </h2>
-          <div class="rounded-3xl border border-border overflow-hidden">
-            <app-pricing-enterprise />
-          </div>
-        </section>
+<!-- HTML -->
+<app-pricing-simple />"
+        >
+          <app-pricing-simple />
+        </app-block-showcase>
+
+        <app-block-showcase
+          number="03"
+          title="Feature Comparison"
+          snippet="import PricingCompare from '@blocks/pricing-compare';
+
+<!-- HTML -->
+<app-pricing-compare />"
+        >
+          <app-pricing-compare />
+        </app-block-showcase>
+
+        <app-block-showcase
+          number="04"
+          title="Enterprise Focus"
+          snippet="import PricingEnterprise from '@blocks/pricing-enterprise';
+
+<!-- HTML -->
+<app-pricing-enterprise />"
+        >
+          <app-pricing-enterprise />
+        </app-block-showcase>
       </div>
     </div>
   `,

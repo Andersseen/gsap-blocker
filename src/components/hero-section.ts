@@ -1,12 +1,19 @@
-import { Component, ElementRef, inject, input, viewChild, ChangeDetectionStrategy } from '@angular/core';;
+import {
+  Component,
+  ElementRef,
+  inject,
+  input,
+  viewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { PLATFORM_ID } from '@angular/core';
+import { PLATFORM_ID, AfterViewInit } from '@angular/core';
 import { gsap } from 'gsap';
 import { AndGsapFromDirective } from '@shared/directives/and-gsap-from';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'hero-section',
+  selector: 'app-hero-section',
   imports: [AndGsapFromDirective],
 
   template: `
@@ -148,7 +155,7 @@ import { AndGsapFromDirective } from '@shared/directives/and-gsap-from';
     `,
   ],
 })
-export default class HeroSection {
+export default class HeroSection implements AfterViewInit {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly root = viewChild<ElementRef<HTMLElement>>('root');
 
@@ -156,7 +163,7 @@ export default class HeroSection {
   badge = input<string>('New');
   highlight = input<string>('ridiculously fast');
   subtitle = input<string>(
-    'Animated, accessible, and ready to ship. No images needed—just gradients, glow, and GSAP.'
+    'Animated, accessible, and ready to ship. No images needed—just gradients, glow, and GSAP.',
   );
   primaryText = input<string>('Get started');
   primaryHref = input<string>('#');
@@ -195,7 +202,7 @@ export default class HeroSection {
           .fromTo(
             beam,
             { xPercent: -120 },
-            { xPercent: 120, duration: 3.5, ease: 'power1.inOut' }
+            { xPercent: 120, duration: 3.5, ease: 'power1.inOut' },
           )
           .then(() =>
             gsap.to(beam, {
@@ -203,7 +210,7 @@ export default class HeroSection {
               duration: 0.6,
               yoyo: true,
               repeat: 1,
-            })
+            }),
           );
       sweep();
       setInterval(sweep, 5500);
@@ -211,7 +218,7 @@ export default class HeroSection {
 
     // Subtle gradient text shimmer (no keyframes, GSAP controlled)
     const gradientSpan = el.querySelector(
-      'h1 span:nth-child(2)'
+      'h1 span:nth-child(2)',
     ) as HTMLElement | null;
     if (gradientSpan) {
       gsap.to(gradientSpan, {

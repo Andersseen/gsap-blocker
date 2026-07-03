@@ -16,9 +16,12 @@ import { ThemeService } from '@shared/services/theme.service';
 import { CURRENT_YEAR } from '@shared/tokens/date.token';
 
 @Component({
-  selector: 'navbar',
+  selector: 'app-navbar',
   imports: [RouterLink, RouterLinkActive],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '(window:keydown.escape)': 'close()',
+  },
   template: `
     <nav
       class="fixed inset-x-0 top-0 z-50 h-16 flex items-center justify-between px-6 md:px-12 backdrop-blur-md bg-background/70 border-b border-border transition-all duration-300"
@@ -37,7 +40,7 @@ import { CURRENT_YEAR } from '@shared/tokens/date.token';
       <div class="hidden md:flex items-center gap-6">
         <a
           class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-          routerLink="/home"
+          routerLink="/"
           routerLinkActive="text-foreground font-semibold"
           [routerLinkActiveOptions]="{ exact: true }"
           >Home</a
@@ -148,7 +151,7 @@ import { CURRENT_YEAR } from '@shared/tokens/date.token';
         <nav class="flex flex-col gap-6 items-start">
           <a
             class="text-4xl sm:text-5xl font-bold tracking-tight text-foreground hover:text-primary transition-colors animate-in slide-in-from-bottom-8 fade-in duration-500 delay-100"
-            routerLink="/home"
+            routerLink="/"
             (click)="close()"
             >Home</a
           >

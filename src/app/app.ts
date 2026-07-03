@@ -1,17 +1,17 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';;
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import Layout from './layout';
 import { RouterOutlet } from '@angular/router';
 import { SmoothScrollDirective } from '@shared/directives/smooth-scroll.directive';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app',
+  selector: 'app-root',
   imports: [Layout, RouterOutlet, SmoothScrollDirective],
 
   template: `
-    <layout smoothScroll class="bg-background text-foreground">
+    <app-layout appSmoothScroll class="bg-background text-foreground">
       <router-outlet />
-    </layout>
+    </app-layout>
   `,
 })
 export default class App {}

@@ -1,4 +1,4 @@
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';;
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -8,31 +8,33 @@ import { Component, input, ChangeDetectionStrategy } from '@angular/core';;
       <div class="container mx-auto px-6 md:px-12">
         <div class="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8">
           @for (review of reviews(); track review.author) {
-          <div
-            class="break-inside-avoid p-6 rounded-2xl border border-border bg-card shadow-sm hover:translate-y-[-2px] transition-transform duration-300"
-          >
-            <div class="flex items-center gap-1 text-yellow-500 mb-4">
-              @for (star of [1,2,3,4,5]; track star) { <span>★</span> }
-            </div>
-            <p class="text-foreground leading-relaxed mb-6 italic">
-              "{{ review.text }}"
-            </p>
-            <div class="flex items-center gap-4">
-              <div
-                class="size-10 rounded-full bg-secondary flex items-center justify-center font-bold text-foreground"
-              >
-                {{ review.author[0] }}
+            <div
+              class="break-inside-avoid p-6 rounded-2xl border border-border bg-card shadow-sm hover:translate-y-[-2px] transition-transform duration-300"
+            >
+              <div class="flex items-center gap-1 text-yellow-500 mb-4">
+                @for (star of [1, 2, 3, 4, 5]; track star) {
+                  <span>★</span>
+                }
               </div>
-              <div>
-                <div class="font-bold text-foreground text-sm">
-                  {{ review.author }}
+              <p class="text-foreground leading-relaxed mb-6 italic">
+                "{{ review.text }}"
+              </p>
+              <div class="flex items-center gap-4">
+                <div
+                  class="size-10 rounded-full bg-secondary flex items-center justify-center font-bold text-foreground"
+                >
+                  {{ review.author[0] }}
                 </div>
-                <div class="text-xs text-muted-foreground">
-                  {{ review.role }}
+                <div>
+                  <div class="font-bold text-foreground text-sm">
+                    {{ review.author }}
+                  </div>
+                  <div class="text-xs text-muted-foreground">
+                    {{ review.role }}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
           }
         </div>
       </div>

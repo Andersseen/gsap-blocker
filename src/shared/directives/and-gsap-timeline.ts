@@ -8,8 +8,9 @@ import {
   Provider,
   effect,
 } from '@angular/core';
-import { PLATFORM_ID } from '@angular/core';
+import { PLATFORM_ID, AfterViewInit, OnDestroy } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import type { gsap } from 'gsap';
 import {
   AND_GSAP_TIMELINE_CTX,
   AndGsapTimelineApi,
@@ -26,17 +27,19 @@ import {
     } as Provider,
   ],
 })
-export class AndGsapTimelineDirective implements AndGsapTimelineApi {
+export class AndGsapTimelineDirective
+  implements AndGsapTimelineApi, AfterViewInit, OnDestroy
+{
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly platformId = inject(PLATFORM_ID);
 
-  private gsap: any | null = null;
-  private tl: any | null = null;
-  private pending: Array<{
+  private gsap: typeof import('gsap').default | null = null;
+  private tl: gsap.core.Timeline | null = null;
+  private pending: {
     el: HTMLElement;
     vars: TweenVars;
     at?: string | number;
-  }> = [];
+  }[] = [];
 
   defaults = input<Record<string, unknown>>({});
   paused = input<boolean>(false); // <— señal de input
@@ -44,11 +47,8 @@ export class AndGsapTimelineDirective implements AndGsapTimelineApi {
   constructor() {
     // Reacciona a cambios en `paused`
     effect(() => {
-      console.log(this.tl);
-
       if (!this.tl) return;
       const p = this.paused();
-      console.log(p);
 
       if (p) this.tl.pause();
       else this.tl.play();
@@ -65,7 +65,8 @@ export class AndGsapTimelineDirective implements AndGsapTimelineApi {
       paused: this.paused(),
     });
 
-    for (const p of this.pending) this.tl.from(p.el, p.vars, p.at as any);
+    for (const p of this.pending)
+      this.tl.from(p.el, p.vars, p.at as number | string);
     this.pending = [];
     if (!this.paused()) this.tl.play(0);
   }
@@ -73,9 +74,9 @@ export class AndGsapTimelineDirective implements AndGsapTimelineApi {
   registerFrom(
     target: HTMLElement,
     vars: TweenVars,
-    at?: string | number
+    at?: string | number,
   ): void {
-    if (this.tl) this.tl.from(target, vars, at as any);
+    if (this.tl) this.tl.from(target, vars, at as number | string);
     else this.pending.push({ el: target, vars, at });
   }
 
@@ -92,7 +93,7 @@ export class AndGsapTimelineDirective implements AndGsapTimelineApi {
     this.tl?.reverse();
   }
   seek(t: number | string) {
-    this.tl?.seek(t as any);
+    this.tl?.seek(t as number | string);
   }
   timeScale(v: number) {
     this.tl?.timeScale?.(v);

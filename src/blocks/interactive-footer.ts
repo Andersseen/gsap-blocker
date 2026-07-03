@@ -1,5 +1,12 @@
-import { Component, ElementRef, inject, input, viewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';;
-import { NgOptimizedImage, isPlatformBrowser } from '@angular/common';
+import {
+  Component,
+  ElementRef,
+  inject,
+  viewChild,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 
 @Component({
@@ -98,10 +105,10 @@ export default class InteractiveFooter implements AfterViewInit {
 
     // Only active when mouse is inside footer
     el.addEventListener('mouseenter', () =>
-      gsap.to(follower, { scale: 1, autoAlpha: 1 })
+      gsap.to(follower, { scale: 1, autoAlpha: 1 }),
     );
     el.addEventListener('mouseleave', () =>
-      gsap.to(follower, { scale: 0, autoAlpha: 0 })
+      gsap.to(follower, { scale: 0, autoAlpha: 0 }),
     );
 
     el.addEventListener('mousemove', (e) => {

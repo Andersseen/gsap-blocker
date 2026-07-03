@@ -1,17 +1,19 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';;
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import Testimonials from '@blocks/testimonials'; // "Marquee"
 import TestimonialsGrid from '@blocks/testimonials-grid';
 import TestimonialsFocus from '@blocks/testimonials-focus';
 import TestimonialsAvatars from '@blocks/testimonials-avatars';
+import BlockShowcase from '@components/block-showcase';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'testimonials-page',
+  selector: 'page-testimonials',
   imports: [
     Testimonials,
     TestimonialsGrid,
     TestimonialsFocus,
     TestimonialsAvatars,
+    BlockShowcase,
   ],
   template: `
     <div class="pt-24 pb-12 px-6 md:px-12 bg-background min-h-screen">
@@ -27,55 +29,50 @@ import TestimonialsAvatars from '@blocks/testimonials-avatars';
           </p>
         </div>
 
-        <!-- Block 1: Marquee -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            01. Infinite Marquee
-          </h2>
-          <div
-            class="rounded-3xl border border-border overflow-hidden bg-background"
-          >
-            <testimonials />
-          </div>
-        </section>
+        <app-block-showcase
+          number="01"
+          title="Infinite Marquee"
+          [padY]="true"
+          snippet="import Testimonials from '@blocks/testimonials';
 
-        <!-- Block 2: Grid -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            02. Masonry Grid
-          </h2>
-          <div class="rounded-3xl border border-border overflow-hidden">
-            <app-testimonials-grid />
-          </div>
-        </section>
+<!-- HTML -->
+<app-testimonials />"
+        >
+          <app-testimonials />
+        </app-block-showcase>
 
-        <!-- Block 3: Focus -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            03. Key Highlight
-          </h2>
-          <div class="rounded-3xl border border-border overflow-hidden">
-            <app-testimonials-focus />
-          </div>
-        </section>
+        <app-block-showcase
+          number="02"
+          title="Masonry Grid"
+          snippet="import TestimonialsGrid from '@blocks/testimonials-grid';
 
-        <!-- Block 4: Avatars -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            04. Trusted By
-          </h2>
-          <div class="rounded-3xl border border-border overflow-hidden">
-            <app-testimonials-avatars />
-          </div>
-        </section>
+<!-- HTML -->
+<app-testimonials-grid />"
+        >
+          <app-testimonials-grid />
+        </app-block-showcase>
+
+        <app-block-showcase
+          number="03"
+          title="Key Highlight"
+          snippet="import TestimonialsFocus from '@blocks/testimonials-focus';
+
+<!-- HTML -->
+<app-testimonials-focus />"
+        >
+          <app-testimonials-focus />
+        </app-block-showcase>
+
+        <app-block-showcase
+          number="04"
+          title="Trusted By"
+          snippet="import TestimonialsAvatars from '@blocks/testimonials-avatars';
+
+<!-- HTML -->
+<app-testimonials-avatars />"
+        >
+          <app-testimonials-avatars />
+        </app-block-showcase>
       </div>
     </div>
   `,

@@ -11,7 +11,7 @@ import {
 import gsap from 'gsap';
 
 @Component({
-  selector: 'and-cta',
+  selector: 'app-cta-2',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
   host: {
@@ -36,8 +36,8 @@ import gsap from 'gsap';
         border-radius: 1.5rem;
         border: 1px solid
           color-mix(in srgb, var(--fg, #111111), transparent 85%);
-        box-shadow: 0 10px 20px -10px color-mix(in srgb, var(--fg, #111111), transparent
-              90%);
+        box-shadow: 0 10px 20px -10px
+          color-mix(in srgb, var(--fg, #111111), transparent 90%);
         position: relative;
         overflow: hidden;
         isolation: isolate;
@@ -72,7 +72,9 @@ import gsap from 'gsap';
         padding: 0.75rem 1.25rem;
         font-size: 0.875rem;
         font-weight: 600;
-        transition: transform 0.12s ease, filter 0.15s ease,
+        transition:
+          transform 0.12s ease,
+          filter 0.15s ease,
           background-color 0.15s ease;
         will-change: transform;
       }
@@ -120,41 +122,42 @@ import gsap from 'gsap';
         </h2>
 
         @if (description()) {
-        <p data-anim class="desc mt-3 text-base md:text-lg">
-          {{ description() }}
-        </p>
+          <p data-anim class="desc mt-3 text-base md:text-lg">
+            {{ description() }}
+          </p>
         }
 
         <div class="mt-6 flex flex-wrap items-center gap-3">
           @if (ctaHref(); as href) {
-          <a
-            data-anim
-            [href]="href"
-            [attr.target]="target()"
-            [attr.rel]="relAttr()"
-            class="btn btn-primary"
-            (click)="onPrimaryClick()"
-          >
-            {{ ctaLabel() }}
-          </a>
+            <a
+              data-anim
+              [href]="href"
+              [attr.target]="target()"
+              [attr.rel]="relAttr()"
+              class="btn btn-primary"
+              (click)="onPrimaryClick()"
+            >
+              {{ ctaLabel() }}
+            </a>
           } @else {
-          <button
-            data-anim
-            type="button"
-            class="btn btn-primary"
-            (click)="onPrimaryClick()"
-          >
-            {{ ctaLabel() }}
-          </button>
-          } @if (secondaryLabel()) {
-          <button
-            data-anim
-            type="button"
-            class="btn btn-secondary"
-            (click)="secondary.emit()"
-          >
-            {{ secondaryLabel() }}
-          </button>
+            <button
+              data-anim
+              type="button"
+              class="btn btn-primary"
+              (click)="onPrimaryClick()"
+            >
+              {{ ctaLabel() }}
+            </button>
+          }
+          @if (secondaryLabel()) {
+            <button
+              data-anim
+              type="button"
+              class="btn btn-secondary"
+              (click)="secondary.emit()"
+            >
+              {{ secondaryLabel() }}
+            </button>
           }
         </div>
       </div>
@@ -165,7 +168,7 @@ export default class Cta2 implements AfterViewInit {
   // Defaults (no required inputs)
   title = input<string>('Ship UI faster with GSAP blocks');
   description = input<string>(
-    'Prebuilt, accessible, animated blocks for Angular. Drop-in, customize, ship.'
+    'Prebuilt, accessible, animated blocks for Angular. Drop-in, customize, ship.',
   );
   ctaLabel = input<string>('Get started');
   ctaHref = input<string | undefined>(undefined);
@@ -175,7 +178,7 @@ export default class Cta2 implements AfterViewInit {
 
   // Derived
   relAttr = computed(() =>
-    this.target() === '_blank' ? 'noopener noreferrer' : null
+    this.target() === '_blank' ? 'noopener noreferrer' : null,
   );
 
   // Refs

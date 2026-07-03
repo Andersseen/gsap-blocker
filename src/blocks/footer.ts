@@ -1,10 +1,17 @@
-import { Component, ElementRef, inject, input, viewChild, ChangeDetectionStrategy } from '@angular/core';;
+import {
+  Component,
+  ElementRef,
+  inject,
+  input,
+  viewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { isPlatformBrowser, NgOptimizedImage } from '@angular/common';
-import { PLATFORM_ID } from '@angular/core';
+import { PLATFORM_ID, AfterViewInit } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'bk-footer',
+  selector: 'app-footer-block',
   imports: [NgOptimizedImage],
   host: {
     class: 'relative isolate overflow-hidden block',
@@ -95,7 +102,7 @@ import { PLATFORM_ID } from '@angular/core';
     </section>
   `,
 })
-export default class BKFooter {
+export default class BKFooter implements AfterViewInit {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly root = viewChild<ElementRef<HTMLElement>>('root');
 

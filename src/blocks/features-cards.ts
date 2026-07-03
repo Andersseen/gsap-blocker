@@ -1,4 +1,4 @@
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';;
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,21 +17,21 @@ import { Component, input, ChangeDetectionStrategy } from '@angular/core';;
 
         <div class="grid md:grid-cols-3 gap-8">
           @for (card of cards(); track card.title) {
-          <div
-            class="group p-8 rounded-3xl bg-secondary/30 border border-border hover:bg-secondary/50 transition-colors"
-          >
             <div
-              class="size-14 rounded-2xl bg-background border border-border shadow-sm flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform duration-300"
+              class="group p-8 rounded-3xl bg-secondary/30 border border-border hover:bg-secondary/50 transition-colors"
             >
-              {{ card.icon }}
+              <div
+                class="size-14 rounded-2xl bg-background border border-border shadow-sm flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform duration-300"
+              >
+                {{ card.icon }}
+              </div>
+              <h3 class="text-xl font-bold text-foreground mb-3">
+                {{ card.title }}
+              </h3>
+              <p class="text-muted-foreground leading-relaxed">
+                {{ card.description }}
+              </p>
             </div>
-            <h3 class="text-xl font-bold text-foreground mb-3">
-              {{ card.title }}
-            </h3>
-            <p class="text-muted-foreground leading-relaxed">
-              {{ card.description }}
-            </p>
-          </div>
           }
         </div>
       </div>

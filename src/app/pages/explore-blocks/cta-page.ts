@@ -1,13 +1,14 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';;
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import Cta2 from '@blocks/cta-2';
 import SplitCta from '@blocks/split-cta';
 import CtaInput from '@blocks/cta-input';
 import CtaImage from '@blocks/cta-image';
+import BlockShowcase from '@components/block-showcase';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'cta-page',
-  imports: [Cta2, SplitCta, CtaInput, CtaImage],
+  selector: 'page-cta',
+  imports: [Cta2, SplitCta, CtaInput, CtaImage, BlockShowcase],
   template: `
     <div class="pt-24 pb-12 px-6 md:px-12 bg-background min-h-screen">
       <div class="max-w-7xl mx-auto space-y-24">
@@ -22,57 +23,49 @@ import CtaImage from '@blocks/cta-image';
           </p>
         </div>
 
-        <!-- Block 1: Centered -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            01. Centered
-          </h2>
-          <div
-            class="rounded-3xl border border-border overflow-hidden bg-background"
-          >
-            <and-cta />
-          </div>
-        </section>
+        <app-block-showcase
+          number="01"
+          title="Centered"
+          snippet="import Cta2 from '@blocks/cta-2';
 
-        <!-- Block 2: Split -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            02. Split Layout
-          </h2>
-          <div
-            class="rounded-3xl border border-border overflow-hidden bg-background"
-          >
-            <app-split-cta />
-          </div>
-        </section>
+<!-- HTML -->
+<app-cta-2 />"
+        >
+          <app-cta-2 />
+        </app-block-showcase>
 
-        <!-- Block 3: Input -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            03. Email Capture
-          </h2>
-          <div class="rounded-3xl border border-border overflow-hidden">
-            <app-cta-input />
-          </div>
-        </section>
+        <app-block-showcase
+          number="02"
+          title="Split Layout"
+          snippet="import SplitCta from '@blocks/split-cta';
 
-        <!-- Block 4: Image -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            04. Feature Image
-          </h2>
-          <div class="rounded-3xl border border-border overflow-hidden">
-            <app-cta-image />
-          </div>
-        </section>
+<!-- HTML -->
+<app-split-cta />"
+        >
+          <app-split-cta />
+        </app-block-showcase>
+
+        <app-block-showcase
+          number="03"
+          title="Email Capture"
+          snippet="import CtaInput from '@blocks/cta-input';
+
+<!-- HTML -->
+<app-cta-input />"
+        >
+          <app-cta-input />
+        </app-block-showcase>
+
+        <app-block-showcase
+          number="04"
+          title="Feature Image"
+          snippet="import CtaImage from '@blocks/cta-image';
+
+<!-- HTML -->
+<app-cta-image />"
+        >
+          <app-cta-image />
+        </app-block-showcase>
       </div>
     </div>
   `,

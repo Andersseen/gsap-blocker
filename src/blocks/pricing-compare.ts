@@ -1,4 +1,4 @@
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';;
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -8,25 +8,36 @@ import { Component, input, ChangeDetectionStrategy } from '@angular/core';;
       <div class="container mx-auto px-6 md:px-12 max-w-4xl">
         <div class="space-y-4">
           @for (feature of features(); track feature.name) {
-          <div
-            class="flex items-center justify-between p-4 border-b border-border hover:bg-muted/30 transition-colors"
-          >
-            <span class="text-foreground font-medium">{{ feature.name }}</span>
-            <div class="flex items-center gap-12 text-sm">
-              <div class="text-center w-24">
-                @if(feature.starter) { <span class="text-green-500">✓</span> }
-                @else { <span class="text-muted-foreground">-</span> }
-              </div>
-              <div class="text-center w-24">
-                @if(feature.pro) { <span class="text-green-500">✓</span> } @else
-                { <span class="text-muted-foreground">-</span> }
-              </div>
-              <div class="text-center w-24">
-                @if(feature.ent) { <span class="text-green-500">✓</span> } @else
-                { <span class="text-muted-foreground">-</span> }
+            <div
+              class="flex items-center justify-between p-4 border-b border-border hover:bg-muted/30 transition-colors"
+            >
+              <span class="text-foreground font-medium">{{
+                feature.name
+              }}</span>
+              <div class="flex items-center gap-12 text-sm">
+                <div class="text-center w-24">
+                  @if (feature.starter) {
+                    <span class="text-green-500">✓</span>
+                  } @else {
+                    <span class="text-muted-foreground">-</span>
+                  }
+                </div>
+                <div class="text-center w-24">
+                  @if (feature.pro) {
+                    <span class="text-green-500">✓</span>
+                  } @else {
+                    <span class="text-muted-foreground">-</span>
+                  }
+                </div>
+                <div class="text-center w-24">
+                  @if (feature.ent) {
+                    <span class="text-green-500">✓</span>
+                  } @else {
+                    <span class="text-muted-foreground">-</span>
+                  }
+                </div>
               </div>
             </div>
-          </div>
           }
 
           <!-- Column Headers (visually handy to have at bottom too or top) -->

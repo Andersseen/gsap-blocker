@@ -1,4 +1,12 @@
-import { Component, ElementRef, inject, input, viewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';;
+import {
+  Component,
+  ElementRef,
+  inject,
+  input,
+  viewChild,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { NgOptimizedImage, isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 
@@ -102,12 +110,12 @@ export default class HeroModern implements AfterViewInit {
   readonly titleLine1 = input('Create');
   readonly titleLine2 = input('Experience');
   readonly description = input(
-    'Craft digital experiences that leave a lasting impression using the power of GSAP and Angular Signals.'
+    'Craft digital experiences that leave a lasting impression using the power of GSAP and Angular Signals.',
   );
   readonly primaryCta = input('Start Building');
   readonly secondaryCta = input('View Showreel');
   readonly imageSrc = input(
-    'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1600&auto=format&fit=crop'
+    'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1600&auto=format&fit=crop',
   );
   readonly quote = input('Design is intelligence made visible.');
 
@@ -139,7 +147,7 @@ export default class HeroModern implements AfterViewInit {
         duration: 1,
         startAt: { y: 20, autoAlpha: 0 },
       },
-      '-=0.8'
+      '-=0.8',
     );
 
     // Image Reveal
@@ -151,7 +159,7 @@ export default class HeroModern implements AfterViewInit {
         duration: 1.5,
         ease: 'expo.out',
       },
-      '-=1.2'
+      '-=1.2',
     );
 
     // Image Parallax Effect inside container
@@ -162,7 +170,7 @@ export default class HeroModern implements AfterViewInit {
         duration: 1.5,
         ease: 'expo.out',
       },
-      '<'
+      '<',
     );
   }
 }

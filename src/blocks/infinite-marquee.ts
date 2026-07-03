@@ -1,6 +1,13 @@
 import { isPlatformBrowser } from '@angular/common';
 import {
-  AfterViewInit, Component, ElementRef, PLATFORM_ID, inject, viewChild, ChangeDetectionStrategy } from '@angular/core';;
+  AfterViewInit,
+  Component,
+  ElementRef,
+  PLATFORM_ID,
+  inject,
+  viewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,13 +28,13 @@ import {
       <div class="marquee-wrapper flex overflow-hidden w-full mask-gradient">
         <div class="marquee-track flex gap-12 items-center flex-nowrap py-4">
           @for (item of items; track $index) {
-          <div
-            class="flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity cursor-pointer whitespace-nowrap"
-          >
-            <span class="text-3xl md:text-4xl font-bold tracking-tight">{{
-              item.name
-            }}</span>
-          </div>
+            <div
+              class="flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity cursor-pointer whitespace-nowrap"
+            >
+              <span class="text-3xl md:text-4xl font-bold tracking-tight">{{
+                item.name
+              }}</span>
+            </div>
           }
         </div>
       </div>
@@ -75,7 +82,6 @@ export default class InfiniteMarquee implements AfterViewInit {
 
     if (!track) return;
 
-    const oneSetCount = this.logos.length;
     // We just scroll endlessly.
     // For a truly seamless loop we often use the modifiers plugin or duplicate content enough to fill screen + scroll.
 

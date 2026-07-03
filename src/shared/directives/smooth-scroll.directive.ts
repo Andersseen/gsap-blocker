@@ -2,7 +2,7 @@ import { Directive, OnDestroy, OnInit, inject, input } from '@angular/core';
 import { SmoothScrollService } from '@shared/services/smooth-scroll.service';
 
 @Directive({
-  selector: '[smoothScroll]',
+  selector: '[appSmoothScroll]',
   host: {
     style:
       'scroll-behavior:auto; overscroll-behavior-y:none; -webkit-overflow-scrolling:auto',

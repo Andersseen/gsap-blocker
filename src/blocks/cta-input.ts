@@ -1,4 +1,4 @@
-import { Component, input, signal, ChangeDetectionStrategy } from '@angular/core';;
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,9 +33,9 @@ import { Component, input, signal, ChangeDetectionStrategy } from '@angular/core
           </form>
 
           @if (submitted()) {
-          <p class="text-green-400 font-medium animate-pulse">
-            Thanks for subscribing! 🚀
-          </p>
+            <p class="text-green-400 font-medium animate-pulse">
+              Thanks for subscribing! 🚀
+            </p>
           }
         </div>
       </div>

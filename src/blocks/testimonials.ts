@@ -1,12 +1,27 @@
-import { Component, ElementRef, ViewEncapsulation, computed, inject, input, signal, viewChild, NgZone, ChangeDetectionStrategy } from '@angular/core';;
+import {
+  Component,
+  ElementRef,
+  ViewEncapsulation,
+  computed,
+  inject,
+  input,
+  signal,
+  viewChild,
+  NgZone,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { NgOptimizedImage, isPlatformBrowser } from '@angular/common';
-import { PLATFORM_ID } from '@angular/core';
+import { PLATFORM_ID, AfterViewInit, OnDestroy } from '@angular/core';
 
-type Slide = { src: string; alt: string; caption?: string };
+interface Slide {
+  src: string;
+  alt: string;
+  caption?: string;
+}
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'testimonials',
+  selector: 'app-testimonials',
   imports: [NgOptimizedImage],
   encapsulation: ViewEncapsulation.None,
   host: {
@@ -79,7 +94,7 @@ type Slide = { src: string; alt: string; caption?: string };
     </section>
   `,
 })
-export default class Testimonials {
+export default class Testimonials implements AfterViewInit, OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly ngZone = inject(NgZone);
 

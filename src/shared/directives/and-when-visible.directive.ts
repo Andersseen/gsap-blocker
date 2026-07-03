@@ -8,7 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { PLATFORM_ID } from '@angular/core';
+import { PLATFORM_ID, AfterViewInit, OnDestroy } from '@angular/core';
 import {
   AND_GSAP_TIMELINE_CTX,
   AndGsapTimelineApi,
@@ -18,7 +18,7 @@ import {
   selector: '[andWhenVisible]',
   exportAs: 'andWhenVisible',
 })
-export class AndWhenVisibleDirective {
+export class AndWhenVisibleDirective implements AfterViewInit, OnDestroy {
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly timeline = inject(AND_GSAP_TIMELINE_CTX, {
@@ -56,7 +56,7 @@ export class AndWhenVisibleDirective {
           }
         }
       },
-      { rootMargin, threshold }
+      { rootMargin, threshold },
     );
 
     this.io.observe(this.el.nativeElement);
