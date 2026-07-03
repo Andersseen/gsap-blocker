@@ -1,0 +1,14 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.validate": ["typescript", "html"],
+  "typescript.preferences.importModuleSpecifier": "shortest",
+  "files.exclude": {
+    "**/.angular": true,
+    "**/dist": true,
+    "**/node_modules": true
+  }
+}

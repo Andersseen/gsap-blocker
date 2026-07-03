@@ -1,15 +1,15 @@
-import {
-  Component,
-  signal,
-  ElementRef,
-  viewChild,
-  ChangeDetectionStrategy,
-  inject,
-  PLATFORM_ID,
-  AfterViewInit,
-  OnDestroy,
-} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+  OnDestroy,
+  PLATFORM_ID,
+  signal,
+  viewChild,
+} from '@angular/core';
 
 import FEATURES from '@data/features';
 
@@ -108,7 +108,7 @@ export default class FeaturesSection implements AfterViewInit, OnDestroy {
         duration: 0.6,
         ease: 'power2.out',
       },
-      '-=0.4',
+      '-=0.4'
     );
 
     const cards =

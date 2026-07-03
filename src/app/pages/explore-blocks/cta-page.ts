@@ -1,8 +1,8 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import Cta2 from '@blocks/cta-2';
-import SplitCta from '@blocks/split-cta';
-import CtaInput from '@blocks/cta-input';
 import CtaImage from '@blocks/cta-image';
+import CtaInput from '@blocks/cta-input';
+import SplitCta from '@blocks/split-cta';
 import BlockShowcase from '@components/block-showcase';
 
 @Component({

@@ -1,8 +1,8 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import Features from '@blocks/features';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import BentoGrid from '@blocks/bento-grid';
-import FeaturesList from '@blocks/features-list';
+import Features from '@blocks/features';
 import FeaturesCards from '@blocks/features-cards';
+import FeaturesList from '@blocks/features-list';
 import BlockShowcase from '@components/block-showcase';
 
 @Component({

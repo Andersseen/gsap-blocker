@@ -1,8 +1,8 @@
 import {
-  Component,
-  signal,
-  computed,
   ChangeDetectionStrategy,
+  Component,
+  computed,
+  signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import CardCategory from '@components/grid-card';
@@ -76,7 +76,7 @@ export default class ExploreBlocks {
       (c) =>
         c.name.toLowerCase().includes(q) ||
         c.emoji.toLowerCase().includes(q) ||
-        `${c.count}`.includes(q),
+        `${c.count}`.includes(q)
     );
   });
 }

@@ -1,8 +1,8 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import Testimonials from '@blocks/testimonials'; // "Marquee"
-import TestimonialsGrid from '@blocks/testimonials-grid';
-import TestimonialsFocus from '@blocks/testimonials-focus';
 import TestimonialsAvatars from '@blocks/testimonials-avatars';
+import TestimonialsFocus from '@blocks/testimonials-focus';
+import TestimonialsGrid from '@blocks/testimonials-grid';
 import BlockShowcase from '@components/block-showcase';
 
 @Component({

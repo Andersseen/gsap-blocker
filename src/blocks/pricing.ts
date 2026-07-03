@@ -1,15 +1,16 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
+  PLATFORM_ID,
   ViewEncapsulation,
   inject,
   input,
   signal,
   viewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { PLATFORM_ID, AfterViewInit } from '@angular/core';
 
 interface Plan {
   name: string;

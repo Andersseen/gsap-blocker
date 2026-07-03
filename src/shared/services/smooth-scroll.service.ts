@@ -1,4 +1,4 @@
-import { Injectable, signal, effect } from '@angular/core';
+import { effect, Injectable, signal } from '@angular/core';
 
 interface ScrollToOpts {
   offset?: number;
@@ -246,7 +246,7 @@ export class SmoothScrollService {
     if (!el) return false;
     if (
       (el as HTMLElement).closest?.(
-        '[data-native-scroll], [data-scrollable="true"]',
+        '[data-native-scroll], [data-scrollable="true"]'
       )
     )
       return true;

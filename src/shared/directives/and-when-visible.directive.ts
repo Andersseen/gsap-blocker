@@ -1,14 +1,16 @@
 // and-when-visible.directive.ts
+import { isPlatformBrowser } from '@angular/common';
 import {
+  AfterViewInit,
   Directive,
   ElementRef,
   inject,
   input,
+  OnDestroy,
   output,
+  PLATFORM_ID,
   signal,
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { PLATFORM_ID, AfterViewInit, OnDestroy } from '@angular/core';
 import {
   AND_GSAP_TIMELINE_CTX,
   AndGsapTimelineApi,
@@ -56,7 +58,7 @@ export class AndWhenVisibleDirective implements AfterViewInit, OnDestroy {
           }
         }
       },
-      { rootMargin, threshold },
+      { rootMargin, threshold }
     );
 
     this.io.observe(this.el.nativeElement);

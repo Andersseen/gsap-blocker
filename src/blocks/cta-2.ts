@@ -1,11 +1,11 @@
 import {
-  Component,
-  ChangeDetectionStrategy,
-  ElementRef,
   AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  ElementRef,
   input,
   output,
-  computed,
   viewChild,
 } from '@angular/core';
 import gsap from 'gsap';
@@ -168,7 +168,7 @@ export default class Cta2 implements AfterViewInit {
   // Defaults (no required inputs)
   title = input<string>('Ship UI faster with GSAP blocks');
   description = input<string>(
-    'Prebuilt, accessible, animated blocks for Angular. Drop-in, customize, ship.',
+    'Prebuilt, accessible, animated blocks for Angular. Drop-in, customize, ship.'
   );
   ctaLabel = input<string>('Get started');
   ctaHref = input<string | undefined>(undefined);
@@ -178,7 +178,7 @@ export default class Cta2 implements AfterViewInit {
 
   // Derived
   relAttr = computed(() =>
-    this.target() === '_blank' ? 'noopener noreferrer' : null,
+    this.target() === '_blank' ? 'noopener noreferrer' : null
   );
 
   // Refs

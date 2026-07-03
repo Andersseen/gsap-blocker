@@ -1,13 +1,13 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   effect,
   ElementRef,
   signal,
   viewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
-import Navbar from '@components/navbar';
 import Footer from '@components/footer';
+import Navbar from '@components/navbar';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

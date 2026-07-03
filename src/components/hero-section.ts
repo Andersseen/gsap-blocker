@@ -1,15 +1,16 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   inject,
   input,
+  PLATFORM_ID,
   viewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { PLATFORM_ID, AfterViewInit } from '@angular/core';
-import { gsap } from 'gsap';
 import { AndGsapFromDirective } from '@shared/directives/and-gsap-from';
+import { gsap } from 'gsap';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -163,7 +164,7 @@ export default class HeroSection implements AfterViewInit {
   badge = input<string>('New');
   highlight = input<string>('ridiculously fast');
   subtitle = input<string>(
-    'Animated, accessible, and ready to ship. No images needed—just gradients, glow, and GSAP.',
+    'Animated, accessible, and ready to ship. No images needed—just gradients, glow, and GSAP.'
   );
   primaryText = input<string>('Get started');
   primaryHref = input<string>('#');
@@ -202,7 +203,7 @@ export default class HeroSection implements AfterViewInit {
           .fromTo(
             beam,
             { xPercent: -120 },
-            { xPercent: 120, duration: 3.5, ease: 'power1.inOut' },
+            { xPercent: 120, duration: 3.5, ease: 'power1.inOut' }
           )
           .then(() =>
             gsap.to(beam, {
@@ -210,7 +211,7 @@ export default class HeroSection implements AfterViewInit {
               duration: 0.6,
               yoyo: true,
               repeat: 1,
-            }),
+            })
           );
       sweep();
       setInterval(sweep, 5500);
@@ -218,7 +219,7 @@ export default class HeroSection implements AfterViewInit {
 
     // Subtle gradient text shimmer (no keyframes, GSAP controlled)
     const gradientSpan = el.querySelector(
-      'h1 span:nth-child(2)',
+      'h1 span:nth-child(2)'
     ) as HTMLElement | null;
     if (gradientSpan) {
       gsap.to(gradientSpan, {

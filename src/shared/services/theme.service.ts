@@ -1,12 +1,12 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
-  Injectable,
-  signal,
+  afterNextRender,
   effect,
   inject,
+  Injectable,
   PLATFORM_ID,
-  afterNextRender,
+  signal,
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
 
 const STORAGE_KEY = 'theme';
 const DARK_CLASS = 'dark';

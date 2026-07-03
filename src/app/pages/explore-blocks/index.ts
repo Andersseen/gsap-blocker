@@ -1,8 +1,8 @@
 import {
-  Component,
-  signal,
   ChangeDetectionStrategy,
+  Component,
   inject,
+  signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {

@@ -1,16 +1,18 @@
+import { NgOptimizedImage, isPlatformBrowser } from '@angular/common';
 import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
+  OnDestroy,
+  PLATFORM_ID,
   ViewEncapsulation,
   computed,
   inject,
   input,
   signal,
   viewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
-import { NgOptimizedImage, isPlatformBrowser } from '@angular/common';
-import { PLATFORM_ID, AfterViewInit, OnDestroy } from '@angular/core';
 
 interface Slide {
   src: string;
@@ -127,7 +129,7 @@ export default class Features implements AfterViewInit, OnDestroy {
   index = signal(0);
   length = computed(() => this.slides().length);
   dotIndexes = computed(() =>
-    Array.from({ length: this.length() }, (_, i) => i),
+    Array.from({ length: this.length() }, (_, i) => i)
   );
 
   private width = 0;

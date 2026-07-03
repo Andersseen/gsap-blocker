@@ -1,8 +1,8 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import Footer from '@blocks/footer';
-import InteractiveFooter from '@blocks/interactive-footer';
 import FooterMega from '@blocks/footer-mega';
 import FooterMinimal from '@blocks/footer-minimal';
+import InteractiveFooter from '@blocks/interactive-footer';
 import BlockShowcase from '@components/block-showcase';
 
 @Component({

@@ -1,16 +1,16 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   inject,
   input,
+  OnDestroy,
   PLATFORM_ID,
   viewChild,
-  AfterViewInit,
-  OnDestroy,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { isPlatformBrowser } from '@angular/common';
 import { gsap } from 'gsap';
 
 interface Category {
@@ -193,7 +193,7 @@ export default class GridCard implements AfterViewInit, OnDestroy {
       if (!rootEl) return;
 
       const cards = Array.from(
-        rootEl.querySelectorAll<HTMLElement>('a[routerLink]'),
+        rootEl.querySelectorAll<HTMLElement>('a[routerLink]')
       );
 
       gsap.from(cards, {
@@ -221,7 +221,7 @@ export default class GridCard implements AfterViewInit, OnDestroy {
     const blob = card.querySelector<HTMLElement>('[data-blob]');
     const emoji = card.querySelector<HTMLElement>('[data-emoji]');
     const shine = card.querySelector<HTMLElement>(
-      '.shine',
+      '.shine'
     ) as HTMLElement | null;
 
     gsap.to(card, { z: 0.001, translateZ: 0.001, duration: 0 });
@@ -251,7 +251,7 @@ export default class GridCard implements AfterViewInit, OnDestroy {
           shine.style.setProperty('opacity', String(ratio * 0.55));
           shine.style.setProperty(
             'background-position',
-            `${-50 + ratio * 100}% 0%`,
+            `${-50 + ratio * 100}% 0%`
           );
         },
       });
@@ -277,7 +277,7 @@ export default class GridCard implements AfterViewInit, OnDestroy {
 
     const blob = card.querySelector<HTMLElement>('[data-blob]');
     const shine = card.querySelector<HTMLElement>(
-      '.shine',
+      '.shine'
     ) as HTMLElement | null;
 
     // Vuelve a reposo

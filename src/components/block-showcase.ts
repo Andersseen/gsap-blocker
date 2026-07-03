@@ -1,8 +1,8 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   input,
   signal,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 
 @Component({

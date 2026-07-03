@@ -1,7 +1,7 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import Layout from './layout';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SmoothScrollDirective } from '@shared/directives/smooth-scroll.directive';
+import Layout from './layout';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

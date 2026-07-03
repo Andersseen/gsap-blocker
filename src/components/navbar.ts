@@ -1,19 +1,19 @@
 import {
-  Component,
   ChangeDetectionStrategy,
+  Component,
   effect,
   inject,
   model,
 } from '@angular/core';
 import {
-  Router,
   NavigationEnd,
+  Router,
   RouterLink,
   RouterLinkActive,
 } from '@angular/router';
-import { filter } from 'rxjs/operators';
 import { ThemeService } from '@shared/services/theme.service';
 import { CURRENT_YEAR } from '@shared/tokens/date.token';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-navbar',

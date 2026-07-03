@@ -15,7 +15,7 @@ describe('App', () => {
           await import('@angular/core');
 
         await resolveComponentResources((url) =>
-          Promise.resolve(readFileSync(new URL(url, import.meta.url), 'utf-8')),
+          Promise.resolve(readFileSync(new URL(url, import.meta.url), 'utf-8'))
         );
       }
     } catch {

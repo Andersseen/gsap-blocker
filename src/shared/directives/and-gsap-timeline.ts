@@ -1,21 +1,23 @@
 // and-gsap-timeline.directive.ts
+import { isPlatformBrowser } from '@angular/common';
 import {
+  AfterViewInit,
   Directive,
+  effect,
   ElementRef,
   forwardRef,
   inject,
   input,
+  OnDestroy,
+  PLATFORM_ID,
   Provider,
-  effect,
 } from '@angular/core';
-import { PLATFORM_ID, AfterViewInit, OnDestroy } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import type { gsap } from 'gsap';
 import {
   AND_GSAP_TIMELINE_CTX,
   AndGsapTimelineApi,
   TweenVars,
 } from '@shared/and-gsap-tokens';
+import type { gsap } from 'gsap';
 
 @Directive({
   selector: '[andGsapTimeline]',
@@ -74,7 +76,7 @@ export class AndGsapTimelineDirective
   registerFrom(
     target: HTMLElement,
     vars: TweenVars,
-    at?: string | number,
+    at?: string | number
   ): void {
     if (this.tl) this.tl.from(target, vars, at as number | string);
     else this.pending.push({ el: target, vars, at });

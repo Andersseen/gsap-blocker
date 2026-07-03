@@ -1,0 +1,13 @@
+{
+  "$schema": "https://cursor.com/schemas/mcp.json",
+  "mcpServers": {
+    "gsap-reference": {
+      "name": "GSAP API Reference",
+      "description": "Optional GSAP animation API reference via Model Context Protocol (unofficial). Install with `pnpm add -D @vinhnguyen/gsap-mcp` only when you need GSAP API help.",
+      "command": "pnpm",
+      "args": ["exec", "@vinhnguyen/gsap-mcp"],
+      "env": {},
+      "disabled": true
+    }
+  }
+}

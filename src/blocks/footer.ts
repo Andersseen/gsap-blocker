@@ -1,13 +1,14 @@
+import { isPlatformBrowser, NgOptimizedImage } from '@angular/common';
 import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   inject,
   input,
+  PLATFORM_ID,
   viewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
-import { isPlatformBrowser, NgOptimizedImage } from '@angular/common';
-import { PLATFORM_ID, AfterViewInit } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -109,7 +110,7 @@ export default class BKFooter implements AfterViewInit {
   // Inputs (signals)
   title = input<string>('Build faster with Angular + Tailwind');
   subtitle = input<string>(
-    'A modern hero block animated with GSAP. Clean, accessible, and easy to customize.',
+    'A modern hero block animated with GSAP. Clean, accessible, and easy to customize.'
   );
   badge = input<string>('New');
   primaryText = input<string>('Get started');
@@ -117,7 +118,7 @@ export default class BKFooter implements AfterViewInit {
   secondaryText = input<string>('Learn more');
   secondaryHref = input<string>('#');
   imageSrc = input<string>(
-    'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1600&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1600&auto=format&fit=crop'
   );
   imageAlt = input<string>('Dashboard preview');
 
@@ -148,17 +149,17 @@ export default class BKFooter implements AfterViewInit {
       .from(
         el.querySelectorAll('.hero-cta'),
         { y: 14, autoAlpha: 0, stagger: 0.08 },
-        '-=0.6',
+        '-=0.6'
       )
       .from(
         el.querySelector('.hero-card'),
         { y: 30, rotateX: 6, autoAlpha: 0 },
-        '-=0.6',
+        '-=0.6'
       )
       .from(
         el.querySelectorAll('.floating'),
         { scale: 0.6, autoAlpha: 0, stagger: 0.1 },
-        '-=0.7',
+        '-=0.7'
       );
   }
 

@@ -1,4 +1,4 @@
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -58,6 +58,6 @@ import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 export default class HeroVideo {
   title = input('Cinematic Experiences');
   subtitle = input(
-    'Create immersive web experiences with fullscreen video backgrounds and minimal overlays.',
+    'Create immersive web experiences with fullscreen video backgrounds and minimal overlays.'
   );
 }

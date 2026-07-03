@@ -1,13 +1,20 @@
 // and-gsap-from.directive.ts
-import { Directive, ElementRef, inject, input } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { PLATFORM_ID, AfterViewInit, OnDestroy } from '@angular/core';
-import type { gsap } from 'gsap';
+import {
+  AfterViewInit,
+  Directive,
+  ElementRef,
+  inject,
+  input,
+  OnDestroy,
+  PLATFORM_ID,
+} from '@angular/core';
 import {
   AND_GSAP_TIMELINE_CTX,
   AndGsapTimelineApi,
   TweenVars,
 } from '@shared/and-gsap-tokens';
+import type { gsap } from 'gsap';
 
 @Directive({
   selector: '[andGsapFrom]',

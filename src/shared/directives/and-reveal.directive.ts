@@ -1,6 +1,14 @@
-import { Directive, ElementRef, inject, input } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { PLATFORM_ID, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import {
+  AfterViewInit,
+  Directive,
+  ElementRef,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
+} from '@angular/core';
 import type { gsap } from 'gsap';
 
 @Directive({
@@ -64,7 +72,7 @@ export class AndRevealDirective implements OnInit, AfterViewInit, OnDestroy {
       {
         threshold: this.threshold(),
         rootMargin, // e.g. "0px 0px -20% 0px" => requiere 20% dentro del viewport
-      },
+      }
     );
 
     this.io.observe(this.el.nativeElement);
@@ -88,7 +96,7 @@ export class AndRevealDirective implements OnInit, AfterViewInit, OnDestroy {
         delay: this.delay(),
         ease: this.ease(),
         clearProps: 'transform,opacity',
-      },
+      }
     );
   }
 

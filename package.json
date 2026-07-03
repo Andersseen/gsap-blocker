@@ -1,26 +1,19 @@
 {
   "name": "gsap-blocker",
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "Reusable GSAP-powered directives, components and pre-built animation blocks for Angular.",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
+    "test": "ng test --watch=false",
+    "test:watch": "ng test",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
-    "format": "prettier --write \"src/**/*.{ts,html,css,scss,json,md}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,html,css,scss,json,md}\""
-  },
-  "prettier": {
-    "overrides": [
-      {
-        "files": "*.html",
-        "options": {
-          "parser": "angular"
-        }
-      }
-    ]
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky"
   },
   "private": true,
   "dependencies": {
@@ -58,7 +51,9 @@
     "eslint": "9.22.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.6",
+    "husky": "^9.1.0",
     "jsdom": "^26.1.0",
+    "lint-staged": "^15.4.0",
     "prettier": "^3.9.4",
     "prettier-plugin-organize-imports": "^4.3.0",
     "typescript": "~5.8.2",

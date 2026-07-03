@@ -1,7 +1,7 @@
-import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import FeaturesSection from '@components/features-section';
-import HeroSection from '@components/hero-section';
 import GridCard from '@components/grid-card';
+import HeroSection from '@components/hero-section';
 import CATEGORIES from '@data/categories';
 import { AndRevealDirective } from '@shared/directives/and-reveal.directive';
 

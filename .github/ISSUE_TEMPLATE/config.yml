@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Ask a question
+    url: https://github.com/andriipap/gsap-blocker/discussions
+    about: Please use GitHub Discussions for questions and general help.
+  - name: Security issue
+    url: https://github.com/andriipap/gsap-blocker/security/advisories/new
+    about: Report a security vulnerability privately.

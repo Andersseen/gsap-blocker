@@ -4,5 +4,13 @@
   "tabWidth": 2,
   "semi": true,
   "printWidth": 80,
-  "plugins": ["prettier-plugin-organize-imports"]
+  "plugins": ["prettier-plugin-organize-imports"],
+  "overrides": [
+    {
+      "files": "*.html",
+      "options": {
+        "parser": "angular"
+      }
+    }
+  ]
 }

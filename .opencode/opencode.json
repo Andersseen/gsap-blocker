@@ -1,0 +1,18 @@
+{
+  "$schema": "https://opencode.dev/schemas/opencode.json",
+  "agent": {
+    "instructions": "AGENTS.md",
+    "model": "auto",
+    "language": "en"
+  },
+  "mcpServers": {
+    "gsap-reference": {
+      "name": "GSAP API Reference",
+      "description": "Optional GSAP animation API reference via Model Context Protocol (unofficial). Install with `pnpm add -D @vinhnguyen/gsap-mcp` only when you need GSAP API help.",
+      "command": "pnpm",
+      "args": ["exec", "@vinhnguyen/gsap-mcp"],
+      "env": {},
+      "disabled": true
+    }
+  }
+}

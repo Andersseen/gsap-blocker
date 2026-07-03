@@ -1,13 +1,13 @@
+import { NgOptimizedImage, isPlatformBrowser } from '@angular/common';
 import {
-  Component,
-  ElementRef,
-  inject,
-  viewChild,
   AfterViewInit,
   ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  PLATFORM_ID,
+  inject,
+  viewChild,
 } from '@angular/core';
-import { NgOptimizedImage, isPlatformBrowser } from '@angular/common';
-import { PLATFORM_ID } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

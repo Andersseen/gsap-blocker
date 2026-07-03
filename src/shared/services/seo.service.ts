@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { Title, Meta } from '@angular/platform-browser';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, map, mergeMap } from 'rxjs/operators';
 
 export interface SeoData {
@@ -33,7 +33,7 @@ export class SeoService {
     this.router.events
       .pipe(
         filter(
-          (event): event is NavigationEnd => event instanceof NavigationEnd,
+          (event): event is NavigationEnd => event instanceof NavigationEnd
         ),
         map(() => this.activatedRoute),
         map((route) => {
@@ -41,7 +41,7 @@ export class SeoService {
           return route;
         }),
         filter((route) => route.outlet === 'primary'),
-        mergeMap((route) => route.data),
+        mergeMap((route) => route.data)
       )
       .subscribe((data) => {
         const seo = { ...DEFAULT_SEO, ...(data['seo'] as SeoData | undefined) };

@@ -1,9 +1,9 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import Hero from '@blocks/hero';
 import HeroModern from '@blocks/hero-modern';
-import HeroSection from '@components/hero-section'; // "Hero Glow"
 import HeroVideo from '@blocks/hero-video';
 import BlockShowcase from '@components/block-showcase';
+import HeroSection from '@components/hero-section'; // "Hero Glow"
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
