@@ -39,6 +39,13 @@ testem.log
 .eslintcache
 *.log
 
+# Cloudflare / Wrangler
+.wrangler/
+.dev.vars
+.env
+.env.local
+.env.*.local
+
 # System files
 .DS_Store
 Thumbs.db

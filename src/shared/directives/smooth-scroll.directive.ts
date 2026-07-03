@@ -1,4 +1,12 @@
-import { Directive, OnDestroy, OnInit, inject, input } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import {
+  Directive,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
+  inject,
+  input,
+} from '@angular/core';
 import { SmoothScrollService } from '@shared/services/smooth-scroll.service';
 
 @Directive({
@@ -10,6 +18,7 @@ import { SmoothScrollService } from '@shared/services/smooth-scroll.service';
 })
 export class SmoothScrollDirective implements OnInit, OnDestroy {
   private readonly smooth = inject(SmoothScrollService);
+  private readonly platformId = inject(PLATFORM_ID);
 
   lerp = input<number>(0.12);
   wheelMult = input<number>(1);
@@ -23,7 +32,7 @@ export class SmoothScrollDirective implements OnInit, OnDestroy {
   private mqlCoarse?: MediaQueryList;
 
   ngOnInit(): void {
-    if (!this.enabled()) return;
+    if (!isPlatformBrowser(this.platformId) || !this.enabled()) return;
 
     this.smooth.setLerp(this.lerp());
     this.smooth.setWheelMultiplier(this.wheelMult());

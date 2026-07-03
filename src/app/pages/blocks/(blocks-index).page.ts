@@ -1,3 +1,4 @@
+import { RouteMeta } from '@analogjs/router';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,9 +9,28 @@ import { FormsModule } from '@angular/forms';
 import CardCategory from '@components/grid-card';
 import CATEGORIES from '@data/categories';
 
+export const routeMeta: RouteMeta = {
+  title: 'Block Library — GSAP Blocker',
+  meta: [
+    {
+      name: 'description',
+      content:
+        'Browse our collection of animated heroes, features, pricing, testimonials, CTAs, and footers.',
+    },
+    { property: 'og:title', content: 'Block Library — GSAP Blocker' },
+    {
+      property: 'og:description',
+      content:
+        'Browse our collection of animated heroes, features, pricing, testimonials, CTAs, and footers.',
+    },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:image', content: '/favicon.svg' },
+  ],
+};
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'page-blocks',
+  selector: 'page-blocks-index',
   imports: [CardCategory, FormsModule],
   template: `
     <div class="min-h-screen bg-background pt-32 pb-24 px-6 md:px-12">
@@ -65,7 +85,7 @@ import CATEGORIES from '@data/categories';
     </div>
   `,
 })
-export default class ExploreBlocks {
+export default class BlocksIndexPage {
   query = signal('');
   categories = signal(CATEGORIES);
 

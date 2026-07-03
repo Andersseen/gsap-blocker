@@ -1,8 +1,11 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   effect,
   ElementRef,
+  inject,
+  PLATFORM_ID,
   signal,
   viewChild,
 } from '@angular/core';
@@ -46,6 +49,7 @@ import Navbar from '@components/navbar';
   ],
 })
 export default class Layout {
+  private readonly platformId = inject(PLATFORM_ID);
   open = signal(false);
 
   main = viewChild<ElementRef<HTMLElement>>('main');
@@ -53,7 +57,7 @@ export default class Layout {
   constructor() {
     effect(() => {
       const mainEl = this.main();
-      if (mainEl) {
+      if (mainEl && isPlatformBrowser(this.platformId)) {
         mainEl.nativeElement.style.filter = this.open() ? 'blur(5px)' : '';
       }
     });

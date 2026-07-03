@@ -1,4 +1,4 @@
 {
-  "*.{ts,html}": ["ng lint --fix", "prettier --write"],
+  "*.{ts,html}": ["eslint --fix", "prettier --write"],
   "*.{css,scss,json,md,yml,yaml}": ["prettier --write"]
 }

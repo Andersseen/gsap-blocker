@@ -1,9 +1,27 @@
+import { RouteMeta } from '@analogjs/router';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import PricingSection from '@blocks/pricing'; // "Pricing Table"
 import PricingCompare from '@blocks/pricing-compare';
 import PricingEnterprise from '@blocks/pricing-enterprise';
 import PricingSimple from '@blocks/pricing-simple';
 import BlockShowcase from '@components/block-showcase';
+
+export const routeMeta: RouteMeta = {
+  title: 'Pricing Blocks — GSAP Blocker',
+  meta: [
+    {
+      name: 'description',
+      content: 'Browse pricing blocks for your Angular landing page.',
+    },
+    { property: 'og:title', content: 'Pricing Blocks — GSAP Blocker' },
+    {
+      property: 'og:description',
+      content: 'Browse pricing blocks for your Angular landing page.',
+    },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:image', content: '/favicon.svg' },
+  ],
+};
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
