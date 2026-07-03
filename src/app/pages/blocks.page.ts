@@ -1,3 +1,4 @@
+import { RouteMeta } from '@analogjs/router';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,9 +13,28 @@ import {
   RouterOutlet,
 } from '@angular/router';
 
+export const routeMeta: RouteMeta = {
+  title: 'Block Library — GSAP Blocker',
+  meta: [
+    {
+      name: 'description',
+      content:
+        'Browse our collection of animated heroes, features, pricing, testimonials, CTAs, and footers.',
+    },
+    { property: 'og:title', content: 'Block Library — GSAP Blocker' },
+    {
+      property: 'og:description',
+      content:
+        'Browse our collection of animated heroes, features, pricing, testimonials, CTAs, and footers.',
+    },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:image', content: '/favicon.svg' },
+  ],
+};
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'page-explore-blocks',
+  selector: 'page-blocks-layout',
   imports: [RouterOutlet, RouterLink],
   template: ` <section class="container mx-auto px-6 md:px-8 py-16">
     @if (!showCategory()) {
@@ -28,7 +48,7 @@ import {
     <router-outlet />
   </section>`,
 })
-export default class ExploreBlocksPage {
+export default class BlocksLayoutPage {
   private readonly router = inject(Router);
 
   showCategory = signal<boolean>(true);

@@ -1,9 +1,27 @@
+import { RouteMeta } from '@analogjs/router';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import Cta2 from '@blocks/cta-2';
 import CtaImage from '@blocks/cta-image';
 import CtaInput from '@blocks/cta-input';
 import SplitCta from '@blocks/split-cta';
 import BlockShowcase from '@components/block-showcase';
+
+export const routeMeta: RouteMeta = {
+  title: 'CTA Blocks — GSAP Blocker',
+  meta: [
+    {
+      name: 'description',
+      content: 'Browse CTA blocks for your Angular landing page.',
+    },
+    { property: 'og:title', content: 'CTA Blocks — GSAP Blocker' },
+    {
+      property: 'og:description',
+      content: 'Browse CTA blocks for your Angular landing page.',
+    },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:image', content: '/favicon.svg' },
+  ],
+};
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

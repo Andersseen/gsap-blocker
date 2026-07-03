@@ -1,11 +1,14 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
   ElementRef,
+  inject,
   input,
   output,
+  PLATFORM_ID,
   viewChild,
 } from '@angular/core';
 import gsap from 'gsap';
@@ -165,6 +168,8 @@ import gsap from 'gsap';
   `,
 })
 export default class Cta2 implements AfterViewInit {
+  private readonly platformId = inject(PLATFORM_ID);
+
   // Defaults (no required inputs)
   title = input<string>('Ship UI faster with GSAP blocks');
   description = input<string>(
@@ -185,6 +190,8 @@ export default class Cta2 implements AfterViewInit {
   root = viewChild<ElementRef<HTMLElement>>('root');
 
   ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
     const el = this.root()?.nativeElement;
     if (!el) return;
 

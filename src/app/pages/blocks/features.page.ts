@@ -1,9 +1,27 @@
+import { RouteMeta } from '@analogjs/router';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import BentoGrid from '@blocks/bento-grid';
 import Features from '@blocks/features';
 import FeaturesCards from '@blocks/features-cards';
 import FeaturesList from '@blocks/features-list';
 import BlockShowcase from '@components/block-showcase';
+
+export const routeMeta: RouteMeta = {
+  title: 'Feature Blocks — GSAP Blocker',
+  meta: [
+    {
+      name: 'description',
+      content: 'Browse feature blocks for your Angular landing page.',
+    },
+    { property: 'og:title', content: 'Feature Blocks — GSAP Blocker' },
+    {
+      property: 'og:description',
+      content: 'Browse feature blocks for your Angular landing page.',
+    },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:image', content: '/favicon.svg' },
+  ],
+};
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

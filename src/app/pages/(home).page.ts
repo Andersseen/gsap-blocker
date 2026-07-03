@@ -1,9 +1,33 @@
+import { RouteMeta } from '@analogjs/router';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import FeaturesSection from '@components/features-section';
 import GridCard from '@components/grid-card';
 import HeroSection from '@components/hero-section';
 import CATEGORIES from '@data/categories';
 import { AndRevealDirective } from '@shared/directives/and-reveal.directive';
+
+export const routeMeta: RouteMeta = {
+  title: 'GSAP Blocker — Animated UI blocks for Angular',
+  meta: [
+    {
+      name: 'description',
+      content:
+        'A curated collection of production-ready, animated UI blocks built with Angular, Tailwind CSS, and GSAP.',
+    },
+    {
+      property: 'og:title',
+      content: 'GSAP Blocker — Animated UI blocks for Angular',
+    },
+    {
+      property: 'og:description',
+      content:
+        'A curated collection of production-ready, animated UI blocks built with Angular, Tailwind CSS, and GSAP.',
+    },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:image', content: '/favicon.svg' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+  ],
+};
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

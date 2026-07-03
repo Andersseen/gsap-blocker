@@ -1,11 +1,14 @@
 // @ts-check
-const eslint = require('@eslint/js');
-const tseslint = require('typescript-eslint');
-const angular = require('angular-eslint');
-const prettier = require('eslint-config-prettier');
-const prettierRecommended = require('eslint-plugin-prettier/recommended');
+import eslint from '@eslint/js';
+import angular from 'angular-eslint';
+import prettier from 'eslint-config-prettier';
+import prettierRecommended from 'eslint-plugin-prettier/recommended';
+import tseslint from 'typescript-eslint';
 
-module.exports = tseslint.config(
+export default tseslint.config(
+  {
+    ignores: ['dist/**', 'node_modules/**', '.angular/**', 'out-tsc/**'],
+  },
   {
     files: ['**/*.ts'],
     extends: [

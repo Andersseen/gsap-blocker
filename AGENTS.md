@@ -4,9 +4,9 @@ This file contains the context and rules that AI agents (OpenCode, Cursor, Claud
 
 ## Project Overview
 
-**GSAP Blocker** is an open-source Angular project that provides reusable GSAP-powered directives, components and pre-built animation blocks for the Angular community. It is built as an Angular 20 application that also serves as a living showcase and documentation site.
+**GSAP Blocker** is an open-source Angular project that provides reusable GSAP-powered directives, components and pre-built animation blocks for the Angular community. It is built as an Angular 20 application powered by **AnalogJS** and deployed to **Cloudflare Pages**.
 
-- **Stack**: Angular 20, TypeScript 5.8, Tailwind CSS 4, GSAP 3, Vitest, SSR (`@angular/ssr`).
+- **Stack**: Angular 20, AnalogJS 1.x, TypeScript 5.8, Tailwind CSS 4, GSAP 3, Vitest, SSR via AnalogJS/Nitro.
 - **Package manager**: `pnpm` (preferred). Use `pnpm-lock.yaml` as the source of truth.
 - **Node version**: see `.nvmrc`.
 
@@ -16,14 +16,15 @@ This file contains the context and rules that AI agents (OpenCode, Cursor, Claud
 
 ```text
 src/
-  app/              # Application shell, routing, pages and layout
-  blocks/           # Self-contained, copy-pasteable block components (hero, pricing, testimonials, etc.)
+  app/              # Application shell, layout, file-based routes
+    pages/          # AnalogJS file-based routes (*.page.ts)
+  blocks/           # Self-contained, copy-pasteable block components
   components/       # Reusable UI components used by pages/blocks
   data/             # Static data (features, categories)
   shared/
     directives/     # SSR-safe Angular directives wrapping GSAP APIs
     interfaces/     # Shared TypeScript interfaces
-    services/       # Angular services (theme, smooth-scroll, seo)
+    services/       # Angular services (theme, smooth-scroll)
     tokens/         # Injection tokens (e.g. date token)
   styles/           # Global styles and Tailwind layers
 ```
@@ -32,6 +33,7 @@ src/
 
 - **Directives**: `andXxx` selector + `AndXxxDirective` class (camelCase selector, PascalCase class).
 - **Components**: `app-xxx` or semantic selector (e.g. `hero-section`). Pages use the `page-` prefix.
+- **Pages (AnalogJS)**: files under `src/app/pages` ending with `.page.ts`. Use parenthesis for index routes, e.g. `(home).page.ts`.
 - **Files**: lowercase, dot-separated (`and-gsap-from.ts`, `hero-section.ts`).
 - **InjectionTokens**: `AND_GSAP_*` prefix, uppercase snake-case.
 - **Imports**: prefer path aliases (`@app/*`, `@shared/*`, `@blocks/*`, `@components/*`, `@data/*`).
@@ -47,6 +49,12 @@ src/
 - Use `@angular/core`'s `DestroyRef` or `takeUntilDestroyed()` for automatic cleanup.
 - Prefer CSS custom properties for theming. Tailwind classes should be readable and grouped logically.
 - Prefer `interface` over `type` for object shapes.
+
+### Routing & SEO
+
+- Routes are discovered automatically from `src/app/pages/*.page.ts`.
+- Use `RouteMeta` from `@analogjs/router` for `title`, `meta`, `canActivate`, and redirects.
+- Keep route metadata in the same file as the page component.
 
 ## How Agents Should Work
 
@@ -84,15 +92,16 @@ These configs reference the **unofficial** GSAP MCP server (`@vinhnguyen/gsap-mc
 1. Create the directive in `src/shared/directives/`.
 2. Export it from the closest index barrel if one exists.
 3. Add a minimal unit test in `src/shared/directives/*.spec.ts`.
-4. Add a usage example in `src/blocks/` or `src/app/pages/docs.ts`.
+4. Add a usage example in `src/blocks/` or `src/app/pages/docs.page.ts`.
 5. Document the selector and inputs in `README.md`.
 
 ### Add a new block
 
 1. Create a standalone component in `src/blocks/`.
 2. Keep it self-contained (own styles, no external state unless via inputs).
-3. Add it to the explore-blocks routing if it should be browsable.
-4. Add a usage snippet to `README.md` or `docs/`.
+3. Guard browser-only code with `isPlatformBrowser`.
+4. If it should be browsable, create a wrapper page under `src/app/pages/blocks/*.page.ts`.
+5. Add a usage snippet to `README.md` or `docs/`.
 
 ### Update dependencies
 

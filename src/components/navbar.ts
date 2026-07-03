@@ -1,9 +1,11 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   effect,
   inject,
   model,
+  PLATFORM_ID,
 } from '@angular/core';
 import {
   NavigationEnd,
@@ -231,6 +233,7 @@ import { filter } from 'rxjs/operators';
 export default class Navbar {
   theme = inject(ThemeService);
   private router = inject(Router);
+  private readonly platformId = inject(PLATFORM_ID);
 
   year = inject(CURRENT_YEAR);
   open = model(false);
@@ -241,6 +244,7 @@ export default class Navbar {
       .subscribe(() => this.open.set(false));
 
     effect(() => {
+      if (!isPlatformBrowser(this.platformId)) return;
       document.documentElement.style.overflow = this.open() ? 'hidden' : '';
     });
   }

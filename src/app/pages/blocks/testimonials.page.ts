@@ -1,9 +1,27 @@
+import { RouteMeta } from '@analogjs/router';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import Testimonials from '@blocks/testimonials'; // "Marquee"
 import TestimonialsAvatars from '@blocks/testimonials-avatars';
 import TestimonialsFocus from '@blocks/testimonials-focus';
 import TestimonialsGrid from '@blocks/testimonials-grid';
 import BlockShowcase from '@components/block-showcase';
+
+export const routeMeta: RouteMeta = {
+  title: 'Testimonial Blocks — GSAP Blocker',
+  meta: [
+    {
+      name: 'description',
+      content: 'Browse testimonial blocks for your Angular landing page.',
+    },
+    { property: 'og:title', content: 'Testimonial Blocks — GSAP Blocker' },
+    {
+      property: 'og:description',
+      content: 'Browse testimonial blocks for your Angular landing page.',
+    },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:image', content: '/favicon.svg' },
+  ],
+};
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

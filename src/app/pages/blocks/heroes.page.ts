@@ -1,9 +1,27 @@
+import { RouteMeta } from '@analogjs/router';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import Hero from '@blocks/hero';
 import HeroModern from '@blocks/hero-modern';
 import HeroVideo from '@blocks/hero-video';
 import BlockShowcase from '@components/block-showcase';
 import HeroSection from '@components/hero-section'; // "Hero Glow"
+
+export const routeMeta: RouteMeta = {
+  title: 'Hero Blocks — GSAP Blocker',
+  meta: [
+    {
+      name: 'description',
+      content: 'Browse hero blocks for your Angular landing page.',
+    },
+    { property: 'og:title', content: 'Hero Blocks — GSAP Blocker' },
+    {
+      property: 'og:description',
+      content: 'Browse hero blocks for your Angular landing page.',
+    },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:image', content: '/favicon.svg' },
+  ],
+};
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

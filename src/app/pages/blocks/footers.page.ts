@@ -1,9 +1,27 @@
+import { RouteMeta } from '@analogjs/router';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import Footer from '@blocks/footer';
 import FooterMega from '@blocks/footer-mega';
 import FooterMinimal from '@blocks/footer-minimal';
 import InteractiveFooter from '@blocks/interactive-footer';
 import BlockShowcase from '@components/block-showcase';
+
+export const routeMeta: RouteMeta = {
+  title: 'Footer Blocks — GSAP Blocker',
+  meta: [
+    {
+      name: 'description',
+      content: 'Browse footer blocks for your Angular landing page.',
+    },
+    { property: 'og:title', content: 'Footer Blocks — GSAP Blocker' },
+    {
+      property: 'og:description',
+      content: 'Browse footer blocks for your Angular landing page.',
+    },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:image', content: '/favicon.svg' },
+  ],
+};
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

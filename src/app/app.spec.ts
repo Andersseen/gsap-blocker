@@ -4,7 +4,6 @@ import { provideRouter } from '@angular/router';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import App from './app';
-import { routes } from './app.routes';
 
 describe('App', () => {
   beforeAll(async () => {
@@ -26,7 +25,7 @@ describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [provideZonelessChangeDetection(), provideRouter(routes)],
+      providers: [provideZonelessChangeDetection(), provideRouter([])],
     }).compileComponents();
   });
 

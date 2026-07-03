@@ -1,5 +1,23 @@
+import { RouteMeta } from '@analogjs/router';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+
+export const routeMeta: RouteMeta = {
+  title: 'Documentation — GSAP Blocker',
+  meta: [
+    {
+      name: 'description',
+      content: 'Learn how to use GSAP Blocker blocks in your Angular projects.',
+    },
+    { property: 'og:title', content: 'Documentation — GSAP Blocker' },
+    {
+      property: 'og:description',
+      content: 'Learn how to use GSAP Blocker blocks in your Angular projects.',
+    },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:image', content: '/favicon.svg' },
+  ],
+};
 
 @Component({
   selector: 'page-docs',
@@ -96,9 +114,9 @@ import { RouterLink } from '@angular/router';
               <h2>Introduction</h2>
               <p>
                 GSAP Blocker is a curated collection of high-quality, animated
-                UI blocks built with Angular 20 and Tailwind CSS v4. We enable
-                you to ship premium experiences faster by providing
-                production-ready components.
+                UI blocks built with Angular and Tailwind CSS. We enable you to
+                ship premium experiences faster by providing production-ready
+                components.
               </p>
               <div class="not-prose grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
                 <div class="p-4 rounded-xl border border-border bg-card">
