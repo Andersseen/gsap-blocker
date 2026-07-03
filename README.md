@@ -1,59 +1,161 @@
-# GsapBlocker
+# GSAP Blocker
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.5.
+A curated collection of production-ready, animated UI blocks built with **Angular 20**, **Tailwind CSS v4**, and **GSAP**.
 
-## Development server
+Copy, paste, and ship premium landing pages faster — with SSR-safe animations, accessibility in mind, and a unified design system.
 
-To start a local development server, run:
+![Angular](https://img.shields.io/badge/Angular-20-DD0031?logo=angular)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-v4-06B6D4?logo=tailwindcss)
+![GSAP](https://img.shields.io/badge/GSAP-3.13-88CE02?logo=greensock)
+![Tests](https://img.shields.io/badge/tests-vitest-6E9F18?logo=vitest)
 
-```bash
-ng serve
-```
+---
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## ✨ Features
 
-## Code scaffolding
+- **Modern Angular** — standalone components, signals, zoneless change detection, hydration, view transitions, `@defer`.
+- **Tailwind CSS v4** — CSS-first configuration with semantic design tokens and dark mode.
+- **SSR-safe GSAP** — animations are lazy-loaded and guarded with `isPlatformBrowser`.
+- **Accessible** — semantic HTML, keyboard navigation, `prefers-reduced-motion` support.
+- **Copy-paste ready** — every block is a focused, self-contained component.
+- **Performance** — OnPush change detection, lazy-loaded routes, optimized chunks.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+---
 
-```bash
-ng generate component component-name
-```
+## 🚀 Getting Started
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Prerequisites
 
-```bash
-ng generate --help
-```
+- [Node.js](https://nodejs.org/) 20+
+- [pnpm](https://pnpm.io/) (recommended)
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### Installation
 
 ```bash
-ng test
+pnpm install
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+### Development server
 
 ```bash
-ng e2e
+pnpm start
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Navigate to `http://localhost:4200/`. The app will automatically reload on file changes.
 
-## Additional Resources
+### Build
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```bash
+pnpm build
+```
+
+Artifacts are written to `dist/gsap-blocker`.
+
+### Tests
+
+```bash
+pnpm test
+```
+
+### Lint & format
+
+```bash
+pnpm lint        # check code quality
+pnpm lint:fix    # auto-fix ESLint issues
+pnpm format      # format with Prettier
+pnpm format:check
+```
+
+---
+
+## 🧱 Block Categories
+
+| Category | Blocks |
+|---|---|
+| Heroes | Glow, Split, Modern, Video |
+| Features | Classic Grid, Bento, Zig-Zag List, Cards |
+| Pricing | Table, Simple Cards, Comparison, Enterprise |
+| Testimonials | Infinite Marquee, Masonry Grid, Focus, Avatars |
+| CTA | Centered, Split, Email Capture, Feature Image |
+| Footers | Multi-column, Interactive Hover, Mega, Minimal |
+
+Browse them at `/blocks`.
+
+---
+
+## 📐 Architecture
+
+```text
+src/
+├── app/                 # Shell, layout, routing
+├── blocks/              # Reusable animated blocks
+├── components/          # Shared shell components
+├── data/                # Static data (categories, features)
+├── shared/
+│   ├── directives/      # SSR-safe GSAP directives
+│   ├── services/        # Theme, smooth scroll
+│   ├── interfaces/      # TypeScript models
+│   └── tokens/          # Injection tokens
+└── styles.css           # Tailwind entry + design tokens
+```
+
+### GSAP directives
+
+Instead of importing GSAP eagerly, use the lazy-loaded directives:
+
+```html
+<div
+  andGsapFrom
+  [from]="{ y: 24, opacity: 0, duration: 0.8 }"
+>
+  Animated content
+</div>
+```
+
+Or reveal on scroll with `andReveal`:
+
+```html
+<section andReveal>
+  Fades in when entering the viewport
+</section>
+```
+
+---
+
+## 🎨 Theming
+
+The project uses CSS custom properties compatible with Tailwind v4:
+
+```css
+@theme {
+  --color-background: #ffffff;
+  --color-foreground: #09090b;
+  --color-primary: #18181b;
+  /* ... */
+}
+
+html.dark {
+  --color-background: #09090b;
+  --color-foreground: #fafafa;
+}
+```
+
+Toggle dark mode via the navbar button or the `ThemeService`.
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/my-feature`
+3. Make your changes
+4. Run `pnpm lint` and `pnpm test`
+5. Open a Pull Request
+
+Please keep blocks self-contained, SSR-safe, and accessible.
+
+---
+
+## 📄 License
+
+MIT © GSAP Blocker

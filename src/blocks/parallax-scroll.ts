@@ -1,4 +1,11 @@
-import { Component, ElementRef, inject, input, viewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';;
+import {
+  Component,
+  ElementRef,
+  inject,
+  viewChild,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { NgOptimizedImage, isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 

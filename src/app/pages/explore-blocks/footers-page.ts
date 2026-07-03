@@ -1,13 +1,20 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';;
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import Footer from '@blocks/footer';
 import InteractiveFooter from '@blocks/interactive-footer';
 import FooterMega from '@blocks/footer-mega';
 import FooterMinimal from '@blocks/footer-minimal';
+import BlockShowcase from '@components/block-showcase';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'footers-page',
-  imports: [Footer, InteractiveFooter, FooterMega, FooterMinimal],
+  selector: 'page-footers',
+  imports: [
+    Footer,
+    InteractiveFooter,
+    FooterMega,
+    FooterMinimal,
+    BlockShowcase,
+  ],
   template: `
     <div class="pt-24 pb-12 px-6 md:px-12 bg-background min-h-screen">
       <div class="max-w-7xl mx-auto space-y-24">
@@ -22,57 +29,50 @@ import FooterMinimal from '@blocks/footer-minimal';
           </p>
         </div>
 
-        <!-- Block 1: Simple -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            01. Simple multi-column
-          </h2>
-          <div
-            class="rounded-3xl border border-border overflow-hidden bg-background"
-          >
-            <bk-footer />
-          </div>
-        </section>
+        <app-block-showcase
+          number="01"
+          title="Simple multi-column"
+          [padY]="true"
+          snippet="import Footer from '@blocks/footer';
 
-        <!-- Block 2: Interactive -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            02. Interactive Hover
-          </h2>
-          <div
-            class="rounded-3xl border border-border overflow-hidden bg-background"
-          >
-            <app-interactive-footer />
-          </div>
-        </section>
+<!-- HTML -->
+<app-footer-block />"
+        >
+          <app-footer-block />
+        </app-block-showcase>
 
-        <!-- Block 3: Mega -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            03. Mega Footer
-          </h2>
-          <div class="rounded-3xl border border-border overflow-hidden">
-            <app-footer-mega />
-          </div>
-        </section>
+        <app-block-showcase
+          number="02"
+          title="Interactive Hover"
+          snippet="import InteractiveFooter from '@blocks/interactive-footer';
 
-        <!-- Block 4: Minimal -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            04. Minimal
-          </h2>
-          <div class="rounded-3xl border border-border overflow-hidden">
-            <app-footer-minimal />
-          </div>
-        </section>
+<!-- HTML -->
+<app-interactive-footer />"
+        >
+          <app-interactive-footer />
+        </app-block-showcase>
+
+        <app-block-showcase
+          number="03"
+          title="Mega Footer"
+          snippet="import FooterMega from '@blocks/footer-mega';
+
+<!-- HTML -->
+<app-footer-mega />"
+        >
+          <app-footer-mega />
+        </app-block-showcase>
+
+        <app-block-showcase
+          number="04"
+          title="Minimal"
+          snippet="import FooterMinimal from '@blocks/footer-minimal';
+
+<!-- HTML -->
+<app-footer-minimal />"
+        >
+          <app-footer-minimal />
+        </app-block-showcase>
       </div>
     </div>
   `,

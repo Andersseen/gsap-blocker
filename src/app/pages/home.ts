@@ -10,13 +10,13 @@ import { AndRevealDirective } from '@shared/directives/and-reveal.directive';
   selector: 'page-home',
   imports: [AndRevealDirective, HeroSection, FeaturesSection, GridCard],
   template: `
-    <hero-section />
+    <app-hero-section />
 
     <!-- Features -->
     @defer (on viewport) {
-      <features-section />
+      <app-features-section />
     } @placeholder {
-      <div class="min-h-[500px]"></div>
+      <div class="min-h-[500px]" aria-hidden="true"></div>
     }
 
     <!-- Categories -->
@@ -29,10 +29,10 @@ import { AndRevealDirective } from '@shared/directives/and-reveal.directive';
           >
         </div>
 
-        <grid-card [categories]="categories()" />
+        <app-grid-card [categories]="categories()" />
       </section>
     } @placeholder {
-      <div class="min-h-[400px]"></div>
+      <div class="min-h-[400px]" aria-hidden="true"></div>
     }
 
     @defer (on viewport) {

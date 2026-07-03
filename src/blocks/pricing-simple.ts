@@ -1,4 +1,4 @@
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';;
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -8,27 +8,27 @@ import { Component, input, ChangeDetectionStrategy } from '@angular/core';;
       <div class="container mx-auto px-6 md:px-12">
         <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           @for (plan of plans(); track plan.name) {
-          <div
-            class="p-8 rounded-3xl border border-border bg-card flex flex-col hover:border-primary/50 transition-colors"
-          >
-            <h3 class="text-xl font-bold text-foreground mb-4">
-              {{ plan.name }}
-            </h3>
-            <div class="mb-6">
-              <span class="text-4xl font-bold text-foreground">{{
-                plan.price
-              }}</span>
-              <span class="text-muted-foreground">/mo</span>
-            </div>
-            <p class="text-muted-foreground mb-8 text-sm leading-relaxed">
-              {{ plan.description }}
-            </p>
-            <button
-              class="mt-auto w-full py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-opacity"
+            <div
+              class="p-8 rounded-3xl border border-border bg-card flex flex-col hover:border-primary/50 transition-colors"
             >
-              Choose Plan
-            </button>
-          </div>
+              <h3 class="text-xl font-bold text-foreground mb-4">
+                {{ plan.name }}
+              </h3>
+              <div class="mb-6">
+                <span class="text-4xl font-bold text-foreground">{{
+                  plan.price
+                }}</span>
+                <span class="text-muted-foreground">/mo</span>
+              </div>
+              <p class="text-muted-foreground mb-8 text-sm leading-relaxed">
+                {{ plan.description }}
+              </p>
+              <button
+                class="mt-auto w-full py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-opacity"
+              >
+                Choose Plan
+              </button>
+            </div>
           }
         </div>
       </div>

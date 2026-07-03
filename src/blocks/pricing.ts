@@ -1,8 +1,17 @@
-import { Component, ElementRef, ViewEncapsulation, inject, input, signal, computed, viewChild, ChangeDetectionStrategy } from '@angular/core';;
+import {
+  Component,
+  ElementRef,
+  ViewEncapsulation,
+  inject,
+  input,
+  signal,
+  viewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { PLATFORM_ID } from '@angular/core';
+import { PLATFORM_ID, AfterViewInit } from '@angular/core';
 
-type Plan = {
+interface Plan {
   name: string;
   description: string;
   monthly: number;
@@ -11,11 +20,11 @@ type Plan = {
   ctaText: string;
   ctaHref: string;
   popular?: boolean;
-};
+}
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'and-pricing-section',
+  selector: 'app-pricing-section',
   encapsulation: ViewEncapsulation.None,
   host: { class: 'block' },
   template: `
@@ -96,7 +105,7 @@ type Plan = {
     </section>
   `,
 })
-export default class AndPricingSection {
+export default class AndPricingSection implements AfterViewInit {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly root = viewChild<ElementRef<HTMLElement>>('root');
 

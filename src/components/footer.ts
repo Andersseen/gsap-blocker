@@ -1,4 +1,9 @@
-import { Component, signal, inject, ChangeDetectionStrategy } from '@angular/core';;
+import {
+  Component,
+  signal,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CURRENT_YEAR } from '@shared/tokens/date.token';
 
 @Component({

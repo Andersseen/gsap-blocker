@@ -6,20 +6,22 @@ import {
   input,
   PLATFORM_ID,
   viewChild,
+  AfterViewInit,
+  OnDestroy,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { gsap } from 'gsap';
 
-type Category = {
+interface Category {
   id: number | string;
   emoji: string;
   name: string;
   count: number;
-};
+}
 
 @Component({
-  selector: 'grid-card',
+  selector: 'app-grid-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink],
   styles: [
@@ -170,7 +172,7 @@ type Category = {
     </div>
   `,
 })
-export default class GridCard {
+export default class GridCard implements AfterViewInit, OnDestroy {
   categories = input<Category[]>([]);
 
   private readonly platformId = inject(PLATFORM_ID);

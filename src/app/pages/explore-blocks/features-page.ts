@@ -1,13 +1,14 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';;
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import Features from '@blocks/features';
 import BentoGrid from '@blocks/bento-grid';
 import FeaturesList from '@blocks/features-list';
 import FeaturesCards from '@blocks/features-cards';
+import BlockShowcase from '@components/block-showcase';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'features-page',
-  imports: [Features, BentoGrid, FeaturesList, FeaturesCards],
+  selector: 'page-features',
+  imports: [Features, BentoGrid, FeaturesList, FeaturesCards, BlockShowcase],
   template: `
     <div class="pt-24 pb-12 px-6 md:px-12 bg-background min-h-screen">
       <div class="max-w-7xl mx-auto space-y-24">
@@ -22,55 +23,50 @@ import FeaturesCards from '@blocks/features-cards';
           </p>
         </div>
 
-        <!-- Block 1: Grid -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            01. Classic Grid
-          </h2>
-          <div
-            class="rounded-3xl border border-border overflow-hidden bg-background py-10"
-          >
-            <features />
-          </div>
-        </section>
+        <app-block-showcase
+          number="01"
+          title="Classic Grid"
+          [padY]="true"
+          snippet="import Features from '@blocks/features';
 
-        <!-- Block 2: Bento -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            02. Bento Grid
-          </h2>
-          <div class="rounded-3xl border border-border overflow-hidden">
-            <app-bento-grid />
-          </div>
-        </section>
+<!-- HTML -->
+<app-features />"
+        >
+          <app-features />
+        </app-block-showcase>
 
-        <!-- Block 3: List (Zig-Zag) -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            03. Zig-Zag List
-          </h2>
-          <div class="rounded-3xl border border-border overflow-hidden">
-            <app-features-list />
-          </div>
-        </section>
+        <app-block-showcase
+          number="02"
+          title="Bento Grid"
+          snippet="import BentoGrid from '@blocks/bento-grid';
 
-        <!-- Block 4: Cards -->
-        <section class="space-y-4">
-          <h2
-            class="text-sm font-bold text-muted-foreground uppercase tracking-widest"
-          >
-            04. Feature Cards
-          </h2>
-          <div class="rounded-3xl border border-border overflow-hidden">
-            <app-features-cards />
-          </div>
-        </section>
+<!-- HTML -->
+<app-bento-grid />"
+        >
+          <app-bento-grid />
+        </app-block-showcase>
+
+        <app-block-showcase
+          number="03"
+          title="Zig-Zag List"
+          snippet="import FeaturesList from '@blocks/features-list';
+
+<!-- HTML -->
+<app-features-list />"
+        >
+          <app-features-list />
+        </app-block-showcase>
+
+        <app-block-showcase
+          number="04"
+          title="Feature Cards"
+          snippet="import FeaturesCards from '@blocks/features-cards';
+
+<!-- HTML -->
+<app-features-cards />"
+        >
+          <app-features-cards />
+        </app-block-showcase>
       </div>
     </div>
   `,

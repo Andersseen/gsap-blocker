@@ -16,7 +16,7 @@ export class AndGsapScrollDirective implements AfterViewInit, OnDestroy {
   private el = inject(ElementRef<HTMLElement>);
 
   /** ScrollTrigger options */
-  @Input() start: string = 'top bottom';
+  @Input() start = 'top bottom';
   @Input() end?: string;
   @Input() scrub: boolean | number = 1;
   @Input() markers?: boolean;

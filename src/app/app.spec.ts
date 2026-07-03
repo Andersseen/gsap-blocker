@@ -1,8 +1,10 @@
 import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import App from './app';
+import { routes } from './app.routes';
 
 describe('App', () => {
   beforeAll(async () => {
@@ -13,7 +15,7 @@ describe('App', () => {
           await import('@angular/core');
 
         await resolveComponentResources((url) =>
-          Promise.resolve(readFileSync(new URL(url, import.meta.url), 'utf-8'))
+          Promise.resolve(readFileSync(new URL(url, import.meta.url), 'utf-8')),
         );
       }
     } catch {
@@ -24,7 +26,7 @@ describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [provideZonelessChangeDetection()],
+      providers: [provideZonelessChangeDetection(), provideRouter(routes)],
     }).compileComponents();
   });
 

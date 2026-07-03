@@ -1,6 +1,4 @@
-import { Component, ElementRef, inject, viewChild, input, ChangeDetectionStrategy } from '@angular/core';;
-import { isPlatformBrowser } from '@angular/common';
-import { PLATFORM_ID } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -60,6 +58,6 @@ import { PLATFORM_ID } from '@angular/core';
 export default class HeroVideo {
   title = input('Cinematic Experiences');
   subtitle = input(
-    'Create immersive web experiences with fullscreen video backgrounds and minimal overlays.'
+    'Create immersive web experiences with fullscreen video backgrounds and minimal overlays.',
   );
 }

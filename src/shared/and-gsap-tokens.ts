@@ -7,7 +7,7 @@ export interface AndGsapTimelineApi {
   registerFrom(
     target: HTMLElement,
     vars: TweenVars,
-    at?: string | number
+    at?: string | number,
   ): void;
 
   // añade los métodos que usarás (mínimo play)
@@ -20,5 +20,5 @@ export interface AndGsapTimelineApi {
 }
 
 export const AND_GSAP_TIMELINE_CTX = new InjectionToken<AndGsapTimelineApi>(
-  'AND_GSAP_TIMELINE_CTX'
+  'AND_GSAP_TIMELINE_CTX',
 );

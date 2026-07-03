@@ -1,4 +1,4 @@
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';;
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -19,13 +19,13 @@ import { Component, input, ChangeDetectionStrategy } from '@angular/core';;
           class="flex flex-wrap justify-center gap-6 md:gap-12 opacity-70 grayscale hover:grayscale-0 transition-all duration-500"
         >
           <!-- Placeholder logos/avatars -->
-          @for (item of [1,2,3,4,5]; track item) {
-          <div class="flex items-center gap-3">
-            <div
-              class="size-10 rounded-full bg-muted border border-border"
-            ></div>
-            <div class="h-4 w-20 bg-muted/50 rounded"></div>
-          </div>
+          @for (item of [1, 2, 3, 4, 5]; track item) {
+            <div class="flex items-center gap-3">
+              <div
+                class="size-10 rounded-full bg-muted border border-border"
+              ></div>
+              <div class="h-4 w-20 bg-muted/50 rounded"></div>
+            </div>
           }
         </div>
       </div>

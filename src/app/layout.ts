@@ -11,15 +11,22 @@ import Footer from '@components/footer';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'layout',
+  selector: 'app-layout',
   imports: [Navbar, Footer],
   host: {
     class: 'flex min-h-screen flex-col overflow-x-clip',
   },
   template: `
-    <navbar [(open)]="open" />
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-primary focus:text-primary-foreground"
+    >
+      Skip to main content
+    </a>
 
-    <main class="flex-1 mt-16" #main>
+    <app-navbar [(open)]="open" />
+
+    <main id="main-content" class="flex-1 mt-16" #main tabindex="-1">
       <ng-content />
     </main>
 

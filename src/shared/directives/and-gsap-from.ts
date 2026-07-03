@@ -1,7 +1,8 @@
 // and-gsap-from.directive.ts
 import { Directive, ElementRef, inject, input } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { PLATFORM_ID } from '@angular/core';
+import { PLATFORM_ID, AfterViewInit, OnDestroy } from '@angular/core';
+import type { gsap } from 'gsap';
 import {
   AND_GSAP_TIMELINE_CTX,
   AndGsapTimelineApi,
@@ -12,7 +13,7 @@ import {
   selector: '[andGsapFrom]',
   exportAs: 'andGsapFrom',
 })
-export class AndGsapFromDirective {
+export class AndGsapFromDirective implements AfterViewInit, OnDestroy {
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly platformId = inject(PLATFORM_ID);
 
@@ -21,17 +22,16 @@ export class AndGsapFromDirective {
     optional: true,
   }) as AndGsapTimelineApi | null;
 
-  // ✅ Alias: en plantilla usarás [from]="{...}"
-  vars = input<TweenVars>({}, { alias: 'from' });
+  from = input<TweenVars>({});
   at = input<string | number | undefined>(undefined);
   auto = input<boolean>(true);
 
-  private tween: any | null = null;
+  private tween: gsap.core.Tween | null = null;
 
   async ngAfterViewInit() {
     if (!isPlatformBrowser(this.platformId)) return;
 
-    const vars = this.vars() || {};
+    const vars = this.from() || {};
     const at = this.at();
 
     // Dentro de un timeline: solo registro, no creo tween

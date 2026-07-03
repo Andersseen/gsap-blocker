@@ -1,34 +1,63 @@
-import { Injectable, signal, effect } from '@angular/core';
+import {
+  Injectable,
+  signal,
+  effect,
+  inject,
+  PLATFORM_ID,
+  afterNextRender,
+} from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+
+const STORAGE_KEY = 'theme';
+const DARK_CLASS = 'dark';
+const DARK_QUERY = '(prefers-color-scheme: dark)';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly isBrowser = isPlatformBrowser(this.platformId);
+
   darkMode = signal<boolean>(false);
 
   constructor() {
-    // Initialize from localStorage or system preference
-    const savedTheme = localStorage.getItem('theme');
-    const systemDark = window.matchMedia(
-      '(prefers-color-scheme: dark)'
-    ).matches;
+    afterNextRender(() => this.initialize());
 
-    this.darkMode.set(savedTheme === 'dark' || (!savedTheme && systemDark));
-
-    // Effect to apply theme class
     effect(() => {
+      if (!this.isBrowser) return;
+
       const isDark = this.darkMode();
+      const doc = document.documentElement;
       if (isDark) {
-        document.documentElement.classList.add('dark');
-        localStorage.setItem('theme', 'dark');
+        doc.classList.add(DARK_CLASS);
       } else {
-        document.documentElement.classList.remove('dark');
-        localStorage.setItem('theme', 'light');
+        doc.classList.remove(DARK_CLASS);
+      }
+
+      try {
+        localStorage.setItem(STORAGE_KEY, isDark ? 'dark' : 'light');
+      } catch {
+        // Ignore private mode / SSR storage errors
       }
     });
   }
 
   toggle() {
     this.darkMode.update((d) => !d);
+  }
+
+  private initialize() {
+    if (!this.isBrowser) return;
+
+    let saved: string | null = null;
+    try {
+      saved = localStorage.getItem(STORAGE_KEY);
+    } catch {
+      saved = null;
+    }
+
+    const systemDark = window.matchMedia(DARK_QUERY).matches;
+    this.darkMode.set(saved === 'dark' || (!saved && systemDark));
   }
 }

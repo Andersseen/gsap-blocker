@@ -1,4 +1,12 @@
-import { Component, ElementRef, inject, input, viewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';;
+import {
+  Component,
+  ElementRef,
+  inject,
+  input,
+  viewChild,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { NgOptimizedImage, isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 
@@ -110,7 +118,7 @@ export default class BentoGrid implements AfterViewInit {
 
   readonly title = input('Everything you need');
   readonly description = input(
-    'A collection of powerful features packed into a beautiful, responsive grid layout designed to convert.'
+    'A collection of powerful features packed into a beautiful, responsive grid layout designed to convert.',
   );
 
   async ngAfterViewInit() {
@@ -149,7 +157,7 @@ export default class BentoGrid implements AfterViewInit {
           trigger: el.querySelector('.grid'),
           start: 'top 85%',
         },
-      }
+      },
     );
   }
 }
