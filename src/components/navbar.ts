@@ -60,6 +60,12 @@ import { filter } from 'rxjs/operators';
           routerLinkActive="text-foreground font-semibold"
           >Explore Blocks</a
         >
+        <a
+          class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+          routerLink="/animations"
+          routerLinkActive="text-foreground font-semibold"
+          >Motion Recipes</a
+        >
 
         <!-- Theme Toggle Description -->
         <button
@@ -168,6 +174,12 @@ import { filter } from 'rxjs/operators';
             routerLink="/blocks"
             (click)="close()"
             >Explore Blocks</a
+          >
+          <a
+            class="text-4xl sm:text-5xl font-bold tracking-tight text-foreground hover:text-primary transition-colors animate-in slide-in-from-bottom-8 fade-in duration-500 delay-300"
+            routerLink="/animations"
+            (click)="close()"
+            >Motion Recipes</a
           >
         </nav>
 

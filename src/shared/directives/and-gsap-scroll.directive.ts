@@ -1,66 +1,89 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   Directive,
   ElementRef,
-  Input,
-  OnDestroy,
   inject,
+  input,
+  OnDestroy,
+  PLATFORM_ID,
 } from '@angular/core';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import type { gsap } from 'gsap';
 
 @Directive({
   selector: '[andGsapScroll]',
 })
 export class AndGsapScrollDirective implements AfterViewInit, OnDestroy {
-  private el = inject(ElementRef<HTMLElement>);
+  private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly platformId = inject(PLATFORM_ID);
 
   /** ScrollTrigger options */
-  @Input() start = 'top bottom';
-  @Input() end?: string;
-  @Input() scrub: boolean | number = 1;
-  @Input() markers?: boolean;
-  @Input() pin?: boolean;
+  start = input<string>('top bottom');
+  end = input<string | undefined>(undefined);
+  scrub = input<boolean | number>(1);
+  markers = input<boolean | undefined>(undefined);
+  pin = input<boolean | undefined>(undefined);
+  /** Element (or selector) that owns the scrollbar; defaults to the window */
+  scroller = input<HTMLElement | string | undefined>(undefined);
 
-  /** Simple API: animate host element */
-  @Input() from?: gsap.TweenVars;
-  @Input() to?: gsap.TweenVars;
+  /** Simple API: animate the host element */
+  from = input<gsap.TweenVars | undefined>(undefined);
+  to = input<gsap.TweenVars | undefined>(undefined);
 
   /** Advanced API: build your own timeline */
-  @Input() timeline?: (tl: gsap.core.Timeline, el: HTMLElement) => void;
+  timeline = input<
+    ((tl: gsap.core.Timeline, el: HTMLElement) => void) | undefined
+  >(undefined);
 
-  private tl?: gsap.core.Timeline;
-  constructor() {
-    gsap.registerPlugin(ScrollTrigger);
-  }
+  private tl: gsap.core.Timeline | null = null;
 
-  ngAfterViewInit(): void {
+  async ngAfterViewInit() {
+    if (!isPlatformBrowser(this.platformId)) return;
+
     const host = this.el.nativeElement;
-    const triggerEl = host;
+    const from = this.from();
+    const to = this.to();
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    if (!triggerEl) return;
+    if (reduced) {
+      // Land directly on the resting state instead of animating on scroll.
+      if (to) {
+        const { gsap } = await import('gsap');
+        gsap.set(host, to);
+      }
+      return;
+    }
+
+    const [{ gsap }, { ScrollTrigger }] = await Promise.all([
+      import('gsap'),
+      import('gsap/ScrollTrigger'),
+    ]);
+    gsap.registerPlugin(ScrollTrigger);
 
     this.tl = gsap.timeline({
       scrollTrigger: {
-        trigger: triggerEl,
-        start: this.start,
-        end: this.end,
-        scrub: this.scrub,
-        markers: this.markers,
-        pin: this.pin,
+        trigger: host,
+        scroller: this.scroller(),
+        start: this.start(),
+        end: this.end(),
+        scrub: this.scrub(),
+        markers: this.markers(),
+        pin: this.pin(),
       },
     });
 
-    if (this.timeline) {
-      this.timeline(this.tl, host);
+    const buildTimeline = this.timeline();
+    if (buildTimeline) {
+      buildTimeline(this.tl, host);
     } else {
-      if (this.from) this.tl.from(host, this.from);
-      if (this.to) this.tl.to(host, this.to);
+      if (from) this.tl.from(host, from);
+      if (to) this.tl.to(host, to);
     }
   }
 
   ngOnDestroy(): void {
     this.tl?.scrollTrigger?.kill();
     this.tl?.kill();
+    this.tl = null;
   }
 }
