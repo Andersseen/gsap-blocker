@@ -204,8 +204,7 @@ Required repository secrets:
 You can also deploy manually:
 
 ```bash
-pnpm build
-npx wrangler pages deploy ./dist/analog/public --project-name=gsap-blocker
+pnpm deploy
 ```
 
 ---

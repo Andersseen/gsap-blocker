@@ -7,6 +7,8 @@
     "start": "vite",
     "build": "BUILD_PRESET=cloudflare-pages vite build",
     "preview": "pnpm build && wrangler pages dev ./dist/analog/public",
+    "deploy": "pnpm build && pnpm deploy:pages",
+    "deploy:pages": "wrangler pages deploy ./dist/analog/public --project-name=gsap-blocker",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint .",
