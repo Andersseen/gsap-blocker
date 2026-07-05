@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Motion Recipes** (`/animations`): a catalog of reusable GSAP animation patterns built the Angular way, alongside the existing Blocks library. Includes a searchable/filterable index page and six recipes — Stagger Reveal, Scroll Reveal, Text Split Reveal, Magnetic Button, Spotlight Card, and Card to Modal — each with a live demo, full source code, a step-by-step implementation recipe, and accessibility/performance notes.
+- `AnimationRecipe` data model (`src/data/animations.ts`, `src/shared/interfaces/animation-recipe.interface.ts`) and shared presentational components (`app-animation-card`, `app-animation-showcase`, `app-code-tabs`, `app-meta-pill`, `app-recipe-section`, `app-recipe-nav`).
+- "Motion Recipes" link in the navbar (desktop and mobile).
 - Migrated the application from Angular CLI to **AnalogJS** (Vite, file-based routing, Nitro SSR).
 - Cloudflare Pages deployment preset (`BUILD_PRESET=cloudflare-pages`) with SSR via `_worker.js`.
 - Local Cloudflare Pages deploy scripts (`pnpm run deploy` and `pnpm run deploy:pages`).
@@ -39,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added an explicit GitHub Actions preflight check for required Cloudflare deploy secrets.
 - Added `isPlatformBrowser` guards to `SmoothScrollDirective`, `Navbar`, and `Cta2` to prevent SSR errors during prerendering.
+- `AndGsapScrollDirective` (`andGsapScroll`) previously imported `gsap`/`gsap/ScrollTrigger` eagerly and registered the plugin in its constructor, which could run during SSR. It now lazy-imports GSAP behind an `isPlatformBrowser` guard, respects `prefers-reduced-motion`, and gained a `scroller` input for embedding it inside a scrollable container.
 
 ## [0.0.0] - 2026-07-03
 
