@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Migrated the application from Angular CLI to **AnalogJS** (Vite, file-based routing, Nitro SSR).
 - Cloudflare Pages deployment preset (`BUILD_PRESET=cloudflare-pages`) with SSR via `_worker.js`.
-- Local Cloudflare Pages deploy scripts (`pnpm deploy` and `pnpm deploy:pages`).
+- Local Cloudflare Pages deploy scripts (`pnpm run deploy` and `pnpm run deploy:pages`).
 - File-based routing under `src/app/pages/*.page.ts` using `@analogjs/router`.
 - Route-level SEO via `RouteMeta` (`title`, `meta`, OpenGraph tags) for SSR-friendly head management.
 - `wrangler.jsonc` and GitHub Actions deploy workflow for Cloudflare Pages.

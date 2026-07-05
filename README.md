@@ -204,7 +204,7 @@ Required repository secrets:
 You can also deploy manually:
 
 ```bash
-pnpm deploy
+pnpm run deploy
 ```
 
 ---
