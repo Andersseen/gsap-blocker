@@ -1,12 +1,13 @@
 import { RouteMeta } from '@analogjs/router';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import SpotlightCardDemo from '@components/animation-demos/spotlight-card-demo';
-import AnimationShowcase from '@components/animation-showcase';
 import type { CodeTab } from '@components/code-tabs';
 import CodeTabs from '@components/code-tabs';
-import MetaPill from '@components/meta-pill';
+import RecipeDemo from '@components/recipe-demo';
+import RecipeHero from '@components/recipe-hero';
 import RecipeNav from '@components/recipe-nav';
 import RecipeSection from '@components/recipe-section';
+import RecipeToc from '@components/recipe-toc';
 import { getAdjacentRecipes, getRecipe } from '@data/animations';
 
 const SPOTLIGHT_CARD_DEMO_SOURCE = `import { isPlatformBrowser } from '@angular/common';
@@ -129,170 +130,164 @@ export const routeMeta: RouteMeta = {
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'page-spotlight-card',
   imports: [
-    AnimationShowcase,
+    RecipeHero,
+    RecipeDemo,
+    RecipeToc,
     SpotlightCardDemo,
-    MetaPill,
     RecipeSection,
     CodeTabs,
     RecipeNav,
   ],
   template: `
-    <div class="max-w-3xl mb-12">
-      <div class="mb-4 flex flex-wrap items-center gap-2">
-        <app-meta-pill [label]="recipe.difficulty" variant="difficulty" />
-        <app-meta-pill [label]="recipe.category" variant="neutral" />
+    <app-recipe-hero [recipe]="recipe" />
+
+    <div class="lg:grid lg:grid-cols-[1fr_16rem] lg:gap-10">
+      <div class="space-y-16">
+        <div id="demo" class="scroll-mt-28">
+          <app-recipe-demo number="05" title="Demo">
+            <app-spotlight-card-demo />
+          </app-recipe-demo>
+        </div>
+
+        <app-recipe-section title="How it works" icon="🔍" id="how-it-works">
+          <p>
+            The card's background is a single
+            <code>radial-gradient</code> positioned at two CSS custom
+            properties, <code>--x</code> and <code>--y</code>, declared in the
+            component's own <code>styles</code>. On <code>pointermove</code>,
+            the handler converts the cursor position into a percentage of the
+            card's own box and tweens those two variables with
+            <code>gsap.to()</code> — GSAP interpolates the percentage value
+            directly, so the glow glides to the new position instead of jumping.
+          </p>
+          <p>
+            Because the gradient itself is pure CSS, the browser composites it
+            without Angular or GSAP touching layout — only the two custom
+            property values change every frame.
+          </p>
+        </app-recipe-section>
+
+        <app-recipe-section title="The Angular way" icon="🅰️" id="angular-way">
+          <ul>
+            <li>
+              <code>--x</code>/<code>--y</code> live in component-scoped
+              <code>styles</code>, so the spotlight effect ships with the
+              component instead of leaking into global CSS.
+            </li>
+            <li>
+              <code>viewChild.required('card')</code> reads the host element;
+              setup runs once from <code>afterNextRender()</code>.
+            </li>
+            <li>
+              The <code>saved</code> toggle is the one piece of real UI state
+              here, so it's the only thing modeled as a signal — everything
+              pointer-driven bypasses Angular entirely.
+            </li>
+            <li>
+              <code>DestroyRef.onDestroy()</code> removes the listener and calls
+              <code>gsap.killTweensOf(card)</code>.
+            </li>
+          </ul>
+        </app-recipe-section>
+
+        <app-recipe-section title="Source code" icon="💻" id="source">
+          <app-code-tabs [tabs]="codeTabs" />
+        </app-recipe-section>
+
+        <app-recipe-section title="Implementation recipe" icon="📋" id="recipe">
+          <ol>
+            <li>Create the standalone component with <code>OnPush</code>.</li>
+            <li>
+              Add the static markup: a card with
+              <code
+                >background: radial-gradient(circle at var(--x) var(--y),
+                ...)</code
+              >
+              declared in <code>styles</code>.
+            </li>
+            <li>
+              Query the card with
+              <code>viewChild.required&lt;ElementRef&gt;('card')</code>.
+            </li>
+            <li>
+              Lazy-load GSAP with <code>await import('gsap')</code> inside
+              <code>afterNextRender()</code>, unless reduced motion is
+              preferred.
+            </li>
+            <li>
+              Build the animation:
+              <code
+                >gsap.to(card, &#123; '--x': x + '%', '--y': y + '%', overwrite:
+                'auto' &#125;)</code
+              >.
+            </li>
+            <li>
+              Add cleanup: remove the listener and kill tweens of the card in
+              <code>destroyRef.onDestroy()</code>.
+            </li>
+            <li>
+              Add reduced motion: set <code>--x</code>/<code>--y</code> to a
+              fixed center value once and skip attaching the pointer listener.
+            </li>
+            <li>
+              Test keyboard/accessibility: tab to the card's button and confirm
+              <code>focus-within</code> shows a visible ring even without a
+              pointer.
+            </li>
+          </ol>
+        </app-recipe-section>
+
+        <app-recipe-section
+          title="Accessibility notes"
+          icon="♿"
+          id="accessibility"
+        >
+          <ul>
+            @for (item of recipe.accessibility; track item) {
+              <li>{{ item }}</li>
+            }
+          </ul>
+        </app-recipe-section>
+
+        <app-recipe-section
+          title="Performance notes"
+          icon="⚡"
+          id="performance"
+        >
+          <ul>
+            @for (item of recipe.performance; track item) {
+              <li>{{ item }}</li>
+            }
+          </ul>
+        </app-recipe-section>
+
+        <app-recipe-section title="Common pitfalls" icon="⚠️" id="pitfalls">
+          <ul>
+            <li>
+              Reading <code>getBoundingClientRect()</code> anywhere other than
+              inside the <code>pointermove</code> handler itself — computing it
+              up front and caching it breaks as soon as the page scrolls or the
+              card resizes.
+            </li>
+            <li>
+              Forgetting <code>overwrite: 'auto'</code> — without it, GSAP
+              queues a new tween on every pointer event instead of redirecting
+              the existing one, and the glow lags behind the cursor.
+            </li>
+            <li>
+              Making the glow the only focus indicator — it's decorative and
+              pointer-only, so keyboard users still need a real
+              <code>focus-within</code> ring.
+            </li>
+          </ul>
+        </app-recipe-section>
+
+        <app-recipe-nav [prev]="nav.prev" [next]="nav.next" />
       </div>
-      <h1
-        class="text-4xl md:text-6xl font-black tracking-tighter text-foreground mb-4"
-      >
-        {{ recipe.title }}
-      </h1>
-      <p class="text-xl text-muted-foreground">{{ recipe.description }}</p>
 
-      <div class="mt-6 flex flex-wrap gap-1.5">
-        @for (c of recipe.angularConcepts; track c) {
-          <app-meta-pill [label]="c" variant="angular" />
-        }
-        @for (c of recipe.gsapConcepts; track c) {
-          <app-meta-pill [label]="c" variant="gsap" />
-        }
-      </div>
-    </div>
-
-    <div class="space-y-16">
-      <app-animation-showcase number="05" title="Demo">
-        <app-spotlight-card-demo />
-      </app-animation-showcase>
-
-      <app-recipe-section title="How it works" icon="🔍" id="how-it-works">
-        <p>
-          The card's background is a single
-          <code>radial-gradient</code> positioned at two CSS custom properties,
-          <code>--x</code> and <code>--y</code>, declared in the component's own
-          <code>styles</code>. On <code>pointermove</code>, the handler converts
-          the cursor position into a percentage of the card's own box and tweens
-          those two variables with <code>gsap.to()</code> — GSAP interpolates
-          the percentage value directly, so the glow glides to the new position
-          instead of jumping.
-        </p>
-        <p>
-          Because the gradient itself is pure CSS, the browser composites it
-          without Angular or GSAP touching layout — only the two custom property
-          values change every frame.
-        </p>
-      </app-recipe-section>
-
-      <app-recipe-section title="The Angular way" icon="🅰️" id="angular-way">
-        <ul>
-          <li>
-            <code>--x</code>/<code>--y</code> live in component-scoped
-            <code>styles</code>, so the spotlight effect ships with the
-            component instead of leaking into global CSS.
-          </li>
-          <li>
-            <code>viewChild.required('card')</code> reads the host element;
-            setup runs once from <code>afterNextRender()</code>.
-          </li>
-          <li>
-            The <code>saved</code> toggle is the one piece of real UI state
-            here, so it's the only thing modeled as a signal — everything
-            pointer-driven bypasses Angular entirely.
-          </li>
-          <li>
-            <code>DestroyRef.onDestroy()</code> removes the listener and calls
-            <code>gsap.killTweensOf(card)</code>.
-          </li>
-        </ul>
-      </app-recipe-section>
-
-      <app-recipe-section title="Source code" icon="💻" id="source">
-        <app-code-tabs [tabs]="codeTabs" />
-      </app-recipe-section>
-
-      <app-recipe-section title="Implementation recipe" icon="📋" id="recipe">
-        <ol>
-          <li>Create the standalone component with <code>OnPush</code>.</li>
-          <li>
-            Add the static markup: a card with
-            <code
-              >background: radial-gradient(circle at var(--x) var(--y),
-              ...)</code
-            >
-            declared in <code>styles</code>.
-          </li>
-          <li>
-            Query the card with
-            <code>viewChild.required&lt;ElementRef&gt;('card')</code>.
-          </li>
-          <li>
-            Lazy-load GSAP with <code>await import('gsap')</code> inside
-            <code>afterNextRender()</code>, unless reduced motion is preferred.
-          </li>
-          <li>
-            Build the animation:
-            <code
-              >gsap.to(card, &#123; '--x': x + '%', '--y': y + '%', overwrite:
-              'auto' &#125;)</code
-            >.
-          </li>
-          <li>
-            Add cleanup: remove the listener and kill tweens of the card in
-            <code>destroyRef.onDestroy()</code>.
-          </li>
-          <li>
-            Add reduced motion: set <code>--x</code>/<code>--y</code> to a fixed
-            center value once and skip attaching the pointer listener.
-          </li>
-          <li>
-            Test keyboard/accessibility: tab to the card's button and confirm
-            <code>focus-within</code> shows a visible ring even without a
-            pointer.
-          </li>
-        </ol>
-      </app-recipe-section>
-
-      <app-recipe-section
-        title="Accessibility notes"
-        icon="♿"
-        id="accessibility"
-      >
-        <ul>
-          @for (item of recipe.accessibility; track item) {
-            <li>{{ item }}</li>
-          }
-        </ul>
-      </app-recipe-section>
-
-      <app-recipe-section title="Performance notes" icon="⚡" id="performance">
-        <ul>
-          @for (item of recipe.performance; track item) {
-            <li>{{ item }}</li>
-          }
-        </ul>
-      </app-recipe-section>
-
-      <app-recipe-section title="Common pitfalls" icon="⚠️" id="pitfalls">
-        <ul>
-          <li>
-            Reading <code>getBoundingClientRect()</code> anywhere other than
-            inside the <code>pointermove</code> handler itself — computing it up
-            front and caching it breaks as soon as the page scrolls or the card
-            resizes.
-          </li>
-          <li>
-            Forgetting <code>overwrite: 'auto'</code> — without it, GSAP queues
-            a new tween on every pointer event instead of redirecting the
-            existing one, and the glow lags behind the cursor.
-          </li>
-          <li>
-            Making the glow the only focus indicator — it's decorative and
-            pointer-only, so keyboard users still need a real
-            <code>focus-within</code> ring.
-          </li>
-        </ul>
-      </app-recipe-section>
-
-      <app-recipe-nav [prev]="nav.prev" [next]="nav.next" />
+      <aside class="hidden lg:block">
+        <app-recipe-toc />
+      </aside>
     </div>
   `,
 })

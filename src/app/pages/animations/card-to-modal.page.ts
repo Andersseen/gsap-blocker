@@ -1,12 +1,13 @@
 import { RouteMeta } from '@analogjs/router';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import CardToModalDemo from '@components/animation-demos/card-to-modal-demo';
-import AnimationShowcase from '@components/animation-showcase';
 import type { CodeTab } from '@components/code-tabs';
 import CodeTabs from '@components/code-tabs';
-import MetaPill from '@components/meta-pill';
+import RecipeDemo from '@components/recipe-demo';
+import RecipeHero from '@components/recipe-hero';
 import RecipeNav from '@components/recipe-nav';
 import RecipeSection from '@components/recipe-section';
+import RecipeToc from '@components/recipe-toc';
 import { getAdjacentRecipes, getRecipe } from '@data/animations';
 
 const CARD_TO_MODAL_DEMO_SOURCE = `import {
@@ -231,196 +232,193 @@ export const routeMeta: RouteMeta = {
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'page-card-to-modal',
   imports: [
-    AnimationShowcase,
+    RecipeHero,
+    RecipeDemo,
+    RecipeToc,
     CardToModalDemo,
-    MetaPill,
     RecipeSection,
     CodeTabs,
     RecipeNav,
   ],
   template: `
-    <div class="max-w-3xl mb-12">
-      <div class="mb-4 flex flex-wrap items-center gap-2">
-        <app-meta-pill [label]="recipe.difficulty" variant="difficulty" />
-        <app-meta-pill [label]="recipe.category" variant="neutral" />
+    <app-recipe-hero [recipe]="recipe" />
+
+    <div class="lg:grid lg:grid-cols-[1fr_16rem] lg:gap-10">
+      <div class="space-y-16">
+        <div id="demo" class="scroll-mt-28">
+          <app-recipe-demo number="06" title="Demo">
+            <app-card-to-modal-demo />
+          </app-recipe-demo>
+        </div>
+
+        <app-recipe-section title="How it works" icon="🔍" id="how-it-works">
+          <p>
+            FLIP stands for First, Last, Invert, Play. Before anything changes,
+            the demo reads the trigger card's
+            <code>getBoundingClientRect()</code> — that's
+            <strong>First</strong>. Opening the modal sets a signal, Angular
+            renders it in its natural, full-size position via
+            <code>&#64;if</code>, and the demo measures that too —
+            <strong>Last</strong>. It then computes the delta between the two
+            rects and applies it as a transform on the modal so it visually
+            starts exactly where the card was — <strong>Invert</strong>.
+            Finally, <code>gsap.fromTo()</code>
+            animates that transform back to neutral —
+            <strong>Play</strong>. Closing the modal runs the same math in
+            reverse.
+          </p>
+          <p>
+            The whole sequence only ever reads layout twice per transition (once
+            for First, once for Last), never on every animation frame.
+          </p>
+        </app-recipe-section>
+
+        <app-recipe-section title="The Angular way" icon="🅰️" id="angular-way">
+          <ul>
+            <li>
+              <code>active</code> is a signal holding the open card (or
+              <code>null</code>); the modal only exists in the DOM inside an
+              <code>&#64;if (active(); as card)</code> block, so there's nothing
+              to hide with CSS.
+            </li>
+            <li>
+              Measuring the modal's rect has to happen
+              <em>after</em> Angular renders the <code>&#64;if</code> block, so
+              the recipe uses <code>afterNextRender()</code> (with an explicit
+              <code>Injector</code>, since it's called from a click handler, not
+              a constructor) instead of guessing with a <code>setTimeout</code>.
+            </li>
+            <li>
+              The trigger button and the modal's close button both receive focus
+              explicitly — <code>modal.focus()</code> when it opens,
+              <code>trigger.focus()</code> when it closes — so focus never gets
+              silently dropped on <code>&lt;body&gt;</code>.
+            </li>
+            <li>
+              The background grid gets <code>[attr.inert]</code> while the modal
+              is open, using the native <code>inert</code> HTML attribute
+              instead of manual tabindex management to keep it out of the tab
+              order.
+            </li>
+            <li>
+              <code>DestroyRef.onDestroy()</code> kills any tweens still running
+              on the modal if the component is destroyed mid-animation.
+            </li>
+          </ul>
+        </app-recipe-section>
+
+        <app-recipe-section title="Source code" icon="💻" id="source">
+          <app-code-tabs [tabs]="codeTabs" />
+        </app-recipe-section>
+
+        <app-recipe-section title="Implementation recipe" icon="📋" id="recipe">
+          <ol>
+            <li>Create the standalone component with <code>OnPush</code>.</li>
+            <li>
+              Add the static markup: a grid of trigger buttons, plus an
+              <code>&#64;if</code> block for the dialog with
+              <code>role="dialog"</code>, <code>aria-modal="true"</code> and
+              <code>aria-labelledby</code>.
+            </li>
+            <li>
+              Query the modal with
+              <code>viewChild&lt;ElementRef&gt;('modal')</code> — it only
+              resolves once the <code>&#64;if</code> block renders.
+            </li>
+            <li>
+              Lazy-load GSAP with <code>await import('gsap')</code> when a card
+              is opened.
+            </li>
+            <li>
+              Build the animation: capture the trigger's rect before opening,
+              wait for the next render, measure the modal, then
+              <code>gsap.timeline().fromTo(modal, invertState, playState)</code
+              >.
+            </li>
+            <li>
+              Add cleanup: kill tweens of the modal in
+              <code>destroyRef.onDestroy()</code>, and always resolve the
+              closing timeline's <code>onComplete</code> before clearing the
+              signal.
+            </li>
+            <li>
+              Add reduced motion: skip the FLIP transform entirely and just move
+              focus — the modal appears and disappears instantly.
+            </li>
+            <li>
+              Test keyboard/accessibility: open with <kbd>Enter</kbd>, close
+              with <kbd>Escape</kbd> and the close button, confirm focus lands
+              on the modal on open and back on the trigger on close, and confirm
+              background cards can't be tabbed to while it's open.
+            </li>
+          </ol>
+        </app-recipe-section>
+
+        <app-recipe-section
+          title="Accessibility notes"
+          icon="♿"
+          id="accessibility"
+        >
+          <ul>
+            @for (item of recipe.accessibility; track item) {
+              <li>{{ item }}</li>
+            }
+          </ul>
+        </app-recipe-section>
+
+        <app-recipe-section
+          title="Performance notes"
+          icon="⚡"
+          id="performance"
+        >
+          <ul>
+            @for (item of recipe.performance; track item) {
+              <li>{{ item }}</li>
+            }
+          </ul>
+        </app-recipe-section>
+
+        <app-recipe-section title="Common pitfalls" icon="⚠️" id="pitfalls">
+          <ul>
+            <li>
+              Measuring the modal's rect before Angular has actually rendered it
+              — reading <code>getBoundingClientRect()</code> synchronously after
+              a signal write gets the card's <em>old</em> layout, not the
+              modal's. Wait for <code>afterNextRender()</code>.
+            </li>
+            <li>
+              Removing the modal from the DOM before its closing animation
+              finishes — always clear the signal in the timeline's
+              <code>onComplete</code>, not immediately on click.
+            </li>
+            <li>
+              Leaving background content focusable while the modal is open —
+              keyboard and screen reader users can tab straight past the dialog
+              into cards behind it without an <code>inert</code> (or equivalent)
+              guard.
+            </li>
+            <li>
+              Skipping focus return on close — without
+              <code>trigger.focus()</code>, keyboard focus resets to the top of
+              the page instead of back to where the user was.
+            </li>
+            <li>
+              Calling <code>trigger.focus()</code> synchronously right after
+              <code>active.set(null)</code> — with zoneless change detection,
+              the <code>[attr.inert]</code> toggle hasn't reached the DOM yet,
+              so the browser silently refuses to focus a still-inert element and
+              focus falls back to <code>&lt;body&gt;</code>. Defer it with
+              <code>afterNextRender()</code> instead.
+            </li>
+          </ul>
+        </app-recipe-section>
+
+        <app-recipe-nav [prev]="nav.prev" [next]="nav.next" />
       </div>
-      <h1
-        class="text-4xl md:text-6xl font-black tracking-tighter text-foreground mb-4"
-      >
-        {{ recipe.title }}
-      </h1>
-      <p class="text-xl text-muted-foreground">{{ recipe.description }}</p>
 
-      <div class="mt-6 flex flex-wrap gap-1.5">
-        @for (c of recipe.angularConcepts; track c) {
-          <app-meta-pill [label]="c" variant="angular" />
-        }
-        @for (c of recipe.gsapConcepts; track c) {
-          <app-meta-pill [label]="c" variant="gsap" />
-        }
-      </div>
-    </div>
-
-    <div class="space-y-16">
-      <app-animation-showcase number="06" title="Demo">
-        <app-card-to-modal-demo />
-      </app-animation-showcase>
-
-      <app-recipe-section title="How it works" icon="🔍" id="how-it-works">
-        <p>
-          FLIP stands for First, Last, Invert, Play. Before anything changes,
-          the demo reads the trigger card's
-          <code>getBoundingClientRect()</code> — that's <strong>First</strong>.
-          Opening the modal sets a signal, Angular renders it in its natural,
-          full-size position via <code>&#64;if</code>, and the demo measures
-          that too — <strong>Last</strong>. It then computes the delta between
-          the two rects and applies it as a transform on the modal so it
-          visually starts exactly where the card was — <strong>Invert</strong>.
-          Finally, <code>gsap.fromTo()</code>
-          animates that transform back to neutral —
-          <strong>Play</strong>. Closing the modal runs the same math in
-          reverse.
-        </p>
-        <p>
-          The whole sequence only ever reads layout twice per transition (once
-          for First, once for Last), never on every animation frame.
-        </p>
-      </app-recipe-section>
-
-      <app-recipe-section title="The Angular way" icon="🅰️" id="angular-way">
-        <ul>
-          <li>
-            <code>active</code> is a signal holding the open card (or
-            <code>null</code>); the modal only exists in the DOM inside an
-            <code>&#64;if (active(); as card)</code> block, so there's nothing
-            to hide with CSS.
-          </li>
-          <li>
-            Measuring the modal's rect has to happen
-            <em>after</em> Angular renders the <code>&#64;if</code> block, so
-            the recipe uses <code>afterNextRender()</code> (with an explicit
-            <code>Injector</code>, since it's called from a click handler, not a
-            constructor) instead of guessing with a <code>setTimeout</code>.
-          </li>
-          <li>
-            The trigger button and the modal's close button both receive focus
-            explicitly — <code>modal.focus()</code> when it opens,
-            <code>trigger.focus()</code> when it closes — so focus never gets
-            silently dropped on <code>&lt;body&gt;</code>.
-          </li>
-          <li>
-            The background grid gets <code>[attr.inert]</code> while the modal
-            is open, using the native <code>inert</code> HTML attribute instead
-            of manual tabindex management to keep it out of the tab order.
-          </li>
-          <li>
-            <code>DestroyRef.onDestroy()</code> kills any tweens still running
-            on the modal if the component is destroyed mid-animation.
-          </li>
-        </ul>
-      </app-recipe-section>
-
-      <app-recipe-section title="Source code" icon="💻" id="source">
-        <app-code-tabs [tabs]="codeTabs" />
-      </app-recipe-section>
-
-      <app-recipe-section title="Implementation recipe" icon="📋" id="recipe">
-        <ol>
-          <li>Create the standalone component with <code>OnPush</code>.</li>
-          <li>
-            Add the static markup: a grid of trigger buttons, plus an
-            <code>&#64;if</code> block for the dialog with
-            <code>role="dialog"</code>, <code>aria-modal="true"</code> and
-            <code>aria-labelledby</code>.
-          </li>
-          <li>
-            Query the modal with
-            <code>viewChild&lt;ElementRef&gt;('modal')</code> — it only resolves
-            once the <code>&#64;if</code> block renders.
-          </li>
-          <li>
-            Lazy-load GSAP with <code>await import('gsap')</code> when a card is
-            opened.
-          </li>
-          <li>
-            Build the animation: capture the trigger's rect before opening, wait
-            for the next render, measure the modal, then
-            <code>gsap.timeline().fromTo(modal, invertState, playState)</code>.
-          </li>
-          <li>
-            Add cleanup: kill tweens of the modal in
-            <code>destroyRef.onDestroy()</code>, and always resolve the closing
-            timeline's <code>onComplete</code> before clearing the signal.
-          </li>
-          <li>
-            Add reduced motion: skip the FLIP transform entirely and just move
-            focus — the modal appears and disappears instantly.
-          </li>
-          <li>
-            Test keyboard/accessibility: open with <kbd>Enter</kbd>, close with
-            <kbd>Escape</kbd> and the close button, confirm focus lands on the
-            modal on open and back on the trigger on close, and confirm
-            background cards can't be tabbed to while it's open.
-          </li>
-        </ol>
-      </app-recipe-section>
-
-      <app-recipe-section
-        title="Accessibility notes"
-        icon="♿"
-        id="accessibility"
-      >
-        <ul>
-          @for (item of recipe.accessibility; track item) {
-            <li>{{ item }}</li>
-          }
-        </ul>
-      </app-recipe-section>
-
-      <app-recipe-section title="Performance notes" icon="⚡" id="performance">
-        <ul>
-          @for (item of recipe.performance; track item) {
-            <li>{{ item }}</li>
-          }
-        </ul>
-      </app-recipe-section>
-
-      <app-recipe-section title="Common pitfalls" icon="⚠️" id="pitfalls">
-        <ul>
-          <li>
-            Measuring the modal's rect before Angular has actually rendered it —
-            reading <code>getBoundingClientRect()</code> synchronously after a
-            signal write gets the card's <em>old</em> layout, not the modal's.
-            Wait for <code>afterNextRender()</code>.
-          </li>
-          <li>
-            Removing the modal from the DOM before its closing animation
-            finishes — always clear the signal in the timeline's
-            <code>onComplete</code>, not immediately on click.
-          </li>
-          <li>
-            Leaving background content focusable while the modal is open —
-            keyboard and screen reader users can tab straight past the dialog
-            into cards behind it without an <code>inert</code> (or equivalent)
-            guard.
-          </li>
-          <li>
-            Skipping focus return on close — without
-            <code>trigger.focus()</code>, keyboard focus resets to the top of
-            the page instead of back to where the user was.
-          </li>
-          <li>
-            Calling <code>trigger.focus()</code> synchronously right after
-            <code>active.set(null)</code> — with zoneless change detection, the
-            <code>[attr.inert]</code> toggle hasn't reached the DOM yet, so the
-            browser silently refuses to focus a still-inert element and focus
-            falls back to <code>&lt;body&gt;</code>. Defer it with
-            <code>afterNextRender()</code> instead.
-          </li>
-        </ul>
-      </app-recipe-section>
-
-      <app-recipe-nav [prev]="nav.prev" [next]="nav.next" />
+      <aside class="hidden lg:block">
+        <app-recipe-toc />
+      </aside>
     </div>
   `,
 })

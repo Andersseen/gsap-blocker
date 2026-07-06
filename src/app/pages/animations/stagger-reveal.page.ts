@@ -1,12 +1,13 @@
 import { RouteMeta } from '@analogjs/router';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import StaggerRevealDemo from '@components/animation-demos/stagger-reveal-demo';
-import AnimationShowcase from '@components/animation-showcase';
 import type { CodeTab } from '@components/code-tabs';
 import CodeTabs from '@components/code-tabs';
-import MetaPill from '@components/meta-pill';
+import RecipeDemo from '@components/recipe-demo';
+import RecipeHero from '@components/recipe-hero';
 import RecipeNav from '@components/recipe-nav';
 import RecipeSection from '@components/recipe-section';
+import RecipeToc from '@components/recipe-toc';
 import { getAdjacentRecipes, getRecipe } from '@data/animations';
 
 const STAGGER_REVEAL_DEMO_SOURCE = `import { isPlatformBrowser } from '@angular/common';
@@ -132,172 +133,168 @@ export const routeMeta: RouteMeta = {
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'page-stagger-reveal',
   imports: [
-    AnimationShowcase,
+    RecipeHero,
+    RecipeDemo,
+    RecipeToc,
     StaggerRevealDemo,
-    MetaPill,
     RecipeSection,
     CodeTabs,
     RecipeNav,
   ],
   template: `
-    <div class="max-w-3xl mb-12">
-      <div class="mb-4 flex flex-wrap items-center gap-2">
-        <app-meta-pill [label]="recipe.difficulty" variant="difficulty" />
-        <app-meta-pill [label]="recipe.category" variant="neutral" />
+    <app-recipe-hero [recipe]="recipe" />
+
+    <div class="lg:grid lg:grid-cols-[1fr_16rem] lg:gap-10">
+      <div class="space-y-16">
+        <div id="demo" class="scroll-mt-28">
+          <app-recipe-demo number="01" title="Demo">
+            <app-stagger-reveal-demo />
+          </app-recipe-demo>
+        </div>
+
+        <app-recipe-section title="How it works" icon="🔍" id="how-it-works">
+          <p>
+            The demo renders six cards with a plain <code>&#64;for</code> loop
+            and a template reference variable, <code>#item</code>, on each one.
+            A signal query, <code>viewChildren&lt;ElementRef&gt;('item')</code>,
+            collects those elements once the view has rendered. A single
+            <code>gsap.from()</code> call then animates all of them together —
+            fading in and sliding up — with the <code>stagger</code> option
+            spacing out each element's start time by 80ms.
+          </p>
+          <p>
+            Because it's one tween targeting an array of elements rather than
+            one tween per card, GSAP only has to manage a single timeline
+            internally, which is both simpler to clean up and cheaper to run.
+          </p>
+        </app-recipe-section>
+
+        <app-recipe-section title="The Angular way" icon="🅰️" id="angular-way">
+          <ul>
+            <li>
+              The component is <strong>standalone</strong> with
+              <strong>OnPush</strong> change detection — GSAP mutates the DOM
+              directly, so there's no reactive state for Angular to track once
+              the animation starts.
+            </li>
+            <li>
+              <code>viewChildren('item')</code> is a signal-based query, so the
+              list of elements is always read fresh from
+              <code>itemRefs()</code> instead of being cached as a mutable
+              field.
+            </li>
+            <li>
+              GSAP is imported lazily with
+              <code>await import('gsap')</code> inside
+              <code>afterNextRender()</code>. This project's SSR setup still
+              runs <code>afterRender</code> hooks during prerendering, so the
+              callback also checks <code>isPlatformBrowser()</code> before
+              touching <code>matchMedia</code> or GSAP — the same guard used
+              everywhere else in this codebase.
+            </li>
+            <li>
+              <code>DestroyRef.onDestroy()</code> kills the tween when the
+              component is torn down, so nothing keeps animating (or keeps a
+              reference alive) after a route change.
+            </li>
+          </ul>
+        </app-recipe-section>
+
+        <app-recipe-section title="Source code" icon="💻" id="source">
+          <app-code-tabs [tabs]="codeTabs" />
+        </app-recipe-section>
+
+        <app-recipe-section title="Implementation recipe" icon="📋" id="recipe">
+          <ol>
+            <li>Create the standalone component with <code>OnPush</code>.</li>
+            <li>
+              Add the static markup: a <code>&#64;for</code> loop over your
+              data, with a <code>#item</code> template reference on each
+              element.
+            </li>
+            <li>
+              Query the animated elements with
+              <code>viewChildren&lt;ElementRef&gt;('item')</code>.
+            </li>
+            <li>
+              Lazy-load GSAP with <code>await import('gsap')</code> inside
+              <code>afterNextRender()</code>.
+            </li>
+            <li>
+              Build the animation:
+              <code
+                >gsap.from(targets, &#123; opacity: 0, y: 24, stagger: 0.08
+                &#125;)</code
+              >.
+            </li>
+            <li>
+              Add cleanup: kill the tween in
+              <code>destroyRef.onDestroy()</code>.
+            </li>
+            <li>
+              Add reduced motion: check
+              <code>matchMedia('(prefers-reduced-motion: reduce)')</code> and
+              call <code>gsap.set()</code> to the resting state instead of
+              animating.
+            </li>
+            <li>
+              Test keyboard/accessibility: confirm the cards are readable and in
+              the DOM before the animation runs, and that reduced motion leaves
+              them fully visible immediately.
+            </li>
+          </ol>
+        </app-recipe-section>
+
+        <app-recipe-section
+          title="Accessibility notes"
+          icon="♿"
+          id="accessibility"
+        >
+          <ul>
+            @for (item of recipe.accessibility; track item) {
+              <li>{{ item }}</li>
+            }
+          </ul>
+        </app-recipe-section>
+
+        <app-recipe-section
+          title="Performance notes"
+          icon="⚡"
+          id="performance"
+        >
+          <ul>
+            @for (item of recipe.performance; track item) {
+              <li>{{ item }}</li>
+            }
+          </ul>
+        </app-recipe-section>
+
+        <app-recipe-section title="Common pitfalls" icon="⚠️" id="pitfalls">
+          <ul>
+            <li>
+              Animating one card per tween instead of passing the whole array to
+              a single <code>gsap.from()</code> call — it works, but it's harder
+              to stagger consistently and harder to clean up.
+            </li>
+            <li>
+              Reading <code>itemRefs()</code> before the view has rendered —
+              always trigger the first animation from inside
+              <code>afterNextRender()</code>, not the constructor.
+            </li>
+            <li>
+              Forgetting <code>stagger</code>'s unit is seconds between starts,
+              not total duration — a large list with a large stagger can take
+              longer to finish than expected.
+            </li>
+          </ul>
+        </app-recipe-section>
+
+        <app-recipe-nav [prev]="nav.prev" [next]="nav.next" />
       </div>
-      <h1
-        class="text-4xl md:text-6xl font-black tracking-tighter text-foreground mb-4"
-      >
-        {{ recipe.title }}
-      </h1>
-      <p class="text-xl text-muted-foreground">{{ recipe.description }}</p>
 
-      <div class="mt-6 flex flex-wrap gap-1.5">
-        @for (c of recipe.angularConcepts; track c) {
-          <app-meta-pill [label]="c" variant="angular" />
-        }
-        @for (c of recipe.gsapConcepts; track c) {
-          <app-meta-pill [label]="c" variant="gsap" />
-        }
-      </div>
-    </div>
-
-    <div class="space-y-16">
-      <app-animation-showcase number="01" title="Demo">
-        <app-stagger-reveal-demo />
-      </app-animation-showcase>
-
-      <app-recipe-section title="How it works" icon="🔍" id="how-it-works">
-        <p>
-          The demo renders six cards with a plain <code>&#64;for</code> loop and
-          a template reference variable, <code>#item</code>, on each one. A
-          signal query, <code>viewChildren&lt;ElementRef&gt;('item')</code>,
-          collects those elements once the view has rendered. A single
-          <code>gsap.from()</code> call then animates all of them together —
-          fading in and sliding up — with the <code>stagger</code> option
-          spacing out each element's start time by 80ms.
-        </p>
-        <p>
-          Because it's one tween targeting an array of elements rather than one
-          tween per card, GSAP only has to manage a single timeline internally,
-          which is both simpler to clean up and cheaper to run.
-        </p>
-      </app-recipe-section>
-
-      <app-recipe-section title="The Angular way" icon="🅰️" id="angular-way">
-        <ul>
-          <li>
-            The component is <strong>standalone</strong> with
-            <strong>OnPush</strong> change detection — GSAP mutates the DOM
-            directly, so there's no reactive state for Angular to track once the
-            animation starts.
-          </li>
-          <li>
-            <code>viewChildren('item')</code> is a signal-based query, so the
-            list of elements is always read fresh from
-            <code>itemRefs()</code> instead of being cached as a mutable field.
-          </li>
-          <li>
-            GSAP is imported lazily with
-            <code>await import('gsap')</code> inside
-            <code>afterNextRender()</code>. This project's SSR setup still runs
-            <code>afterRender</code> hooks during prerendering, so the callback
-            also checks <code>isPlatformBrowser()</code> before touching
-            <code>matchMedia</code> or GSAP — the same guard used everywhere
-            else in this codebase.
-          </li>
-          <li>
-            <code>DestroyRef.onDestroy()</code> kills the tween when the
-            component is torn down, so nothing keeps animating (or keeps a
-            reference alive) after a route change.
-          </li>
-        </ul>
-      </app-recipe-section>
-
-      <app-recipe-section title="Source code" icon="💻" id="source">
-        <app-code-tabs [tabs]="codeTabs" />
-      </app-recipe-section>
-
-      <app-recipe-section title="Implementation recipe" icon="📋" id="recipe">
-        <ol>
-          <li>Create the standalone component with <code>OnPush</code>.</li>
-          <li>
-            Add the static markup: a <code>&#64;for</code> loop over your data,
-            with a <code>#item</code> template reference on each element.
-          </li>
-          <li>
-            Query the animated elements with
-            <code>viewChildren&lt;ElementRef&gt;('item')</code>.
-          </li>
-          <li>
-            Lazy-load GSAP with <code>await import('gsap')</code> inside
-            <code>afterNextRender()</code>.
-          </li>
-          <li>
-            Build the animation:
-            <code
-              >gsap.from(targets, &#123; opacity: 0, y: 24, stagger: 0.08
-              &#125;)</code
-            >.
-          </li>
-          <li>
-            Add cleanup: kill the tween in
-            <code>destroyRef.onDestroy()</code>.
-          </li>
-          <li>
-            Add reduced motion: check
-            <code>matchMedia('(prefers-reduced-motion: reduce)')</code> and call
-            <code>gsap.set()</code> to the resting state instead of animating.
-          </li>
-          <li>
-            Test keyboard/accessibility: confirm the cards are readable and in
-            the DOM before the animation runs, and that reduced motion leaves
-            them fully visible immediately.
-          </li>
-        </ol>
-      </app-recipe-section>
-
-      <app-recipe-section
-        title="Accessibility notes"
-        icon="♿"
-        id="accessibility"
-      >
-        <ul>
-          @for (item of recipe.accessibility; track item) {
-            <li>{{ item }}</li>
-          }
-        </ul>
-      </app-recipe-section>
-
-      <app-recipe-section title="Performance notes" icon="⚡" id="performance">
-        <ul>
-          @for (item of recipe.performance; track item) {
-            <li>{{ item }}</li>
-          }
-        </ul>
-      </app-recipe-section>
-
-      <app-recipe-section title="Common pitfalls" icon="⚠️" id="pitfalls">
-        <ul>
-          <li>
-            Animating one card per tween instead of passing the whole array to a
-            single <code>gsap.from()</code> call — it works, but it's harder to
-            stagger consistently and harder to clean up.
-          </li>
-          <li>
-            Reading <code>itemRefs()</code> before the view has rendered —
-            always trigger the first animation from inside
-            <code>afterNextRender()</code>, not the constructor.
-          </li>
-          <li>
-            Forgetting <code>stagger</code>'s unit is seconds between starts,
-            not total duration — a large list with a large stagger can take
-            longer to finish than expected.
-          </li>
-        </ul>
-      </app-recipe-section>
-
-      <app-recipe-nav [prev]="nav.prev" [next]="nav.next" />
+      <aside class="hidden lg:block">
+        <app-recipe-toc />
+      </aside>
     </div>
   `,
 })

@@ -147,6 +147,81 @@ const ANIMATIONS: AnimationRecipe[] = [
       'read layout once per transition, not per frame',
     ],
   },
+  {
+    slug: 'sticky-cards',
+    title: 'Sticky Cards',
+    description:
+      'Stack large feature cards while scrolling using Angular, GSAP and ScrollTrigger.',
+    category: 'Scroll',
+    difficulty: 'advanced',
+    angularConcepts: [
+      'standalone component',
+      'DestroyRef cleanup',
+      'SSR-safe GSAP import',
+      'template refs',
+    ],
+    gsapConcepts: ['ScrollTrigger', 'pinning', 'scrub', 'timeline', 'scale'],
+    accessibility: [
+      'prefers-reduced-motion shows a normal stacked layout',
+      'all content is readable without scroll animation',
+      'keyboard focus order follows DOM order',
+    ],
+    performance: [
+      'animate transform and opacity only',
+      'kill ScrollTriggers on destroy to avoid leaks',
+      'use gsap.context to scope selectors',
+    ],
+  },
+  {
+    slug: 'disappearing-features',
+    title: 'Disappearing Features',
+    description:
+      'Animate feature content in and out while scrolling through a product section.',
+    category: 'Features',
+    difficulty: 'intermediate',
+    angularConcepts: [
+      'standalone component',
+      'signals',
+      'DestroyRef cleanup',
+      'SSR-safe animation setup',
+    ],
+    gsapConcepts: ['ScrollTrigger', 'scrubbed timeline', 'opacity', 'yPercent'],
+    accessibility: [
+      'prefers-reduced-motion keeps all panels visible',
+      'no essential content is hidden permanently',
+      'headings maintain logical order',
+    ],
+    performance: [
+      'scrubbed timeline tied to scroll progress',
+      'avoid reading layout per frame',
+      'kill timeline and ScrollTrigger on destroy',
+    ],
+  },
+  {
+    slug: 'swap-column-features',
+    title: 'Swap Column Features',
+    description:
+      'Swap text and visual columns with a smooth GSAP layout transition.',
+    category: 'Layout',
+    difficulty: 'intermediate',
+    angularConcepts: [
+      'signals',
+      'class bindings',
+      'standalone component',
+      'OnPush',
+    ],
+    gsapConcepts: ['timeline', 'fromTo', 'xPercent', 'scale'],
+    accessibility: [
+      'toggle button is a real <button> with visible focus',
+      'aria-pressed reflects the swapped state',
+      'prefers-reduced-motion swaps instantly without motion',
+    ],
+    performance: [
+      'animate transform and opacity only',
+      'no layout reads during the animation',
+      'kill timeline on destroy',
+    ],
+  },
 ];
 
 export function getRecipe(slug: string): AnimationRecipe {

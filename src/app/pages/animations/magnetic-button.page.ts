@@ -1,12 +1,13 @@
 import { RouteMeta } from '@analogjs/router';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import MagneticButtonDemo from '@components/animation-demos/magnetic-button-demo';
-import AnimationShowcase from '@components/animation-showcase';
 import type { CodeTab } from '@components/code-tabs';
 import CodeTabs from '@components/code-tabs';
-import MetaPill from '@components/meta-pill';
+import RecipeDemo from '@components/recipe-demo';
+import RecipeHero from '@components/recipe-hero';
 import RecipeNav from '@components/recipe-nav';
 import RecipeSection from '@components/recipe-section';
+import RecipeToc from '@components/recipe-toc';
 import { getAdjacentRecipes, getRecipe } from '@data/animations';
 
 const MAGNETIC_BUTTON_DEMO_SOURCE = `import { isPlatformBrowser } from '@angular/common';
@@ -97,171 +98,165 @@ export const routeMeta: RouteMeta = {
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'page-magnetic-button',
   imports: [
-    AnimationShowcase,
+    RecipeHero,
+    RecipeDemo,
+    RecipeToc,
     MagneticButtonDemo,
-    MetaPill,
     RecipeSection,
     CodeTabs,
     RecipeNav,
   ],
   template: `
-    <div class="max-w-3xl mb-12">
-      <div class="mb-4 flex flex-wrap items-center gap-2">
-        <app-meta-pill [label]="recipe.difficulty" variant="difficulty" />
-        <app-meta-pill [label]="recipe.category" variant="neutral" />
+    <app-recipe-hero [recipe]="recipe" />
+
+    <div class="lg:grid lg:grid-cols-[1fr_16rem] lg:gap-10">
+      <div class="space-y-16">
+        <div id="demo" class="scroll-mt-28">
+          <app-recipe-demo number="04" title="Demo">
+            <app-magnetic-button-demo />
+          </app-recipe-demo>
+        </div>
+
+        <app-recipe-section title="How it works" icon="🔍" id="how-it-works">
+          <p>
+            On <code>pointermove</code>, the handler measures the cursor's
+            offset from the button's center and calls two
+            <code>gsap.quickTo()</code> setters — one for <code>x</code>, one
+            for <code>y</code> — with a fraction of that offset. Unlike
+            <code>gsap.to()</code>, <code>quickTo()</code> returns a reusable
+            function optimized to be called many times per second: it reuses the
+            same tween instead of creating a new one on every call.
+          </p>
+          <p>
+            On <code>pointerleave</code>, both setters are called with
+            <code>0</code>, so the button eases back to its resting position
+            with the same duration and easing.
+          </p>
+        </app-recipe-section>
+
+        <app-recipe-section title="The Angular way" icon="🅰️" id="angular-way">
+          <ul>
+            <li>
+              The pointer handlers are plain
+              <code>addEventListener</code> calls attached once in
+              <code>afterNextRender()</code>, not Angular
+              <code>(pointermove)</code> template bindings — that keeps every
+              mouse move from going through Angular's binding/read path at all.
+            </li>
+            <li>
+              No signal is written on every pointer event. The button's position
+              is owned entirely by GSAP; Angular never re-renders because of it.
+            </li>
+            <li>
+              <code>viewChild.required('magnet')</code> gets the button element;
+              setup runs once, in <code>afterNextRender()</code>, guarded by
+              <code>isPlatformBrowser()</code> since this project's SSR setup
+              still runs <code>afterRender</code> hooks while prerendering.
+            </li>
+            <li>
+              Cleanup removes both listeners and calls
+              <code>gsap.killTweensOf(button)</code> from
+              <code>DestroyRef.onDestroy()</code>.
+            </li>
+          </ul>
+        </app-recipe-section>
+
+        <app-recipe-section title="Source code" icon="💻" id="source">
+          <app-code-tabs [tabs]="codeTabs" />
+        </app-recipe-section>
+
+        <app-recipe-section title="Implementation recipe" icon="📋" id="recipe">
+          <ol>
+            <li>Create the standalone component with <code>OnPush</code>.</li>
+            <li>
+              Add the static markup: a single real
+              <code>&lt;button&gt;</code>, no wrapper element required.
+            </li>
+            <li>
+              Query the button with
+              <code>viewChild.required&lt;ElementRef&gt;('magnet')</code>.
+            </li>
+            <li>
+              Lazy-load GSAP with <code>await import('gsap')</code> inside
+              <code>afterNextRender()</code>, and bail out early if the user
+              prefers reduced motion.
+            </li>
+            <li>
+              Build the animation:
+              <code
+                >gsap.quickTo(button, 'x', &#123; duration: 0.5, ease: 'power3'
+                &#125;)</code
+              >, one setter per axis.
+            </li>
+            <li>
+              Add cleanup: remove both listeners and kill tweens of the button
+              in
+              <code>destroyRef.onDestroy()</code>.
+            </li>
+            <li>
+              Add reduced motion: skip attaching the listeners entirely instead
+              of animating with a zero duration.
+            </li>
+            <li>
+              Test keyboard/accessibility: tab to the button, confirm the focus
+              ring is visible, and confirm <kbd>Enter</kbd>/<kbd>Space</kbd>
+              still activate it — the magnetic effect only listens for pointer
+              events.
+            </li>
+          </ol>
+        </app-recipe-section>
+
+        <app-recipe-section
+          title="Accessibility notes"
+          icon="♿"
+          id="accessibility"
+        >
+          <ul>
+            @for (item of recipe.accessibility; track item) {
+              <li>{{ item }}</li>
+            }
+          </ul>
+        </app-recipe-section>
+
+        <app-recipe-section
+          title="Performance notes"
+          icon="⚡"
+          id="performance"
+        >
+          <ul>
+            @for (item of recipe.performance; track item) {
+              <li>{{ item }}</li>
+            }
+          </ul>
+        </app-recipe-section>
+
+        <app-recipe-section title="Common pitfalls" icon="⚠️" id="pitfalls">
+          <ul>
+            <li>
+              Calling <code>gsap.to()</code> directly inside the
+              <code>pointermove</code> handler — it works, but creates and tears
+              down a tween on every event. <code>quickTo()</code> exists
+              specifically to avoid that cost.
+            </li>
+            <li>
+              Writing the pointer offset into a component signal to drive the
+              template — this forces change detection on every mouse move for no
+              visual benefit, since GSAP is already updating the DOM directly.
+            </li>
+            <li>
+              Leaving the effect active for users who prefer reduced motion —
+              skip attaching the listeners rather than reducing the animation
+              duration to near-zero.
+            </li>
+          </ul>
+        </app-recipe-section>
+
+        <app-recipe-nav [prev]="nav.prev" [next]="nav.next" />
       </div>
-      <h1
-        class="text-4xl md:text-6xl font-black tracking-tighter text-foreground mb-4"
-      >
-        {{ recipe.title }}
-      </h1>
-      <p class="text-xl text-muted-foreground">{{ recipe.description }}</p>
 
-      <div class="mt-6 flex flex-wrap gap-1.5">
-        @for (c of recipe.angularConcepts; track c) {
-          <app-meta-pill [label]="c" variant="angular" />
-        }
-        @for (c of recipe.gsapConcepts; track c) {
-          <app-meta-pill [label]="c" variant="gsap" />
-        }
-      </div>
-    </div>
-
-    <div class="space-y-16">
-      <app-animation-showcase number="04" title="Demo">
-        <app-magnetic-button-demo />
-      </app-animation-showcase>
-
-      <app-recipe-section title="How it works" icon="🔍" id="how-it-works">
-        <p>
-          On <code>pointermove</code>, the handler measures the cursor's offset
-          from the button's center and calls two
-          <code>gsap.quickTo()</code> setters — one for <code>x</code>, one for
-          <code>y</code> — with a fraction of that offset. Unlike
-          <code>gsap.to()</code>, <code>quickTo()</code> returns a reusable
-          function optimized to be called many times per second: it reuses the
-          same tween instead of creating a new one on every call.
-        </p>
-        <p>
-          On <code>pointerleave</code>, both setters are called with
-          <code>0</code>, so the button eases back to its resting position with
-          the same duration and easing.
-        </p>
-      </app-recipe-section>
-
-      <app-recipe-section title="The Angular way" icon="🅰️" id="angular-way">
-        <ul>
-          <li>
-            The pointer handlers are plain
-            <code>addEventListener</code> calls attached once in
-            <code>afterNextRender()</code>, not Angular
-            <code>(pointermove)</code> template bindings — that keeps every
-            mouse move from going through Angular's binding/read path at all.
-          </li>
-          <li>
-            No signal is written on every pointer event. The button's position
-            is owned entirely by GSAP; Angular never re-renders because of it.
-          </li>
-          <li>
-            <code>viewChild.required('magnet')</code> gets the button element;
-            setup runs once, in <code>afterNextRender()</code>, guarded by
-            <code>isPlatformBrowser()</code> since this project's SSR setup
-            still runs <code>afterRender</code> hooks while prerendering.
-          </li>
-          <li>
-            Cleanup removes both listeners and calls
-            <code>gsap.killTweensOf(button)</code> from
-            <code>DestroyRef.onDestroy()</code>.
-          </li>
-        </ul>
-      </app-recipe-section>
-
-      <app-recipe-section title="Source code" icon="💻" id="source">
-        <app-code-tabs [tabs]="codeTabs" />
-      </app-recipe-section>
-
-      <app-recipe-section title="Implementation recipe" icon="📋" id="recipe">
-        <ol>
-          <li>Create the standalone component with <code>OnPush</code>.</li>
-          <li>
-            Add the static markup: a single real
-            <code>&lt;button&gt;</code>, no wrapper element required.
-          </li>
-          <li>
-            Query the button with
-            <code>viewChild.required&lt;ElementRef&gt;('magnet')</code>.
-          </li>
-          <li>
-            Lazy-load GSAP with <code>await import('gsap')</code> inside
-            <code>afterNextRender()</code>, and bail out early if the user
-            prefers reduced motion.
-          </li>
-          <li>
-            Build the animation:
-            <code
-              >gsap.quickTo(button, 'x', &#123; duration: 0.5, ease: 'power3'
-              &#125;)</code
-            >, one setter per axis.
-          </li>
-          <li>
-            Add cleanup: remove both listeners and kill tweens of the button in
-            <code>destroyRef.onDestroy()</code>.
-          </li>
-          <li>
-            Add reduced motion: skip attaching the listeners entirely instead of
-            animating with a zero duration.
-          </li>
-          <li>
-            Test keyboard/accessibility: tab to the button, confirm the focus
-            ring is visible, and confirm <kbd>Enter</kbd>/<kbd>Space</kbd>
-            still activate it — the magnetic effect only listens for pointer
-            events.
-          </li>
-        </ol>
-      </app-recipe-section>
-
-      <app-recipe-section
-        title="Accessibility notes"
-        icon="♿"
-        id="accessibility"
-      >
-        <ul>
-          @for (item of recipe.accessibility; track item) {
-            <li>{{ item }}</li>
-          }
-        </ul>
-      </app-recipe-section>
-
-      <app-recipe-section title="Performance notes" icon="⚡" id="performance">
-        <ul>
-          @for (item of recipe.performance; track item) {
-            <li>{{ item }}</li>
-          }
-        </ul>
-      </app-recipe-section>
-
-      <app-recipe-section title="Common pitfalls" icon="⚠️" id="pitfalls">
-        <ul>
-          <li>
-            Calling <code>gsap.to()</code> directly inside the
-            <code>pointermove</code> handler — it works, but creates and tears
-            down a tween on every event. <code>quickTo()</code> exists
-            specifically to avoid that cost.
-          </li>
-          <li>
-            Writing the pointer offset into a component signal to drive the
-            template — this forces change detection on every mouse move for no
-            visual benefit, since GSAP is already updating the DOM directly.
-          </li>
-          <li>
-            Leaving the effect active for users who prefer reduced motion — skip
-            attaching the listeners rather than reducing the animation duration
-            to near-zero.
-          </li>
-        </ul>
-      </app-recipe-section>
-
-      <app-recipe-nav [prev]="nav.prev" [next]="nav.next" />
+      <aside class="hidden lg:block">
+        <app-recipe-toc />
+      </aside>
     </div>
   `,
 })
