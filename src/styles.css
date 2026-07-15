@@ -73,34 +73,8 @@ body,
   border-color: var(--color-border);
 }
 
-/* NAVBAR */
-
 @utility glass {
-  @apply bg-[color:oklch(var(--fg)/0.2)]
-         backdrop-blur-md backdrop-saturate-150
-         border-b border-[color:oklch(var(--fg)/0.08)];
-}
-
-@utility glass-strong {
-  @apply backdrop-blur-lg;
-}
-
-/* LINKS */
-@utility link {
-  @apply text-sm px-1;
-}
-
-@utility mobile-link {
-  @apply text-lg py-4 shadow-lg shadow-background/10 text-center rounded-lg;
-}
-@utility link-active {
-  @apply rounded-md py-1.5 text-sm font-bold;
-}
-@utility mobile-link-active {
-  @apply text-lg font-bold inset-shadow-sm inset-shadow-background/50;
-}
-@utility link-hover {
-  @apply hover:scale-110 transition-transform duration-100 ease-in-out;
+  @apply bg-background/70 backdrop-blur-md backdrop-saturate-150 border-b border-border;
 }
 
 @utility card {
@@ -153,4 +127,18 @@ body,
 }
 .delay-500 {
   animation-delay: 500ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-in,
+  .fade-in,
+  .slide-in-from-bottom-8 {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .pulsing-circle {
+    animation: none;
+  }
 }

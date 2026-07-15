@@ -14,6 +14,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { prefersReducedMotion } from '@shared/utils/motion';
 
 interface Slide {
   src: string;
@@ -158,7 +159,7 @@ export default class Testimonials implements AfterViewInit, OnDestroy {
     this.width = vp.clientWidth;
     this.snapTo(0, 0);
 
-    if (this.autoplay()) this.startTimer();
+    if (this.autoplay() && !prefersReducedMotion()) this.startTimer();
   }
 
   private startTimer() {
@@ -176,7 +177,7 @@ export default class Testimonials implements AfterViewInit, OnDestroy {
     this.stopTimer();
   }
   resume() {
-    if (this.autoplay()) this.startTimer();
+    if (this.autoplay() && !prefersReducedMotion()) this.startTimer();
   }
 
   next() {

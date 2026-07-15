@@ -30,10 +30,10 @@ export class AndWhenVisibleDirective implements AfterViewInit, OnDestroy {
   offset = input<string | number>('20%');
   once = input(true);
 
-  // Estado legible desde la plantilla
+  // State readable from the template
   isVisible = signal(false);
 
-  // Evento opcional
+  // Optional event
   becameVisible = output<void>();
 
   private io?: IntersectionObserver;
@@ -49,9 +49,9 @@ export class AndWhenVisibleDirective implements AfterViewInit, OnDestroy {
         for (const e of entries) {
           if (e.isIntersecting) {
             if (!this.isVisible()) {
-              this.isVisible.set(true); // <-- estado
+              this.isVisible.set(true); // <-- state
 
-              this.timeline?.play(); // play si hay timeline
+              this.timeline?.play(); // play if a timeline is present
               this.becameVisible.emit();
             }
             if (this.once()) this.io?.unobserve(this.el.nativeElement);

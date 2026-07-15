@@ -17,6 +17,7 @@ import {
   AndGsapTimelineApi,
   TweenVars,
 } from '@shared/and-gsap-tokens';
+import { prefersReducedMotion } from '@shared/utils/motion';
 import type { gsap } from 'gsap';
 
 @Directive({
@@ -44,10 +45,10 @@ export class AndGsapTimelineDirective
   }[] = [];
 
   defaults = input<Record<string, unknown>>({});
-  paused = input<boolean>(false); // <— señal de input
+  paused = input<boolean>(false); // <— input signal
 
   constructor() {
-    // Reacciona a cambios en `paused`
+    // React to changes on `paused`
     effect(() => {
       if (!this.tl) return;
       const p = this.paused();
@@ -61,6 +62,8 @@ export class AndGsapTimelineDirective
     if (!isPlatformBrowser(this.platformId)) return;
     const mod = await import('gsap');
     this.gsap = mod.gsap ?? mod.default ?? mod;
+
+    if (prefersReducedMotion()) return;
 
     this.tl = this.gsap.timeline({
       defaults: this.defaults(),

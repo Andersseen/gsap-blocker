@@ -3,6 +3,7 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
   inject,
   input,
@@ -10,7 +11,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { AndGsapFromDirective } from '@shared/directives/and-gsap-from';
-import { gsap } from 'gsap';
+import { prefersReducedMotion } from '@shared/utils/motion';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -158,6 +159,7 @@ import { gsap } from 'gsap';
 })
 export default class HeroSection implements AfterViewInit {
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly destroyRef = inject(DestroyRef);
   private readonly root = viewChild<ElementRef<HTMLElement>>('root');
 
   // Inputs
@@ -175,6 +177,10 @@ export default class HeroSection implements AfterViewInit {
     if (!isPlatformBrowser(this.platformId)) return;
     const el = this.root()?.nativeElement;
     if (!el) return;
+
+    const { gsap } = await import('gsap');
+
+    if (prefersReducedMotion()) return;
 
     // Floating blobs loop
     gsap.to(el.querySelector('.blob-a'), {
@@ -214,7 +220,8 @@ export default class HeroSection implements AfterViewInit {
             })
           );
       sweep();
-      setInterval(sweep, 5500);
+      const intervalId = setInterval(sweep, 5500);
+      this.destroyRef.onDestroy(() => clearInterval(intervalId));
     }
 
     // Subtle gradient text shimmer (no keyframes, GSAP controlled)

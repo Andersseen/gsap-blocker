@@ -11,7 +11,8 @@ import {
   viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { gsap } from 'gsap';
+import { prefersReducedMotion } from '@shared/utils/motion';
+import type { gsap } from 'gsap';
 
 interface Category {
   id: number | string;
@@ -184,9 +185,14 @@ export default class GridCard implements AfterViewInit, OnDestroy {
     gsap.core.Tween | gsap.core.Timeline
   >();
   private ctx: gsap.Context | null = null;
+  private gsap: typeof import('gsap').default | null = null;
 
-  ngAfterViewInit() {
+  async ngAfterViewInit() {
     if (!isPlatformBrowser(this.platformId)) return;
+
+    const mod = await import('gsap');
+    const gsap = mod.default;
+    this.gsap = gsap;
 
     this.ctx = gsap.context(() => {
       const rootEl = this.root()?.nativeElement;
@@ -217,6 +223,8 @@ export default class GridCard implements AfterViewInit, OnDestroy {
 
   onEnter(card: HTMLElement) {
     if (!isPlatformBrowser(this.platformId)) return;
+    const gsap = this.gsap;
+    if (!gsap) return;
 
     const blob = card.querySelector<HTMLElement>('[data-blob]');
     const emoji = card.querySelector<HTMLElement>('[data-emoji]');
@@ -257,7 +265,7 @@ export default class GridCard implements AfterViewInit, OnDestroy {
       });
     }
 
-    if (emoji) {
+    if (emoji && !prefersReducedMotion()) {
       const loop = gsap.to(emoji, {
         y: -6,
         rotate: 6,
@@ -274,13 +282,15 @@ export default class GridCard implements AfterViewInit, OnDestroy {
 
   onLeave(card: HTMLElement) {
     if (!isPlatformBrowser(this.platformId)) return;
+    const gsap = this.gsap;
+    if (!gsap) return;
 
     const blob = card.querySelector<HTMLElement>('[data-blob]');
     const shine = card.querySelector<HTMLElement>(
       '.shine'
     ) as HTMLElement | null;
 
-    // Vuelve a reposo
+    // Return to rest
     gsap.to(card, {
       y: 0,
       rotationX: 0,
@@ -303,6 +313,8 @@ export default class GridCard implements AfterViewInit, OnDestroy {
 
   onMove(card: HTMLElement, ev: MouseEvent) {
     if (!isPlatformBrowser(this.platformId)) return;
+    const gsap = this.gsap;
+    if (!gsap) return;
 
     const rect = card.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
@@ -310,7 +322,7 @@ export default class GridCard implements AfterViewInit, OnDestroy {
     const dx = ev.clientX - cx;
     const dy = ev.clientY - cy;
 
-    // Tilt (limitado)
+    // Limited tilt
     const rotY = gsap.utils.clamp(-10, 10, (dx / rect.width) * 16);
     const rotX = gsap.utils.clamp(-10, 10, (-dy / rect.height) * 16);
 
@@ -346,10 +358,10 @@ export default class GridCard implements AfterViewInit, OnDestroy {
   }
 
   onPress(card: HTMLElement) {
-    gsap.to(card, { scale: 0.985, duration: 0.08, ease: 'power1.out' });
+    this.gsap?.to(card, { scale: 0.985, duration: 0.08, ease: 'power1.out' });
   }
   onRelease(card: HTMLElement) {
-    gsap.to(card, { scale: 1.01, duration: 0.12, ease: 'power1.out' });
+    this.gsap?.to(card, { scale: 1.01, duration: 0.12, ease: 'power1.out' });
   }
 
   private initBackground(card: HTMLElement) {
@@ -368,11 +380,16 @@ export default class GridCard implements AfterViewInit, OnDestroy {
   }
 
   private animateBackground(card: HTMLElement, active: boolean) {
+    const gsap = this.gsap;
+    if (!gsap) return;
+
     const grad = card.querySelector<HTMLElement>('[data-gradient]');
     const grid = card.querySelector<HTMLElement>('[data-grid]');
     if (!grad || !grid) return;
 
     if (active) {
+      if (prefersReducedMotion()) return;
+
       gsap.to(grid, {
         x: 6,
         y: -6,

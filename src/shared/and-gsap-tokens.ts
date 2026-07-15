@@ -10,7 +10,7 @@ export interface AndGsapTimelineApi {
     at?: string | number
   ): void;
 
-  // añade los métodos que usarás (mínimo play)
+  // add whichever methods you need (at minimum, play)
   play(): void;
   pause(): void;
   restart(): void;

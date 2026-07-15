@@ -9,6 +9,7 @@ import {
   PLATFORM_ID,
   viewChild,
 } from '@angular/core';
+import { prefersReducedMotion } from '@shared/utils/motion';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -164,7 +165,7 @@ export default class Hero implements AfterViewInit {
   }
 
   private runFloatingLoop() {
-    if (!this.gsap) return;
+    if (!this.gsap || prefersReducedMotion()) return;
     const el = this.root()?.nativeElement;
     if (!el) return;
 

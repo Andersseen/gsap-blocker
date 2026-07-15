@@ -1,5 +1,6 @@
 import { RouteMeta } from '@analogjs/router';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import FeaturesSection from '@components/features-section';
 import GridCard from '@components/grid-card';
 import HeroSection from '@components/hero-section';
@@ -32,7 +33,13 @@ export const routeMeta: RouteMeta = {
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'page-home',
-  imports: [AndRevealDirective, HeroSection, FeaturesSection, GridCard],
+  imports: [
+    AndRevealDirective,
+    HeroSection,
+    FeaturesSection,
+    GridCard,
+    RouterLink,
+  ],
   template: `
     <app-hero-section />
 
@@ -48,7 +55,7 @@ export const routeMeta: RouteMeta = {
       <section class="container mx-auto px-6 md:px-8 py-16">
         <div class="flex items-end justify-between">
           <h2 class="text-2xl md:text-3xl font-bold">Block categories</h2>
-          <a class="text-sm underline underline-offset-4" href="/blocks"
+          <a class="text-sm underline underline-offset-4" routerLink="/blocks"
             >View all</a
           >
         </div>
@@ -76,12 +83,12 @@ export const routeMeta: RouteMeta = {
             <div class="flex flex-wrap justify-center gap-4">
               <a
                 class="inline-flex items-center justify-center h-12 px-8 rounded-full bg-background text-foreground font-bold hover:scale-105 transition-transform"
-                href="/docs"
+                routerLink="/docs"
                 >Read Documentation</a
               >
               <a
                 class="inline-flex items-center justify-center h-12 px-8 rounded-full border border-background/20 hover:bg-background/10 font-semibold transition-colors"
-                href="/blocks"
+                routerLink="/blocks"
                 >Explore All Blocks</a
               >
             </div>

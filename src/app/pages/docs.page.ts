@@ -73,11 +73,6 @@ export const routeMeta: RouteMeta = {
               >Features</a
             >
             <a
-              routerLink="/blocks/bento-grid"
-              class="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
-              >Bento Grid</a
-            >
-            <a
               routerLink="/blocks/cta"
               class="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
               >CTA</a

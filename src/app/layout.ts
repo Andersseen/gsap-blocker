@@ -41,10 +41,6 @@ import Navbar from '@components/navbar';
         display: block;
         position: relative;
       }
-
-      main {
-        view-transition-name: main-router;
-      }
     `,
   ],
 })

@@ -8,6 +8,7 @@ import {
   inject,
   viewChild,
 } from '@angular/core';
+import { prefersReducedMotion } from '@shared/utils/motion';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -81,6 +82,9 @@ export default class InfiniteMarquee implements AfterViewInit {
     const track = el.querySelector('.marquee-track');
 
     if (!track) return;
+
+    // Static content for users who don't want continuous motion.
+    if (prefersReducedMotion()) return;
 
     // We just scroll endlessly.
     // For a truly seamless loop we often use the modifiers plugin or duplicate content enough to fill screen + scroll.

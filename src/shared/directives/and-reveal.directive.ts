@@ -71,7 +71,7 @@ export class AndRevealDirective implements OnInit, AfterViewInit, OnDestroy {
       },
       {
         threshold: this.threshold(),
-        rootMargin, // e.g. "0px 0px -20% 0px" => requiere 20% dentro del viewport
+        rootMargin, // e.g. "0px 0px -20% 0px" => requires 20% inside the viewport
       }
     );
 
@@ -101,7 +101,7 @@ export class AndRevealDirective implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private computeRootMargin(offset: string | number): string {
-    // bottom negative margin => exige que el target esté "offset" dentro del viewport
+    // bottom negative margin => requires the target to be "offset" inside the viewport
     const val = typeof offset === 'number' ? `${offset}px` : offset.trim();
     const normalized = /^\d+(\.\d+)?$/.test(val) ? `${val}px` : val; // "120" -> "120px"
     return `0px 0px -${normalized} 0px`;

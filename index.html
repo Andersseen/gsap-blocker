@@ -21,6 +21,17 @@
     <meta property="og:image" content="/favicon.svg" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <script>
+      try {
+        var t = localStorage.getItem('theme');
+        if (
+          t === 'dark' ||
+          (!t && matchMedia('(prefers-color-scheme: dark)').matches)
+        ) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    </script>
     <link rel="stylesheet" href="/src/styles.css" />
   </head>
   <body>

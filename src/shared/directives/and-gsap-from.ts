@@ -14,6 +14,7 @@ import {
   AndGsapTimelineApi,
   TweenVars,
 } from '@shared/and-gsap-tokens';
+import { prefersReducedMotion } from '@shared/utils/motion';
 import type { gsap } from 'gsap';
 
 @Directive({
@@ -24,7 +25,7 @@ export class AndGsapFromDirective implements AfterViewInit, OnDestroy {
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly platformId = inject(PLATFORM_ID);
 
-  // ✅ Inyecta el token (opcional)
+  // Inject the token (optional)
   private readonly timeline = inject(AND_GSAP_TIMELINE_CTX, {
     optional: true,
   }) as AndGsapTimelineApi | null;
@@ -41,19 +42,21 @@ export class AndGsapFromDirective implements AfterViewInit, OnDestroy {
     const vars = this.from() || {};
     const at = this.at();
 
-    // Dentro de un timeline: solo registro, no creo tween
+    // Inside a timeline: only register, don't create a standalone tween
     if (this.timeline) {
       this.timeline.registerFrom(this.el.nativeElement, vars, at);
       return;
     }
 
-    // Sin timeline: tween autónomo
+    if (prefersReducedMotion()) return;
+
+    // No timeline: standalone tween
     const { gsap } = await import('gsap');
     this.tween = gsap.from(this.el.nativeElement, { ...vars });
     if (this.auto() === false) this.tween.pause(0);
   }
 
-  // Controles (modo autónomo)
+  // Controls (standalone mode)
   play() {
     this.tween?.play();
   }
