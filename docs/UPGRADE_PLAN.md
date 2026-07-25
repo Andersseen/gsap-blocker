@@ -12,14 +12,14 @@
 
 ## Tabla de estado (mantener al día al terminar cada fase)
 
-| Fase | Nombre | Tamaño | Estado |
-|---|---|---|---|
-| 1 | Limpieza de base | S (~0.5 día) | ✅ Completa |
-| 3 | Registro de bloques + código fuente completo | M/L (~1–1.5 días) | ⬜ Pendiente |
-| 2 | Capa de marca | M (~1–1.5 días) | ⬜ Pendiente |
-| 4 | Sección de docs | L (~1.5–2 días) | ⬜ Pendiente |
-| 5 | SEO, meta y remate | S/M (~0.5–1 día) | ⬜ Pendiente |
-| 6 | Verificación end-to-end | S (~0.5 día) | ⬜ Pendiente |
+| Fase | Nombre                                       | Tamaño            | Estado       |
+| ---- | -------------------------------------------- | ----------------- | ------------ |
+| 1    | Limpieza de base                             | S (~0.5 día)      | ✅ Completa  |
+| 3    | Registro de bloques + código fuente completo | M/L (~1–1.5 días) | ⬜ Pendiente |
+| 2    | Capa de marca                                | M (~1–1.5 días)   | ⬜ Pendiente |
+| 4    | Sección de docs                              | L (~1.5–2 días)   | ⬜ Pendiente |
+| 5    | SEO, meta y remate                           | S/M (~0.5–1 día)  | ⬜ Pendiente |
+| 6    | Verificación end-to-end                      | S (~0.5 día)      | ⬜ Pendiente |
 
 ## Orden y dependencias
 
@@ -150,11 +150,26 @@ export const BLOCK_CATEGORIES: BlockCategoryMeta[] = [
   { slug: 'heroes', name: 'Heroes', description: '...', emoji: '🦸' },
   { slug: 'features', name: 'Features', description: '...', emoji: '✨' },
   { slug: 'pricing', name: 'Pricing', description: '...', emoji: '💳' },
-  { slug: 'testimonials', name: 'Testimonials', description: '...', emoji: '💬' },
+  {
+    slug: 'testimonials',
+    name: 'Testimonials',
+    description: '...',
+    emoji: '💬',
+  },
   { slug: 'cta', name: 'CTA', description: '...', emoji: '▶️' },
   { slug: 'footers', name: 'Footers', description: '...', emoji: '🦶' },
-  { slug: 'infinite-marquee', name: 'Infinite Marquee', description: '...', emoji: '🔁' },
-  { slug: 'parallax-scroll', name: 'Parallax Scroll', description: '...', emoji: '🌀' },
+  {
+    slug: 'infinite-marquee',
+    name: 'Infinite Marquee',
+    description: '...',
+    emoji: '🔁',
+  },
+  {
+    slug: 'parallax-scroll',
+    name: 'Parallax Scroll',
+    description: '...',
+    emoji: '🌀',
+  },
 ];
 
 export const BLOCKS: BlockMeta[] = [
@@ -169,11 +184,13 @@ export const blocksByCategory = (slug: string) =>
 export const categoryCount = (slug: string) => blocksByCategory(slug).length;
 
 export const usageSnippet = (b: BlockMeta) => {
-  const className = /* PascalCase desde b.id: 'hero-modern' -> 'HeroModern' */ '';
+  const className =
+    /* PascalCase desde b.id: 'hero-modern' -> 'HeroModern' */ '';
   return `import ${className} from '${b.importPath}';\n\n<!-- template -->\n<${b.selector} />`;
 };
 
-export const blockRoutes = () => BLOCK_CATEGORIES.map((c) => `/blocks/${c.slug}`);
+export const blockRoutes = () =>
+  BLOCK_CATEGORIES.map((c) => `/blocks/${c.slug}`);
 ```
 
 Antes de rellenar `BLOCKS`: `ls src/blocks/*.ts`, y por archivo comprobar selector (`@Component({ selector })`), deps gsap/ScrollTrigger, y categoría según qué página lo usa hoy (`src/app/pages/blocks/*.page.ts`).
@@ -323,7 +340,8 @@ En `src/styles.css`, después de `@import 'tailwindcss';`:
 
 @theme {
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-mono:
+    'JetBrains Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
   /* ...resto de tokens existentes... */
 }
 ```
@@ -338,11 +356,15 @@ Repropósito de `--color-accent` (cero uso actual — hallazgo #4), verde adapta
 
 ```css
 @theme {
-  --color-accent: oklch(0.55 0.17 152); /* light: verde profundo, contraste ≥4.5:1 sobre blanco */
+  --color-accent: oklch(
+    0.55 0.17 152
+  ); /* light: verde profundo, contraste ≥4.5:1 sobre blanco */
   --color-accent-foreground: #fafafa;
 }
 html.dark {
-  --color-accent: oklch(0.8 0.21 152); /* dark: familia del verde GSAP #0ae448 */
+  --color-accent: oklch(
+    0.8 0.21 152
+  ); /* dark: familia del verde GSAP #0ae448 */
   --color-accent-foreground: #09090b;
 }
 ```
@@ -368,7 +390,7 @@ Directivas de atributo sobre elementos nativos (patrón `computed()` de `meta-pi
   2. Explore: `/blocks`, `/animations`, `/docs` (con `routerLink`)
   3. Resources: GitHub, CHANGELOG/release notes, licencia
   4. `©` + año (reusar `src/shared/tokens/date.token.ts`) + versión del proyecto.
-  Responsive: columnas apiladas en móvil, borde superior, `text-muted-foreground`.
+     Responsive: columnas apiladas en móvil, borde superior, `text-muted-foreground`.
 
 ### Verificación (Definition of Done)
 
@@ -409,24 +431,38 @@ ls src/app/pages/docs/ 2>/dev/null         # si existe → esta fase en marcha/h
 - Convertir `src/app/pages/docs.page.ts` en página de **layout** (sidebar + `<router-outlet/>`), replicando el patrón de `blocks.page.ts` (leerlo antes). El contenido actual (Introduction/Installation/Theming) se reparte entre `(docs-index).page.ts` y `theming.page.ts`. Esto resuelve también el link muerto (hallazgo #12) si no se arregló en Fase 1.
 - **Nuevo** `src/data/docs-nav.ts` (datos puros, sin imports de Angular — `vite.config.ts` lo importa en Fase 5):
   ```ts
-  export interface DocsNavItem { title: string; path: string; }
-  export interface DocsNavSection { section: string; items: DocsNavItem[]; }
+  export interface DocsNavItem {
+    title: string;
+    path: string;
+  }
+  export interface DocsNavSection {
+    section: string;
+    items: DocsNavItem[];
+  }
   export const DOCS_NAV: DocsNavSection[] = [
-    { section: 'Guides', items: [
-      { title: 'Introduction', path: '/docs' },
-      { title: 'Installation', path: '/docs/installation' },
-      { title: 'Theming', path: '/docs/theming' },
-    ]},
-    { section: 'Directives', items: [
-      { title: 'andGsapFrom', path: '/docs/directives/gsap-from' },
-      { title: 'andGsapScroll', path: '/docs/directives/gsap-scroll' },
-      { title: 'andGsapTimeline', path: '/docs/directives/gsap-timeline' },
-      { title: 'andReveal', path: '/docs/directives/reveal' },
-      { title: 'andWhenVisible', path: '/docs/directives/when-visible' },
-      { title: 'appSmoothScroll', path: '/docs/directives/smooth-scroll' },
-    ]},
+    {
+      section: 'Guides',
+      items: [
+        { title: 'Introduction', path: '/docs' },
+        { title: 'Installation', path: '/docs/installation' },
+        { title: 'Theming', path: '/docs/theming' },
+      ],
+    },
+    {
+      section: 'Directives',
+      items: [
+        { title: 'andGsapFrom', path: '/docs/directives/gsap-from' },
+        { title: 'andGsapScroll', path: '/docs/directives/gsap-scroll' },
+        { title: 'andGsapTimeline', path: '/docs/directives/gsap-timeline' },
+        { title: 'andReveal', path: '/docs/directives/reveal' },
+        { title: 'andWhenVisible', path: '/docs/directives/when-visible' },
+        { title: 'appSmoothScroll', path: '/docs/directives/smooth-scroll' },
+      ],
+    },
   ];
-  export const DOCS_ROUTES = DOCS_NAV.flatMap((s) => s.items.map((i) => i.path));
+  export const DOCS_ROUTES = DOCS_NAV.flatMap((s) =>
+    s.items.map((i) => i.path)
+  );
   ```
 - **Nuevo** `src/components/docs/docs-sidebar.ts`: renderiza `DOCS_NAV`, `routerLinkActive`, sticky en desktop, colapsable en móvil (mismo patrón de disclosure que el sidebar actual de docs — revisar `docs.page.ts` tal como está antes de reescribir).
 
@@ -469,7 +505,8 @@ grep -n "sitemap" vite.config.ts                     # con resultado → 5c ya h
 ```ts
 export const SITE_URL = 'https://gsap-blocker.pages.dev'; // cambiar si hay dominio propio en CF Pages
 export const SITE_NAME = 'GSAP Blocker';
-export const SITE_DESCRIPTION = 'A curated collection of production-ready, animated UI blocks built with Angular 20, AnalogJS, Tailwind CSS v4, and GSAP.';
+export const SITE_DESCRIPTION =
+  'A curated collection of production-ready, animated UI blocks built with Angular 20, AnalogJS, Tailwind CSS v4, and GSAP.';
 export const OG_IMAGE = `${SITE_URL}/og.png`;
 ```
 
@@ -485,7 +522,11 @@ interface PageMetaInput {
   path: string; // ej. '/blocks/heroes'
 }
 
-export function pageMeta({ title, description, path }: PageMetaInput): RouteMeta {
+export function pageMeta({
+  title,
+  description,
+  path,
+}: PageMetaInput): RouteMeta {
   const desc = description ?? SITE_DESCRIPTION;
   const url = `${SITE_URL}${path}`;
   return {

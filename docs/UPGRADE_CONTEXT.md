@@ -113,7 +113,7 @@ Aliases de tsconfig en uso: `@blocks/*`, `@components/*`, `@shared/*`, `@data/*`
          inlineStylesExtension: 'css',
          transformFilter: (_code, id) => !id.includes('?raw'),
        },
-     })
+     });
      ```
      Con eso, `import src from '../../blocks/hero.ts?raw'` devuelve texto plano, y el mismo archivo sin `?raw` compila normal (module ids distintos, sin conflicto).
    - **Fallback si dejara de funcionar:** plugin de Vite propio con `enforce: 'pre'` sirviendo ids virtuales que NO contengan `.ts` literal (ej. `virtual:source/blocks/hero`), leyendo el archivo con `fs.readFileSync` en el hook `load`.
@@ -131,26 +131,27 @@ Aliases de tsconfig en uso: `@blocks/*`, `@components/*`, `@shared/*`, `@data/*`
 13. **Comentarios en español** en `grid-card.ts`, `and-gsap-from.ts`, `and-reveal.directive.ts`, `and-when-visible.directive.ts`, `and-gsap-timeline.ts` — inconsistente para repo open-source en inglés.
 14. **`layout.ts` fija `view-transition-name: main-router`** pero `app.config.ts` no llama a `withViewTransitions(...)` — propiedad colgante sin efecto.
 15. **Home usa `<a href="/blocks">` / `<a href="/docs">`** en algunos sitios en vez de `routerLink` → full page reload innecesario.
-16. **`@utility glass` en `styles.css` referenciaba `oklch(var(--fg)/0.2)`** pero `--fg` no existe (los tokens son `--color-foreground`, etc.) — utilidad rota. `link`, `mobile-link`, `link-active`, `mobile-link-active`, `link-hover` también muertas (cero usos). *(Puede estar ya arreglado — ver §7.)*
-17. **`src/styles/base.css` y `src/styles/tailwind-base.css` no se importan en ningún sitio** (solo `src/styles.css` está linkado). Paleta púrpura/verde en conflicto, inactivos. *(Puede estar ya borrado — ver §7.)*
+16. **`@utility glass` en `styles.css` referenciaba `oklch(var(--fg)/0.2)`** pero `--fg` no existe (los tokens son `--color-foreground`, etc.) — utilidad rota. `link`, `mobile-link`, `link-active`, `mobile-link-active`, `link-hover` también muertas (cero usos). _(Puede estar ya arreglado — ver §7.)_
+17. **`src/styles/base.css` y `src/styles/tailwind-base.css` no se importan en ningún sitio** (solo `src/styles.css` está linkado). Paleta púrpura/verde en conflicto, inactivos. _(Puede estar ya borrado — ver §7.)_
 18. **Los bloques de `src/blocks/` son autocontenidos:** solo importan de `@angular/*` y `gsap` — nada de `@shared`. Mostrar su fuente completa produce código copy-paste que funciona standalone (verificado con grep).
 
 ## 6. Archivos de referencia de patrones (leer antes de escribir código nuevo)
 
-| Para… | Leer primero |
-|---|---|
-| Variantes de clases vía `computed()` (directivas/primitivas UI) | `src/components/meta-pill.ts` |
-| Tabs de código + botón copiar | `src/components/code-tabs.ts` |
-| Guard de `prefers-reduced-motion` en GSAP | `src/shared/directives/and-reveal.directive.ts` y `src/components/animation-demos/stagger-reveal-demo.ts` |
-| Lazy-import de GSAP SSR-safe | `src/blocks/hero.ts` |
-| Layout con sidebar + `<router-outlet/>` | `src/app/pages/blocks.page.ts` |
-| Frame con borde para demos | `src/components/recipe-demo.ts` |
-| Secciones tituladas de docs/recetas | `src/components/recipe-section.ts` |
-| Forma actual de `routeMeta` | cualquier `src/app/pages/**/*.page.ts` existente |
+| Para…                                                           | Leer primero                                                                                              |
+| --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Variantes de clases vía `computed()` (directivas/primitivas UI) | `src/components/meta-pill.ts`                                                                             |
+| Tabs de código + botón copiar                                   | `src/components/code-tabs.ts`                                                                             |
+| Guard de `prefers-reduced-motion` en GSAP                       | `src/shared/directives/and-reveal.directive.ts` y `src/components/animation-demos/stagger-reveal-demo.ts` |
+| Lazy-import de GSAP SSR-safe                                    | `src/blocks/hero.ts`                                                                                      |
+| Layout con sidebar + `<router-outlet/>`                         | `src/app/pages/blocks.page.ts`                                                                            |
+| Frame con borde para demos                                      | `src/components/recipe-demo.ts`                                                                           |
+| Secciones tituladas de docs/recetas                             | `src/components/recipe-section.ts`                                                                        |
+| Forma actual de `routeMeta`                                     | cualquier `src/app/pages/**/*.page.ts` existente                                                          |
 
 ## 7. Estado del working tree al escribir este documento (2026-07-15)
 
 Cambios ya aplicados sin comitear (parte de la Fase 1):
+
 - Borrado `src/styles/` completo (los dos archivos muertos del hallazgo 17).
 - `src/styles.css`: eliminadas las utilidades rotas/muertas del hallazgo 16; añadida versión funcional de `@utility glass` (`bg-background/70 backdrop-blur-md backdrop-saturate-150 border-b border-border`); añadido bloque `@media (prefers-reduced-motion: reduce)` que neutraliza `.animate-in`/`.fade-in`/`.slide-in-from-bottom-8`.
 
@@ -167,12 +168,12 @@ Cambios ya aplicados sin comitear (parte de la Fase 1):
 
 ## 9. Riesgos conocidos y mitigaciones
 
-| Riesgo | Probabilidad | Mitigación |
-|---|---|---|
-| `?raw` deja de funcionar por cambio interno de Analog | Baja (verificado contra 1.22.5) | Fallback de plugin virtual (hallazgo 1); el spike de la Fase 3a lo detecta antes de construir encima |
-| `vite-tsconfig-paths` no resuelve alias + query (`@blocks/hero.ts?raw`) | Media | Usar imports relativos explícitos (`../../../blocks/hero.ts?raw`) — siempre funcionan |
-| Prettier `organize-imports` reordena imports `?raw` raro | Cosmético | Ignorar; los sources se mapean por key explícita |
-| Alguien añade un import de alias/Angular a los módulos de `src/data/` que importa `vite.config.ts` | Media | Comentario de cabecera en cada archivo pure-data; el build falla ruidosamente en CI |
-| Repropósito de `--color-accent` choca con futuro uso semantic-hover estilo shadcn | Baja (cero uso actual) | Documentar en `/docs/theming`: "accent = color de marca, no semantic hover token" |
-| Quitar ISR cambia el servido en Cloudflare Pages | Baja | El HTML prerenderizado ya tenía precedencia; validar con `pnpm preview` |
-| Shiki (Fase 3i) complica build o SSR | Media | Es opcional para v1: diferir sin bloquear — el visor funciona con texto plano |
+| Riesgo                                                                                             | Probabilidad                    | Mitigación                                                                                           |
+| -------------------------------------------------------------------------------------------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `?raw` deja de funcionar por cambio interno de Analog                                              | Baja (verificado contra 1.22.5) | Fallback de plugin virtual (hallazgo 1); el spike de la Fase 3a lo detecta antes de construir encima |
+| `vite-tsconfig-paths` no resuelve alias + query (`@blocks/hero.ts?raw`)                            | Media                           | Usar imports relativos explícitos (`../../../blocks/hero.ts?raw`) — siempre funcionan                |
+| Prettier `organize-imports` reordena imports `?raw` raro                                           | Cosmético                       | Ignorar; los sources se mapean por key explícita                                                     |
+| Alguien añade un import de alias/Angular a los módulos de `src/data/` que importa `vite.config.ts` | Media                           | Comentario de cabecera en cada archivo pure-data; el build falla ruidosamente en CI                  |
+| Repropósito de `--color-accent` choca con futuro uso semantic-hover estilo shadcn                  | Baja (cero uso actual)          | Documentar en `/docs/theming`: "accent = color de marca, no semantic hover token"                    |
+| Quitar ISR cambia el servido en Cloudflare Pages                                                   | Baja                            | El HTML prerenderizado ya tenía precedencia; validar con `pnpm preview`                              |
+| Shiki (Fase 3i) complica build o SSR                                                               | Media                           | Es opcional para v1: diferir sin bloquear — el visor funciona con texto plano                        |
